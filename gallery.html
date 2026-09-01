@@ -201,32 +201,47 @@
     <!-- Particle Background -->
     <div class="particles-bg" id="particles"></div>
 
-    <!-- Unified Navigation Bar -->
-    <header class="bg-[#fff0f5]/80 backdrop-blur-md fixed top-0 w-full z-50 border-b border-[#fbcfe8]/70 shadow-sm shadow-secondary/10">
-        <div class="max-w-6xl mx-auto px-6 h-20 flex justify-between items-center">
-            <a href="index.html" class="font-headline-md text-2xl md:text-3xl text-primary font-bold tracking-wider hover:opacity-90 transition-opacity flex items-center gap-1.5">
-                <span>Y</span><span class="text-secondary text-2xl md:text-3xl animate-pulse inline-block">❤️</span><span>A</span>
+    <!-- TopNavBar -->
+    <header
+        class="bg-[#fff0f5]/80 backdrop-blur-md font-headline-sm text-headline-sm fixed top-0 w-full z-50 border-b border-[#fbcfe8]/70 shadow-sm shadow-secondary/10">
+        <div class="max-w-container-max mx-auto px-gutter h-20 flex justify-between items-center">
+            <!-- Brand -->
+            <a href="index.html"
+                class="font-headline-md text-2xl md:text-3xl text-primary font-bold tracking-wider hover:opacity-90 transition-opacity flex items-center gap-1.5">
+                <span>Y</span><span
+                    class="text-secondary text-2xl md:text-3xl animate-pulse inline-block">❤️</span><span>A</span>
             </a>
-            <nav class="hidden md:flex items-center gap-6">
-                <a class="text-on-surface-variant hover:text-primary transition-colors hover:bg-primary-container/20 rounded-full px-4 py-2" href="index.html">Home</a>
-                <a class="text-on-surface-variant hover:text-primary transition-colors hover:bg-primary-container/20 rounded-full px-4 py-2" href="timeline.html">Timeline</a>
-                <a class="text-secondary font-bold border-b-2 border-secondary pb-1 hover:bg-primary-container/20 rounded-full px-4 py-2" href="gallery.html">Gallery</a>
-                <a class="text-on-surface-variant hover:text-primary transition-colors hover:bg-primary-container/20 rounded-full px-4 py-2 font-cairo" href="letter.html">رسالة</a>
+            <!-- Desktop Navigation -->
+            <nav class="hidden md:flex items-center gap-md">
+                <a class="text-on-surface-variant hover:text-primary transition-colors hover:bg-primary-container/20 rounded-full px-4 py-2"
+                    href="index.html">Home</a>
+                <a class="text-on-surface-variant hover:text-primary transition-colors hover:bg-primary-container/20 rounded-full px-4 py-2"
+                    href="timeline.html">Timeline</a>
+                <a class="text-secondary border-b-2 border-secondary pb-1 hover:bg-primary-container/20 rounded-full px-4 py-2"
+                    href="gallery.html">Gallery</a>
+                <a class="text-on-surface-variant hover:text-primary transition-colors hover:bg-primary-container/20 rounded-full px-4 py-2 font-cairo"
+                    href="letter.html">رسالة</a>
             </nav>
-            <a href="timeline.html" class="text-primary font-cairo text-sm hover:bg-primary-container/20 rounded-full px-6 py-2 border border-secondary/30 hidden md:inline-block font-bold">
-                رحلتنا معاً ♡
+            <!-- Trailing Action -->
+            <a href="timeline.html"
+                class="text-primary font-label-md text-label-md hover:bg-primary-container/20 rounded-full px-6 py-2 border border-secondary/30 hidden md:inline-block transition-transform duration-300 active:scale-95">
+                Our Story
             </a>
             <!-- Mobile Menu Toggle -->
-            <button class="md:hidden text-primary p-2" onclick="document.getElementById('mobile-menu').classList.toggle('hidden')">
+            <button class="md:hidden text-primary p-2"
+                onclick="document.getElementById('mobile-menu').classList.toggle('hidden')">
                 <span class="material-symbols-outlined">menu</span>
             </button>
         </div>
         <!-- Mobile Menu dropdown -->
-        <div id="mobile-menu" class="hidden md:hidden bg-[#fff0f5]/95 backdrop-blur-md border-b border-[#fbcfe8]/70 px-6 py-4 flex flex-col gap-2">
+        <div id="mobile-menu"
+            class="hidden md:hidden bg-[#fff0f5]/95 backdrop-blur-md border-b border-[#fbcfe8]/70 px-gutter py-4 flex flex-col gap-2">
             <a class="text-on-surface-variant hover:text-primary px-4 py-2 rounded-lg" href="index.html">Home</a>
             <a class="text-on-surface-variant hover:text-primary px-4 py-2 rounded-lg" href="timeline.html">Timeline</a>
-            <a class="text-secondary font-bold px-4 py-2 rounded-lg bg-primary-container/20" href="gallery.html">Gallery</a>
-            <a class="text-on-surface-variant hover:text-primary px-4 py-2 rounded-lg font-cairo" href="letter.html">رسالة</a>
+            <a class="text-secondary font-bold px-4 py-2 rounded-lg bg-primary-container/20"
+                href="gallery.html">Gallery</a>
+            <a class="text-on-surface-variant hover:text-primary px-4 py-2 rounded-lg font-cairo"
+                href="letter.html">رسالة</a>
         </div>
     </header>
 
@@ -294,7 +309,8 @@
                             <h2
                                 class="font-headline-md text-headline-md text-white mb-2 transition-transform duration-500 origin-left group-hover:scale-105">
                                 2025</h2>
-                            <p class="font-body-md text-body-md text-pink-100 opacity-90 font-cairo">ليلة النيل والاحتفال
+                            <p class="font-body-md text-body-md text-pink-100 opacity-90 font-cairo">ليلة النيل
+                                والاحتفال
                                 الجميل ❤️</p>
                         </div>
                         <div
@@ -319,7 +335,8 @@
                             <h2
                                 class="font-headline-md text-headline-md text-white mb-2 transition-transform duration-500 origin-left group-hover:scale-105">
                                 2024</h2>
-                            <p class="font-body-md text-body-md text-pink-100 opacity-90 font-cairo">حب بيكبر ومحطات أجمل
+                            <p class="font-body-md text-body-md text-pink-100 opacity-90 font-cairo">حب بيكبر ومحطات
+                                أجمل
                                 سوا ❤️</p>
                         </div>
                         <div
@@ -344,7 +361,8 @@
                             <h2
                                 class="font-headline-md text-headline-md text-white mb-2 transition-transform duration-500 origin-left group-hover:scale-105">
                                 2023</h2>
-                            <p class="font-body-md text-body-md text-pink-100 opacity-90 font-cairo">سنة الذكريات واللحظات
+                            <p class="font-body-md text-body-md text-pink-100 opacity-90 font-cairo">سنة الذكريات
+                                واللحظات
                                 الحلوة ❤️</p>
                         </div>
                         <div
@@ -369,7 +387,8 @@
                             <h2
                                 class="font-headline-md text-headline-md text-white mb-2 transition-transform duration-500 origin-left group-hover:scale-105">
                                 2022</h2>
-                            <p class="font-body-md text-body-md text-pink-100 opacity-90 font-cairo">🍝 أول ذكرى (المكرونة
+                            <p class="font-body-md text-body-md text-pink-100 opacity-90 font-cairo">🍝 أول ذكرى
+                                (المكرونة
                                 بالبشاميل واشطا)</p>
                         </div>
                         <div
@@ -391,7 +410,7 @@
         <p class="font-body-md text-body-md text-secondary mt-sm font-cairo">Made with love for Soso ♡</p>
     </footer>
     <script>
-        window.initGalleryPage = function() {
+        window.initGalleryPage = function () {
             // Enhanced Particle Generation
             const particleContainer = document.getElementById('particles');
             if (particleContainer) {
@@ -461,4 +480,5 @@
     </script>
     <script src="shared.js"></script>
 </body>
+
 </html>

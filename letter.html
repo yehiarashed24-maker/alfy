@@ -1,109 +1,115 @@
 <!DOCTYPE html>
 <html class="scroll-smooth" lang="en">
+
 <head>
-    <meta charset="utf-8"/>
-    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/>
-    <meta name="apple-mobile-web-app-capable" content="yes"/>
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
-    <meta name="apple-mobile-web-app-title" content="Y ❤️ A"/>
-    <meta name="theme-color" content="#fff0f5"/>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+        name="viewport" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Y ❤️ A" />
+    <meta name="theme-color" content="#fff0f5" />
     <title>Y ❤️ A - Letters</title>
     <script src="https://ajax.googleapis.com/ajax/libs/threejs/r125/three.min.js"></script>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;family=Playfair+Display:wght@500;600;700&amp;family=Cairo:wght@400;600;700;800&amp;display=swap" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;family=Playfair+Display:wght@500;600;700&amp;family=Cairo:wght@400;600;700;800&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
     <script id="tailwind-config">
         tailwind.config = {
-          theme: {
-            extend: {
-              "colors": {
-                      "on-tertiary-container": "#765d00",
-                      "on-tertiary": "#ffffff",
-                      "inverse-primary": "#e5bad3",
-                      "surface-variant": "#ffd8e7",
-                      "on-primary-container": "#78566b",
-                      "secondary-fixed-dim": "#ffafd3",
-                      "tertiary-fixed-dim": "#e9c349",
-                      "surface-container-lowest": "#ffffff",
-                      "on-error": "#ffffff",
-                      "tertiary-container": "#ffd861",
-                      "background": "#fff0f5",
-                      "surface-dim": "#fce7f3",
-                      "on-tertiary-fixed-variant": "#574500",
-                      "secondary-fixed": "#ffd8e7",
-                      "inverse-surface": "#233144",
-                      "on-primary": "#ffffff",
-                      "on-primary-fixed": "#2c1325",
-                      "on-error-container": "#93000a",
-                      "error": "#ba1a1a",
-                      "secondary": "#a43073",
-                      "tertiary-fixed": "#ffe088",
-                      "on-surface-variant": "#4e4449",
-                      "primary": "#765469",
-                      "on-secondary-fixed-variant": "#85145a",
-                      "secondary-container": "#fc79bd",
-                      "tertiary": "#735c00",
-                      "on-primary-fixed-variant": "#5c3d51",
-                      "surface-container-high": "#ffd8e7",
-                      "primary-container": "#fbcfe8",
-                      "surface-bright": "#ffffff",
-                      "surface-container-low": "#fff5f8",
-                      "inverse-on-surface": "#ebf1ff",
-                      "error-container": "#ffdad6",
-                      "primary-fixed": "#ffd8ed",
-                      "on-secondary": "#ffffff",
-                      "surface-tint": "#765469",
-                      "surface-container-highest": "#fbcfe8",
-                      "on-surface": "#2c1325",
-                      "on-secondary-fixed": "#3d0026",
-                      "on-tertiary-fixed": "#241a00",
-                      "outline-variant": "#fbcfe8",
-                      "on-background": "#2c1325",
-                      "surface": "#fff0f5",
-                      "on-secondary-container": "#76014e",
-                      "outline": "#807479",
-                      "surface-container": "#ffd8e7",
-                      "primary-fixed-dim": "#e5bad3"
-              },
-              "borderRadius": {
-                      "DEFAULT": "0.25rem",
-                      "lg": "0.5rem",
-                      "xl": "0.75rem",
-                      "full": "9999px"
-              },
-              "spacing": {
-                      "xs": "4px",
-                      "md": "24px",
-                      "xl": "80px",
-                      "lg": "48px",
-                      "container-max": "1200px",
-                      "sm": "12px",
-                      "base": "8px",
-                      "gutter": "24px"
-              },
-              "fontFamily": {
-                      "body-lg": ["Inter", "Cairo", "sans-serif"],
-                      "headline-lg": ["Playfair Display", "Cairo", "serif"],
-                      "headline-lg-mobile": ["Playfair Display", "Cairo", "serif"],
-                      "headline-md": ["Playfair Display", "Cairo", "serif"],
-                      "display-lg": ["Playfair Display", "Cairo", "serif"],
-                      "label-md": ["Inter", "Cairo", "sans-serif"],
-                      "body-md": ["Inter", "Cairo", "sans-serif"],
-                      "headline-sm": ["Playfair Display", "Cairo", "serif"],
-                      "cairo": ["Cairo", "sans-serif"]
-              },
-              "fontSize": {
-                      "body-lg": ["1.125rem", {"lineHeight": "1.7", "fontWeight": "400"}],
-                      "headline-lg": ["3rem", {"lineHeight": "1.2", "fontWeight": "600"}],
-                      "headline-lg-mobile": ["2.25rem", {"lineHeight": "1.2", "fontWeight": "600"}],
-                      "headline-md": ["2rem", {"lineHeight": "1.3", "fontWeight": "500"}],
-                      "display-lg": ["4.5rem", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
-                      "label-md": ["0.875rem", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600"}],
-                      "body-md": ["1rem", {"lineHeight": "1.6", "fontWeight": "400"}],
-                      "headline-sm": ["1.5rem", {"lineHeight": "1.4", "fontWeight": "500"}]
-              }
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-container": "#765d00",
+                        "on-tertiary": "#ffffff",
+                        "inverse-primary": "#e5bad3",
+                        "surface-variant": "#ffd8e7",
+                        "on-primary-container": "#78566b",
+                        "secondary-fixed-dim": "#ffafd3",
+                        "tertiary-fixed-dim": "#e9c349",
+                        "surface-container-lowest": "#ffffff",
+                        "on-error": "#ffffff",
+                        "tertiary-container": "#ffd861",
+                        "background": "#fff0f5",
+                        "surface-dim": "#fce7f3",
+                        "on-tertiary-fixed-variant": "#574500",
+                        "secondary-fixed": "#ffd8e7",
+                        "inverse-surface": "#233144",
+                        "on-primary": "#ffffff",
+                        "on-primary-fixed": "#2c1325",
+                        "on-error-container": "#93000a",
+                        "error": "#ba1a1a",
+                        "secondary": "#a43073",
+                        "tertiary-fixed": "#ffe088",
+                        "on-surface-variant": "#4e4449",
+                        "primary": "#765469",
+                        "on-secondary-fixed-variant": "#85145a",
+                        "secondary-container": "#fc79bd",
+                        "tertiary": "#735c00",
+                        "on-primary-fixed-variant": "#5c3d51",
+                        "surface-container-high": "#ffd8e7",
+                        "primary-container": "#fbcfe8",
+                        "surface-bright": "#ffffff",
+                        "surface-container-low": "#fff5f8",
+                        "inverse-on-surface": "#ebf1ff",
+                        "error-container": "#ffdad6",
+                        "primary-fixed": "#ffd8ed",
+                        "on-secondary": "#ffffff",
+                        "surface-tint": "#765469",
+                        "surface-container-highest": "#fbcfe8",
+                        "on-surface": "#2c1325",
+                        "on-secondary-fixed": "#3d0026",
+                        "on-tertiary-fixed": "#241a00",
+                        "outline-variant": "#fbcfe8",
+                        "on-background": "#2c1325",
+                        "surface": "#fff0f5",
+                        "on-secondary-container": "#76014e",
+                        "outline": "#807479",
+                        "surface-container": "#ffd8e7",
+                        "primary-fixed-dim": "#e5bad3"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xs": "4px",
+                        "md": "24px",
+                        "xl": "80px",
+                        "lg": "48px",
+                        "container-max": "1200px",
+                        "sm": "12px",
+                        "base": "8px",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Inter", "Cairo", "sans-serif"],
+                        "headline-lg": ["Playfair Display", "Cairo", "serif"],
+                        "headline-lg-mobile": ["Playfair Display", "Cairo", "serif"],
+                        "headline-md": ["Playfair Display", "Cairo", "serif"],
+                        "display-lg": ["Playfair Display", "Cairo", "serif"],
+                        "label-md": ["Inter", "Cairo", "sans-serif"],
+                        "body-md": ["Inter", "Cairo", "sans-serif"],
+                        "headline-sm": ["Playfair Display", "Cairo", "serif"],
+                        "cairo": ["Cairo", "sans-serif"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["1.125rem", { "lineHeight": "1.7", "fontWeight": "400" }],
+                        "headline-lg": ["3rem", { "lineHeight": "1.2", "fontWeight": "600" }],
+                        "headline-lg-mobile": ["2.25rem", { "lineHeight": "1.2", "fontWeight": "600" }],
+                        "headline-md": ["2rem", { "lineHeight": "1.3", "fontWeight": "500" }],
+                        "display-lg": ["4.5rem", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "label-md": ["0.875rem", { "lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "body-md": ["1rem", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "headline-sm": ["1.5rem", { "lineHeight": "1.4", "fontWeight": "500" }]
+                    }
+                }
             }
-          }
         }
     </script>
     <style>
@@ -119,12 +125,25 @@
             pointer-events: none;
             color: #fc79bd;
         }
-        
+
         @keyframes float {
-            0% { transform: translateY(100vh) scale(0.5); opacity: 0; }
-            10% { opacity: 0.4; }
-            90% { opacity: 0.4; }
-            100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+            0% {
+                transform: translateY(100vh) scale(0.5);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 0.4;
+            }
+
+            90% {
+                opacity: 0.4;
+            }
+
+            100% {
+                transform: translateY(-10vh) scale(1.2);
+                opacity: 0;
+            }
         }
 
         .envelope-3d-card {
@@ -138,6 +157,7 @@
             perspective: 1000px;
             position: relative;
         }
+
         .envelope-3d-card:hover {
             transform: translateY(-8px) scale(1.03);
             border-color: rgba(236, 72, 153, 0.95);
@@ -145,162 +165,207 @@
         }
     </style>
 </head>
+
 <body class="text-on-background font-body-lg overflow-x-hidden relative min-h-screen flex flex-col">
-<!-- Floating Hearts Container -->
-<div class="fixed inset-0 overflow-hidden z-[-1] pointer-events-none" id="hearts-container"></div>
+    <!-- Floating Hearts Container -->
+    <div class="fixed inset-0 overflow-hidden z-[-1] pointer-events-none" id="hearts-container"></div>
 
-<!-- Unified Navigation Bar -->
-<header class="bg-[#fff0f5]/80 backdrop-blur-md fixed top-0 w-full z-50 border-b border-[#fbcfe8]/70 shadow-sm shadow-secondary/10">
-    <div class="max-w-6xl mx-auto px-6 h-20 flex justify-between items-center">
-        <a href="index.html" class="font-headline-md text-2xl md:text-3xl text-primary font-bold tracking-wider hover:opacity-90 transition-opacity flex items-center gap-1.5">
-            <span>Y</span><span class="text-secondary text-2xl md:text-3xl animate-pulse inline-block">❤️</span><span>A</span>
-        </a>
-        <nav class="hidden md:flex items-center gap-6">
-            <a class="text-on-surface-variant hover:text-primary transition-colors hover:bg-primary-container/20 rounded-full px-4 py-2" href="index.html">Home</a>
-            <a class="text-on-surface-variant hover:text-primary transition-colors hover:bg-primary-container/20 rounded-full px-4 py-2" href="timeline.html">Timeline</a>
-            <a class="text-on-surface-variant hover:text-primary transition-colors hover:bg-primary-container/20 rounded-full px-4 py-2" href="gallery.html">Gallery</a>
-            <a class="text-secondary font-bold border-b-2 border-secondary pb-1 hover:bg-primary-container/20 rounded-full px-4 py-2 font-cairo" href="letter.html">رسالة</a>
-        </nav>
-        <a href="timeline.html" class="text-primary font-cairo text-sm hover:bg-primary-container/20 rounded-full px-6 py-2 border border-secondary/30 hidden md:inline-block font-bold">
-            رحلتنا معاً ♡
-        </a>
-        <!-- Mobile Menu Toggle -->
-        <button class="md:hidden text-primary p-2" onclick="document.getElementById('mobile-menu').classList.toggle('hidden')">
-            <span class="material-symbols-outlined">menu</span>
+    <!-- TopNavBar -->
+    <header
+        class="bg-[#fff0f5]/80 backdrop-blur-md font-headline-sm text-headline-sm fixed top-0 w-full z-50 border-b border-[#fbcfe8]/70 shadow-sm shadow-secondary/10">
+        <div class="max-w-container-max mx-auto px-gutter h-20 flex justify-between items-center">
+            <a href="index.html"
+                class="font-headline-md text-2xl md:text-3xl text-primary font-bold tracking-wider hover:opacity-90 transition-opacity flex items-center gap-1.5">
+                <span>Y</span><span
+                    class="text-secondary text-2xl md:text-3xl animate-pulse inline-block">❤️</span><span>A</span>
+            </a>
+            <nav class="hidden md:flex items-center gap-md">
+                <a class="text-on-surface-variant hover:text-primary transition-colors hover:bg-primary-container/20 rounded-full px-4 py-2"
+                    href="index.html">Home</a>
+                <a class="text-on-surface-variant hover:text-primary transition-colors hover:bg-primary-container/20 rounded-full px-4 py-2"
+                    href="timeline.html">Timeline</a>
+                <a class="text-on-surface-variant hover:text-primary transition-colors hover:bg-primary-container/20 rounded-full px-4 py-2"
+                    href="gallery.html">Gallery</a>
+                <a class="text-secondary border-b-2 border-secondary pb-1 hover:bg-primary-container/20 rounded-full px-4 py-2 font-bold font-cairo"
+                    href="letter.html">رسالة</a>
+            </nav>
+            <a href="timeline.html"
+                class="text-primary font-label-md text-label-md hover:bg-primary-container/20 rounded-full px-6 py-2 border border-secondary/30 hidden md:inline-block transition-transform duration-300 active:scale-95">
+                Our Story
+            </a>
+            <!-- Mobile Menu Toggle -->
+            <button class="md:hidden text-primary p-2"
+                onclick="document.getElementById('mobile-menu').classList.toggle('hidden')">
+                <span class="material-symbols-outlined">menu</span>
+            </button>
+        </div>
+        <!-- Mobile Menu dropdown -->
+        <div id="mobile-menu"
+            class="hidden md:hidden bg-[#fff0f5]/95 backdrop-blur-md border-b border-[#fbcfe8]/70 px-gutter py-4 flex flex-col gap-2">
+            <a class="text-on-surface-variant hover:text-primary px-4 py-2 rounded-lg" href="index.html">Home</a>
+            <a class="text-on-surface-variant hover:text-primary px-4 py-2 rounded-lg" href="timeline.html">Timeline</a>
+            <a class="text-on-surface-variant hover:text-primary px-4 py-2 rounded-lg" href="gallery.html">Gallery</a>
+            <a class="text-secondary font-bold px-4 py-2 rounded-lg bg-primary-container/20 font-cairo"
+                href="letter.html">رسالة</a>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main
+        class="pt-32 pb-xl px-gutter max-w-container-max mx-auto w-full flex-grow relative z-10 flex flex-col items-center justify-center text-center">
+
+        <!-- Title Section -->
+        <div class="mb-12">
+            <h1 class="font-display-lg text-display-lg text-primary mb-3 font-cairo">رسائل من القلب لسارة ♡</h1>
+            <p
+                class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto flex items-center justify-center gap-2 font-cairo">
+                <span class="material-symbols-outlined text-secondary text-base">favorite</span>
+                <span>اضغطي على أي رسالة لفتح كلام حب وخواطر خاصة بسارة</span>
+                <span class="material-symbols-outlined text-secondary text-base">favorite</span>
+            </p>
+        </div>
+
+        <!-- 7 Romantic Envelopes Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 w-full max-w-5xl mb-12">
+
+            <!-- Card 1 -->
+            <div onclick="openLetter(0, event)"
+                class="envelope-3d-card p-6 cursor-pointer flex flex-col items-center justify-between h-52 group">
+                <div
+                    class="w-14 h-14 rounded-full bg-gradient-to-tr from-secondary to-pink-400 text-white flex items-center justify-center shadow-md group-hover:rotate-12 transition-transform">
+                    <span class="material-symbols-outlined text-2xl">mail</span>
+                </div>
+                <div class="font-headline-sm text-lg text-primary font-bold font-cairo">الرسالة الأولى</div>
+                <span
+                    class="text-xs bg-secondary text-white font-bold px-4 py-1.5 rounded-full shadow-sm group-hover:scale-105 transition-transform font-cairo">افتح
+                    الرسالة ♡</span>
+            </div>
+
+            <!-- Card 2 -->
+            <div onclick="openLetter(1, event)"
+                class="envelope-3d-card p-6 cursor-pointer flex flex-col items-center justify-between h-52 group">
+                <div
+                    class="w-14 h-14 rounded-full bg-gradient-to-tr from-secondary to-pink-400 text-white flex items-center justify-center shadow-md group-hover:rotate-12 transition-transform">
+                    <span class="material-symbols-outlined text-2xl">favorite</span>
+                </div>
+                <div class="font-headline-sm text-lg text-primary font-bold font-cairo">الرسالة الثانية</div>
+                <span
+                    class="text-xs bg-secondary text-white font-bold px-4 py-1.5 rounded-full shadow-sm group-hover:scale-105 transition-transform font-cairo">افتح
+                    الرسالة ♡</span>
+            </div>
+
+            <!-- Card 3 -->
+            <div onclick="openLetter(2, event)"
+                class="envelope-3d-card p-6 cursor-pointer flex flex-col items-center justify-between h-52 group">
+                <div
+                    class="w-14 h-14 rounded-full bg-gradient-to-tr from-secondary to-pink-400 text-white flex items-center justify-center shadow-md group-hover:rotate-12 transition-transform">
+                    <span class="material-symbols-outlined text-2xl">local_florist</span>
+                </div>
+                <div class="font-headline-sm text-lg text-primary font-bold font-cairo">الرسالة الثالثة</div>
+                <span
+                    class="text-xs bg-secondary text-white font-bold px-4 py-1.5 rounded-full shadow-sm group-hover:scale-105 transition-transform font-cairo">افتح
+                    الرسالة ♡</span>
+            </div>
+
+            <!-- Card 4 -->
+            <div onclick="openLetter(3, event)"
+                class="envelope-3d-card p-6 cursor-pointer flex flex-col items-center justify-between h-52 group">
+                <div
+                    class="w-14 h-14 rounded-full bg-gradient-to-tr from-secondary to-pink-400 text-white flex items-center justify-center shadow-md group-hover:rotate-12 transition-transform">
+                    <span class="material-symbols-outlined text-2xl">diamond</span>
+                </div>
+                <div class="font-headline-sm text-lg text-primary font-bold font-cairo">الرسالة الرابعة</div>
+                <span
+                    class="text-xs bg-secondary text-white font-bold px-4 py-1.5 rounded-full shadow-sm group-hover:scale-105 transition-transform font-cairo">افتح
+                    الرسالة ♡</span>
+            </div>
+
+            <!-- Card 5 -->
+            <div onclick="openLetter(4, event)"
+                class="envelope-3d-card p-6 cursor-pointer flex flex-col items-center justify-between h-52 group">
+                <div
+                    class="w-14 h-14 rounded-full bg-gradient-to-tr from-secondary to-pink-400 text-white flex items-center justify-center shadow-md group-hover:rotate-12 transition-transform">
+                    <span class="material-symbols-outlined text-2xl">sentiment_very_satisfied</span>
+                </div>
+                <div class="font-headline-sm text-lg text-primary font-bold font-cairo">الرسالة الخامسة</div>
+                <span
+                    class="text-xs bg-secondary text-white font-bold px-4 py-1.5 rounded-full shadow-sm group-hover:scale-105 transition-transform font-cairo">افتح
+                    الرسالة ♡</span>
+            </div>
+
+            <!-- Card 6 -->
+            <div onclick="openLetter(5, event)"
+                class="envelope-3d-card p-6 cursor-pointer flex flex-col items-center justify-between h-52 group">
+                <div
+                    class="w-14 h-14 rounded-full bg-gradient-to-tr from-secondary to-pink-400 text-white flex items-center justify-center shadow-md group-hover:rotate-12 transition-transform">
+                    <span class="material-symbols-outlined text-2xl">auto_awesome</span>
+                </div>
+                <div class="font-headline-sm text-lg text-primary font-bold font-cairo">الرسالة السادسة</div>
+                <span
+                    class="text-xs bg-secondary text-white font-bold px-4 py-1.5 rounded-full shadow-sm group-hover:scale-105 transition-transform font-cairo">افتح
+                    الرسالة ♡</span>
+            </div>
+
+            <!-- Card 7 -->
+            <div onclick="openLetter(6, event)"
+                class="envelope-3d-card p-6 cursor-pointer flex flex-col items-center justify-between h-52 group col-span-1 sm:col-span-2 md:col-span-1 lg:col-span-2">
+                <div
+                    class="w-14 h-14 rounded-full bg-gradient-to-tr from-secondary to-pink-400 text-white flex items-center justify-center shadow-md group-hover:rotate-12 transition-transform">
+                    <span class="material-symbols-outlined text-2xl">stars</span>
+                </div>
+                <div class="font-headline-sm text-lg text-primary font-bold font-cairo">الرسالة السابعة</div>
+                <span
+                    class="text-xs bg-secondary text-white font-bold px-4 py-1.5 rounded-full shadow-sm group-hover:scale-105 transition-transform font-cairo">افتح
+                    الرسالة ♡</span>
+            </div>
+
+        </div>
+
+        <!-- Random Quote Action -->
+        <button onclick="openRandomLetter(event)"
+            class="bg-secondary text-white hover:bg-secondary/90 font-label-md text-base px-8 py-3.5 rounded-full transition-all duration-300 shadow-lg shadow-secondary/25 flex items-center gap-2 hover:scale-105 active:scale-95 font-cairo font-bold">
+            <span class="material-symbols-outlined text-sm">favorite</span>
+            <span>رسالة عشوائية لسارة ♡</span>
         </button>
-    </div>
-    <!-- Mobile Menu dropdown -->
-    <div id="mobile-menu" class="hidden md:hidden bg-[#fff0f5]/95 backdrop-blur-md border-b border-[#fbcfe8]/70 px-6 py-4 flex flex-col gap-2">
-        <a class="text-on-surface-variant hover:text-primary px-4 py-2 rounded-lg" href="index.html">Home</a>
-        <a class="text-on-surface-variant hover:text-primary px-4 py-2 rounded-lg" href="timeline.html">Timeline</a>
-        <a class="text-on-surface-variant hover:text-primary px-4 py-2 rounded-lg" href="gallery.html">Gallery</a>
-        <a class="text-secondary font-bold px-4 py-2 rounded-lg bg-primary-container/20 font-cairo" href="letter.html">رسالة</a>
-    </div>
-</header>
+    </main>
 
-<!-- Main Content Area -->
-<main class="pt-32 pb-xl px-gutter max-w-container-max mx-auto w-full flex-grow relative z-10 flex flex-col items-center justify-center text-center">
-    
-    <!-- Title Section -->
-    <div class="mb-12">
-        <h1 class="font-display-lg text-display-lg text-primary mb-3 font-cairo">رسائل من القلب لسارة ♡</h1>
-        <p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto flex items-center justify-center gap-2 font-cairo">
-            <span class="material-symbols-outlined text-secondary text-base">favorite</span>
-            <span>اضغطي على أي رسالة لفتح كلام حب وخواطر خاصة بسارة</span>
-            <span class="material-symbols-outlined text-secondary text-base">favorite</span>
-        </p>
-    </div>
-
-    <!-- 7 Romantic Envelopes Grid -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 w-full max-w-5xl mb-12">
-        
-        <!-- Card 1 -->
-        <div onclick="openLetter(0, event)" class="envelope-3d-card p-6 cursor-pointer flex flex-col items-center justify-between h-52 group">
-            <div class="w-14 h-14 rounded-full bg-gradient-to-tr from-secondary to-pink-400 text-white flex items-center justify-center shadow-md group-hover:rotate-12 transition-transform">
-                <span class="material-symbols-outlined text-2xl">mail</span>
-            </div>
-            <div class="font-headline-sm text-lg text-primary font-bold font-cairo">الرسالة الأولى</div>
-            <span class="text-xs bg-secondary text-white font-bold px-4 py-1.5 rounded-full shadow-sm group-hover:scale-105 transition-transform font-cairo">افتح الرسالة ♡</span>
+    <!-- Footer -->
+    <footer
+        class="bg-[#fff0f5]/70 backdrop-blur-md font-body-md text-body-md w-full py-xl border-t border-[#fbcfe8]/70 flex flex-col items-center gap-md text-center px-gutter z-10 relative mt-auto mb-20">
+        <div class="font-headline-sm text-2xl text-primary tracking-wider flex items-center gap-1.5">
+            <span>Y</span><span class="text-secondary text-2xl">❤️</span><span>A</span>
         </div>
-
-        <!-- Card 2 -->
-        <div onclick="openLetter(1, event)" class="envelope-3d-card p-6 cursor-pointer flex flex-col items-center justify-between h-52 group">
-            <div class="w-14 h-14 rounded-full bg-gradient-to-tr from-secondary to-pink-400 text-white flex items-center justify-center shadow-md group-hover:rotate-12 transition-transform">
-                <span class="material-symbols-outlined text-2xl">favorite</span>
-            </div>
-            <div class="font-headline-sm text-lg text-primary font-bold font-cairo">الرسالة الثانية</div>
-            <span class="text-xs bg-secondary text-white font-bold px-4 py-1.5 rounded-full shadow-sm group-hover:scale-105 transition-transform font-cairo">افتح الرسالة ♡</span>
+        <div class="text-secondary mt-2 font-cairo">
+            Made with love for Soso ♡
         </div>
+    </footer>
 
-        <!-- Card 3 -->
-        <div onclick="openLetter(2, event)" class="envelope-3d-card p-6 cursor-pointer flex flex-col items-center justify-between h-52 group">
-            <div class="w-14 h-14 rounded-full bg-gradient-to-tr from-secondary to-pink-400 text-white flex items-center justify-center shadow-md group-hover:rotate-12 transition-transform">
-                <span class="material-symbols-outlined text-2xl">local_florist</span>
-            </div>
-            <div class="font-headline-sm text-lg text-primary font-bold font-cairo">الرسالة الثالثة</div>
-            <span class="text-xs bg-secondary text-white font-bold px-4 py-1.5 rounded-full shadow-sm group-hover:scale-105 transition-transform font-cairo">افتح الرسالة ♡</span>
-        </div>
-
-        <!-- Card 4 -->
-        <div onclick="openLetter(3, event)" class="envelope-3d-card p-6 cursor-pointer flex flex-col items-center justify-between h-52 group">
-            <div class="w-14 h-14 rounded-full bg-gradient-to-tr from-secondary to-pink-400 text-white flex items-center justify-center shadow-md group-hover:rotate-12 transition-transform">
-                <span class="material-symbols-outlined text-2xl">diamond</span>
-            </div>
-            <div class="font-headline-sm text-lg text-primary font-bold font-cairo">الرسالة الرابعة</div>
-            <span class="text-xs bg-secondary text-white font-bold px-4 py-1.5 rounded-full shadow-sm group-hover:scale-105 transition-transform font-cairo">افتح الرسالة ♡</span>
-        </div>
-
-        <!-- Card 5 -->
-        <div onclick="openLetter(4, event)" class="envelope-3d-card p-6 cursor-pointer flex flex-col items-center justify-between h-52 group">
-            <div class="w-14 h-14 rounded-full bg-gradient-to-tr from-secondary to-pink-400 text-white flex items-center justify-center shadow-md group-hover:rotate-12 transition-transform">
-                <span class="material-symbols-outlined text-2xl">sentiment_very_satisfied</span>
-            </div>
-            <div class="font-headline-sm text-lg text-primary font-bold font-cairo">الرسالة الخامسة</div>
-            <span class="text-xs bg-secondary text-white font-bold px-4 py-1.5 rounded-full shadow-sm group-hover:scale-105 transition-transform font-cairo">افتح الرسالة ♡</span>
-        </div>
-
-        <!-- Card 6 -->
-        <div onclick="openLetter(5, event)" class="envelope-3d-card p-6 cursor-pointer flex flex-col items-center justify-between h-52 group">
-            <div class="w-14 h-14 rounded-full bg-gradient-to-tr from-secondary to-pink-400 text-white flex items-center justify-center shadow-md group-hover:rotate-12 transition-transform">
-                <span class="material-symbols-outlined text-2xl">auto_awesome</span>
-            </div>
-            <div class="font-headline-sm text-lg text-primary font-bold font-cairo">الرسالة السادسة</div>
-            <span class="text-xs bg-secondary text-white font-bold px-4 py-1.5 rounded-full shadow-sm group-hover:scale-105 transition-transform font-cairo">افتح الرسالة ♡</span>
-        </div>
-
-        <!-- Card 7 -->
-        <div onclick="openLetter(6, event)" class="envelope-3d-card p-6 cursor-pointer flex flex-col items-center justify-between h-52 group col-span-1 sm:col-span-2 md:col-span-1 lg:col-span-2">
-            <div class="w-14 h-14 rounded-full bg-gradient-to-tr from-secondary to-pink-400 text-white flex items-center justify-center shadow-md group-hover:rotate-12 transition-transform">
-                <span class="material-symbols-outlined text-2xl">stars</span>
-            </div>
-            <div class="font-headline-sm text-lg text-primary font-bold font-cairo">الرسالة السابعة</div>
-            <span class="text-xs bg-secondary text-white font-bold px-4 py-1.5 rounded-full shadow-sm group-hover:scale-105 transition-transform font-cairo">افتح الرسالة ♡</span>
-        </div>
-
-    </div>
-
-    <!-- Random Quote Action -->
-    <button onclick="openRandomLetter(event)" class="bg-secondary text-white hover:bg-secondary/90 font-label-md text-base px-8 py-3.5 rounded-full transition-all duration-300 shadow-lg shadow-secondary/25 flex items-center gap-2 hover:scale-105 active:scale-95 font-cairo font-bold">
-        <span class="material-symbols-outlined text-sm">favorite</span>
-        <span>رسالة عشوائية لسارة ♡</span>
-    </button>
-</main>
-
-<!-- Footer -->
-<footer class="bg-[#fff0f5]/70 backdrop-blur-md font-body-md text-body-md w-full py-xl border-t border-[#fbcfe8]/70 flex flex-col items-center gap-md text-center px-gutter z-10 relative mt-auto mb-20">
-    <div class="font-headline-sm text-2xl text-primary tracking-wider flex items-center gap-1.5">
-        <span>Y</span><span class="text-secondary text-2xl">❤️</span><span>A</span>
-    </div>
-    <div class="text-secondary mt-2 font-cairo">
-        Made with love for Soso ♡
-    </div>
-</footer>
-
-<script>
-    window.initLetterPage = function() {
-        const container = document.getElementById('hearts-container');
-        if (!container) return;
-        container.innerHTML = '';
-        const heartCount = 15;
-        for(let i = 0; i < heartCount; i++) {
-            const heart = document.createElement('span');
-            heart.className = 'material-symbols-outlined floating-heart';
-            heart.textContent = 'favorite';
-            const leftPos = Math.random() * 100;
-            const size = 16 + Math.random() * 24;
-            const animDuration = 10 + Math.random() * 15;
-            const animDelay = Math.random() * 10;
-            heart.style.left = `${leftPos}%`;
-            heart.style.fontSize = `${size}px`;
-            heart.style.animationDuration = `${animDuration}s`;
-            heart.style.animationDelay = `${animDelay}s`;
-            const colors = ['#fc79bd', '#e5bad3', '#ffafd3'];
-            heart.style.color = colors[Math.floor(Math.random() * colors.length)];
-            container.appendChild(heart);
-        }
-    };
-    window.initLetterPage();
-</script>
-<script src="shared.js"></script>
+    <script>
+        window.initLetterPage = function () {
+            const container = document.getElementById('hearts-container');
+            if (!container) return;
+            container.innerHTML = '';
+            const heartCount = 15;
+            for (let i = 0; i < heartCount; i++) {
+                const heart = document.createElement('span');
+                heart.className = 'material-symbols-outlined floating-heart';
+                heart.textContent = 'favorite';
+                const leftPos = Math.random() * 100;
+                const size = 16 + Math.random() * 24;
+                const animDuration = 10 + Math.random() * 15;
+                const animDelay = Math.random() * 10;
+                heart.style.left = `${leftPos}%`;
+                heart.style.fontSize = `${size}px`;
+                heart.style.animationDuration = `${animDuration}s`;
+                heart.style.animationDelay = `${animDelay}s`;
+                const colors = ['#fc79bd', '#e5bad3', '#ffafd3'];
+                heart.style.color = colors[Math.floor(Math.random() * colors.length)];
+                container.appendChild(heart);
+            }
+        };
+        window.initLetterPage();
+    </script>
+    <script src="shared.js"></script>
 </body>
+
 </html>

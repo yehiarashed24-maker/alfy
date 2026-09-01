@@ -340,36 +340,48 @@ void main() {
             }
         })();
     </script>
-    <!-- Unified Navigation Bar -->
-    <header class="bg-[#fff0f5]/80 backdrop-blur-md fixed top-0 w-full z-50 border-b border-[#fbcfe8]/70 shadow-sm shadow-secondary/10">
-        <div class="max-w-6xl mx-auto px-6 h-20 flex justify-between items-center">
-            <a href="index.html" class="font-headline-md text-2xl md:text-3xl text-primary font-bold tracking-wider hover:opacity-90 transition-opacity flex items-center gap-1.5">
-                <span>Y</span><span class="text-secondary text-2xl md:text-3xl animate-pulse inline-block">❤️</span><span>A</span>
+    <!-- TopNavBar -->
+    <header
+        class="bg-[#fff0f5]/80 backdrop-blur-md font-headline-sm text-headline-sm fixed top-0 w-full z-50 border-b border-[#fbcfe8]/70 shadow-sm shadow-secondary/10">
+        <div class="max-w-container-max mx-auto px-gutter h-20 flex justify-between items-center">
+            <a href="index.html"
+                class="font-headline-md text-2xl md:text-3xl text-primary font-bold tracking-wider hover:opacity-90 transition-opacity flex items-center gap-1.5">
+                <span>Y</span><span
+                    class="text-secondary text-2xl md:text-3xl animate-pulse inline-block">❤️</span><span>A</span>
             </a>
-            <nav class="hidden md:flex items-center gap-6">
-                <a class="text-secondary font-bold border-b-2 border-secondary pb-1 hover:bg-primary-container/20 rounded-full px-4 py-2" href="index.html">Home</a>
-                <a class="text-on-surface-variant hover:text-primary transition-colors hover:bg-primary-container/20 rounded-full px-4 py-2" href="timeline.html">Timeline</a>
-                <a class="text-on-surface-variant hover:text-primary transition-colors hover:bg-primary-container/20 rounded-full px-4 py-2" href="gallery.html">Gallery</a>
-                <a class="text-on-surface-variant hover:text-primary transition-colors hover:bg-primary-container/20 rounded-full px-4 py-2 font-cairo" href="letter.html">رسالة</a>
+            <nav class="hidden md:flex items-center gap-md">
+                <a class="text-secondary border-b-2 border-secondary pb-1 hover:bg-primary-container/20 rounded-full px-4 py-2"
+                    href="index.html">Home</a>
+                <a class="text-on-surface-variant hover:text-primary transition-colors hover:bg-primary-container/20 rounded-full px-4 py-2"
+                    href="timeline.html">Timeline</a>
+                <a class="text-on-surface-variant hover:text-primary transition-colors hover:bg-primary-container/20 rounded-full px-4 py-2"
+                    href="gallery.html">Gallery</a>
+                <a class="text-on-surface-variant hover:text-primary transition-colors hover:bg-primary-container/20 rounded-full px-4 py-2 font-cairo"
+                    href="letter.html">رسالة</a>
             </nav>
-            <a href="timeline.html" class="text-primary font-cairo text-sm hover:bg-primary-container/20 rounded-full px-6 py-2 border border-secondary/30 hidden md:inline-block font-bold">
-                رحلتنا معاً ♡
+            <a href="timeline.html"
+                class="text-primary font-label-md text-label-md hover:bg-primary-container/20 rounded-full px-6 py-2 border border-secondary/30 hidden md:inline-block transition-transform duration-300 active:scale-95">
+                Our Story
             </a>
             <!-- Mobile Menu Toggle -->
-            <button class="md:hidden text-primary p-2" onclick="document.getElementById('mobile-menu').classList.toggle('hidden')">
+            <button class="md:hidden text-primary p-2"
+                onclick="document.getElementById('mobile-menu').classList.toggle('hidden')">
                 <span class="material-symbols-outlined">menu</span>
             </button>
         </div>
         <!-- Mobile Menu dropdown -->
-        <div id="mobile-menu" class="hidden md:hidden bg-[#fff0f5]/95 backdrop-blur-md border-b border-[#fbcfe8]/70 px-6 py-4 flex flex-col gap-2">
+        <div id="mobile-menu"
+            class="hidden md:hidden bg-[#fff0f5]/95 backdrop-blur-md border-b border-[#fbcfe8]/70 px-gutter py-4 flex flex-col gap-2">
             <a class="text-secondary font-bold px-4 py-2 rounded-lg bg-primary-container/20" href="index.html">Home</a>
             <a class="text-on-surface-variant hover:text-primary px-4 py-2 rounded-lg" href="timeline.html">Timeline</a>
             <a class="text-on-surface-variant hover:text-primary px-4 py-2 rounded-lg" href="gallery.html">Gallery</a>
-            <a class="text-on-surface-variant hover:text-primary px-4 py-2 rounded-lg font-cairo" href="letter.html">رسالة</a>
+            <a class="text-on-surface-variant hover:text-primary px-4 py-2 rounded-lg font-cairo"
+                href="letter.html">رسالة</a>
         </div>
     </header>
     <!-- Main Content -->
-    <main class="relative z-10 flex flex-col items-center justify-center min-h-screen pt-24 px-gutter text-center overflow-hidden">
+    <main
+        class="relative z-10 flex flex-col items-center justify-center min-h-screen pt-24 px-gutter text-center overflow-hidden">
         <!-- 3D Heart Container (Managed seamlessly by shared.js) -->
         <div class="absolute inset-0 z-0 pointer-events-none flex items-center justify-center opacity-90"
             id="threejs-hero-heart"></div>
@@ -400,8 +412,8 @@ void main() {
             <!-- Real-time Love Counter Widget (Mobile Responsive) -->
             <div
                 class="mb-8 md:mb-10 w-full max-w-md md:max-w-lg bg-white/40 backdrop-blur-md rounded-2xl p-3.5 sm:p-5 md:p-6 border border-[#fbcfe8] shadow-lg shadow-secondary/10">
-                <h3
-                    class="text-sm sm:text-base text-secondary font-bold mb-3 sm:mb-4 font-cairo flex items-center justify-center gap-2" style="letter-spacing: normal;">
+                <h3 class="text-sm sm:text-base text-secondary font-bold mb-3 sm:mb-4 font-cairo flex items-center justify-center gap-2"
+                    style="letter-spacing: normal;">
                     <span class="text-base sm:text-lg">⏳</span>
                     <span class="font-cairo font-bold tracking-normal text-sm sm:text-base">من يومها لحد دلوقتي</span>
                 </h3>

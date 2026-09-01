@@ -7,10 +7,9 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
     <meta name="apple-mobile-web-app-title" content="Y ❤️ A"/>
     <meta name="theme-color" content="#fff0f5"/>
-    <title>Y ❤️ A - رحلة الطريق الرومانسي 3D</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/threejs/r125/three.min.js"></script>
+    <title>Y ❤️ A - Timeline of Us</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Inter:wght@400;600&family=Playfair+Display:wght@500;600;700&family=Tajawal:wght@500;700;800&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Inter:wght@400;500;600&family=Playfair+Display:wght@500;600;700&family=Tajawal:wght@500;700;800&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
     <script id="tailwind-config">
         tailwind.config = {
@@ -19,17 +18,58 @@
               "colors": {
                       "background": "#fff0f5",
                       "surface-dim": "#fce7f3",
-                      "secondary": "#a43073",
+                      "on-secondary-fixed": "#3d0026",
+                      "on-primary-fixed-variant": "#5c3d51",
+                      "outline": "#807479",
                       "secondary-container": "#fc79bd",
-                      "primary": "#765469",
+                      "surface-tint": "#765469",
+                      "on-tertiary-fixed": "#241a00",
+                      "on-tertiary-fixed-variant": "#574500",
+                      "on-primary-container": "#78566b",
+                      "secondary": "#a43073",
                       "primary-container": "#fbcfe8",
                       "on-background": "#2c1325",
-                      "surface-variant": "#ffd8e7"
+                      "tertiary": "#735c00",
+                      "surface-variant": "#ffd8e7",
+                      "on-primary": "#ffffff",
+                      "on-secondary-container": "#76014e",
+                      "tertiary-container": "#ffd861",
+                      "surface-container": "#ffd8e7",
+                      "surface": "#fff0f5",
+                      "outline-variant": "#fbcfe8",
+                      "on-surface-variant": "#4e4449",
+                      "surface-container-lowest": "#ffffff",
+                      "primary-fixed-dim": "#e5bad3",
+                      "surface-container-low": "#fff5f8",
+                      "on-error": "#ffffff",
+                      "on-secondary": "#ffffff",
+                      "primary": "#765469"
+              },
+              "spacing": {
+                      "container-max": "1200px",
+                      "gutter": "24px",
+                      "md": "24px",
+                      "sm": "12px",
+                      "xs": "4px",
+                      "base": "8px",
+                      "xl": "80px",
+                      "lg": "48px"
+              },
+              "borderRadius": {
+                      "xl": "0.75rem",
+                      "full": "9999px",
+                      "lg": "0.5rem",
+                      "DEFAULT": "0.25rem"
               },
               "fontFamily": {
                       "headline-lg": ["Playfair Display", "Cairo", "serif"],
                       "headline-md": ["Playfair Display", "Cairo", "serif"],
+                      "headline-lg-mobile": ["Playfair Display", "Cairo", "serif"],
+                      "headline-sm": ["Playfair Display", "Cairo", "serif"],
                       "display-lg": ["Playfair Display", "Cairo", "serif"],
+                      "label-md": ["Inter", "Cairo", "sans-serif"],
+                      "body-lg": ["Inter", "Cairo", "sans-serif"],
+                      "body-md": ["Inter", "Cairo", "sans-serif"],
                       "cairo": ["Cairo", "sans-serif"],
                       "tajawal": ["Tajawal", "sans-serif"]
               }
@@ -41,69 +81,118 @@
         body {
             background: radial-gradient(circle at 50% 30%, #ffd8e7 0%, #fff0f5 45%, #fce7f3 100%) !important;
             min-height: 100vh;
-            overflow: hidden;
-            touch-action: none;
         }
 
-        #timeline-drive-canvas {
-            position: fixed;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-            cursor: grab;
-        }
-        #timeline-drive-canvas:active {
-            cursor: grabbing;
-        }
-
-        /* Highway Station Button */
-        .highway-station-btn {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(16px);
-            border: 1.5px solid rgba(244, 114, 182, 0.5);
-            color: #765469;
-            transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-        .highway-station-btn:hover, .highway-station-btn.active {
-            background: linear-gradient(135deg, #a43073 0%, #ec4899 100%);
-            color: #ffffff;
-            border-color: #ec4899;
-            transform: translateY(-6px) scale(1.08);
-            box-shadow: 0 10px 25px -4px rgba(164, 48, 115, 0.4), 0 0 15px rgba(244, 114, 182, 0.5);
-        }
-
-        /* Gas Pedal Action Button */
-        .gas-pedal-btn {
-            background: linear-gradient(135deg, #a43073 0%, #ec4899 100%);
-            box-shadow: 0 8px 24px rgba(164, 48, 115, 0.35), 0 0 15px rgba(244, 114, 182, 0.4);
-            animation: gasGlow 2.5s ease-in-out infinite;
-        }
-        @keyframes gasGlow {
-            0%, 100% { transform: scale(1); box-shadow: 0 8px 24px rgba(164, 48, 115, 0.35); }
-            50% { transform: scale(1.04); box-shadow: 0 12px 30px rgba(236, 72, 153, 0.55), 0 0 20px rgba(244, 114, 182, 0.7); }
-        }
-
-        /* Billboard Memory Overlay Modal */
-        #drive-billboard-overlay {
-            transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-        #drive-billboard-overlay.hidden-overlay {
+        .floating-heart {
+            position: absolute;
+            animation: float 15s infinite linear;
             opacity: 0;
             pointer-events: none;
-            transform: scale(0.9) translateY(40px);
+            color: #fc79bd;
         }
-        #drive-billboard-overlay.visible-overlay {
+        
+        @keyframes float {
+            0% { transform: translateY(100vh) scale(0.5); opacity: 0; }
+            10% { opacity: 0.4; }
+            90% { opacity: 0.4; }
+            100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+        }
+
+        .timeline-glass-card {
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.85) 0%, rgba(255, 240, 245, 0.75) 100%);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1.5px solid rgba(244, 114, 182, 0.45);
+            box-shadow: 0 10px 25px -4px rgba(164, 48, 115, 0.12), 0 4px 10px rgba(0, 0, 0, 0.03);
+            transition: all 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        .timeline-glass-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(236, 72, 153, 0.85);
+            box-shadow: 0 20px 35px -8px rgba(164, 48, 115, 0.25), 0 0 20px rgba(244, 114, 182, 0.3);
+        }
+
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(35px);
+            transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1), transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        .scroll-reveal.visible {
             opacity: 1;
-            pointer-events: auto;
-            transform: scale(1) translateY(0);
+            transform: translateY(0);
+        }
+
+        /* The Glowing Timeline Line (الخط المضيء) */
+        .timeline-track {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            width: 4px;
+            transform: translateX(-50%);
+            background: rgba(244, 114, 182, 0.25);
+            border-radius: 9999px;
+        }
+
+        .timeline-glowing-progress {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 5px;
+            transform: translateX(-50%);
+            height: 0%;
+            background: linear-gradient(180deg, #a43073 0%, #ec4899 50%, #f472b6 100%);
+            border-radius: 9999px;
+            box-shadow: 0 0 15px rgba(236, 72, 153, 0.9), 0 0 25px rgba(244, 114, 182, 0.7);
+            transition: height 0.15s ease-out;
+        }
+
+        .timeline-glow-tip {
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #ffffff;
+            border: 3px solid #ec4899;
+            box-shadow: 0 0 15px #ec4899, 0 0 30px #f472b6;
+            animation: pulseTip 1.5s infinite alternate;
+        }
+
+        @keyframes pulseTip {
+            0% { transform: translateX(-50%) scale(0.9); box-shadow: 0 0 10px #ec4899; }
+            100% { transform: translateX(-50%) scale(1.3); box-shadow: 0 0 25px #ec4899, 0 0 35px #f472b6; }
+        }
+
+        /* Milestone Node Glow Activation */
+        .milestone-node {
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            background: #ffffff;
+            border: 3px solid #fbcfe8;
+        }
+
+        .milestone-node.node-active {
+            background: linear-gradient(135deg, #a43073 0%, #ec4899 100%);
+            border-color: #ffffff;
+            transform: scale(1.3);
+            box-shadow: 0 0 20px rgba(236, 72, 153, 0.9), 0 0 35px rgba(244, 114, 182, 0.7);
+        }
+
+        @media (max-width: 768px) {
+            .timeline-track, .timeline-glowing-progress {
+                left: 24px;
+            }
         }
     </style>
 </head>
-<body class="text-on-background font-body-lg relative min-h-screen select-none flex flex-col justify-between">
+<body class="text-on-background font-body-lg min-h-screen flex flex-col justify-between selection:bg-secondary-container selection:text-on-secondary-container relative">
 
-<!-- 3D Romantic Midnight Drive Canvas (Three.js Road Engine) -->
-<canvas id="timeline-drive-canvas"></canvas>
+<!-- Floating Hearts Background Container -->
+<div class="fixed inset-0 overflow-hidden z-[-1] pointer-events-none" id="hearts-container"></div>
 
 <!-- Unified Navigation Bar -->
 <header class="bg-[#fff0f5]/80 backdrop-blur-md fixed top-0 w-full z-50 border-b border-[#fbcfe8]/70 shadow-sm shadow-secondary/10">
@@ -134,76 +223,204 @@
     </div>
 </header>
 
-<!-- Road Top HUD Prompt -->
-<div class="fixed top-24 left-1/2 -translate-x-1/2 z-20 text-center pointer-events-none w-full px-4">
-    <div class="inline-flex items-center gap-2 bg-white/80 backdrop-blur-md text-secondary px-6 py-2.5 rounded-full text-xs sm:text-sm font-cairo font-bold shadow-md border border-[#f472b6]/50">
-        <span class="material-symbols-outlined text-sm">directions_car</span>
-        <span>رحلة طريق ذكرياتنا تحت ضوء القمر.. اسحبي للقيادة أو اختاري المحطة ♡</span>
-    </div>
-</div>
-
-<!-- Drive Forward Gas Pedal Shortcut -->
-<div class="fixed bottom-28 right-4 sm:right-8 z-30 flex flex-col items-center gap-2">
-    <button onclick="accelerateCar()" class="gas-pedal-btn text-white font-cairo font-bold text-xs sm:text-sm px-6 py-3 rounded-full flex items-center gap-2 hover:scale-105 active:scale-95 transition-transform shadow-lg">
-        <span class="material-symbols-outlined text-base">speed</span>
-        <span>دوس بنزين 🚗💨</span>
-    </button>
-</div>
-
-<!-- Bottom Highway Stations Selector Bar -->
-<div class="fixed bottom-6 left-1/2 -translate-x-1/2 z-30 w-full max-w-xl px-4">
-    <div class="flex items-center justify-center gap-2 sm:gap-3 p-2 rounded-3xl bg-white/60 backdrop-blur-xl border border-[#fbcfe8] shadow-xl shadow-secondary/15">
-        <button onclick="driveToStation(0)" class="highway-station-btn active flex-1 py-2.5 px-2 rounded-2xl flex flex-col items-center justify-center gap-1 font-cairo text-xs font-bold" id="station-btn-0">
-            <span class="text-base">🍝</span>
-            <span>2022</span>
-        </button>
-        <button onclick="driveToStation(1)" class="highway-station-btn flex-1 py-2.5 px-2 rounded-2xl flex flex-col items-center justify-center gap-1 font-cairo text-xs font-bold" id="station-btn-1">
-            <span class="text-base">🌸</span>
-            <span>2023</span>
-        </button>
-        <button onclick="driveToStation(2)" class="highway-station-btn flex-1 py-2.5 px-2 rounded-2xl flex flex-col items-center justify-center gap-1 font-cairo text-xs font-bold" id="station-btn-2">
-            <span class="text-base">🩺</span>
-            <span>2024</span>
-        </button>
-        <button onclick="driveToStation(3)" class="highway-station-btn flex-1 py-2.5 px-2 rounded-2xl flex flex-col items-center justify-center gap-1 font-cairo text-xs font-bold" id="station-btn-3">
-            <span class="text-base">🌙</span>
-            <span>2025</span>
-        </button>
-        <button onclick="driveToStation(4)" class="highway-station-btn flex-1 py-2.5 px-2 rounded-2xl flex flex-col items-center justify-center gap-1 font-cairo text-xs font-bold" id="station-btn-4">
-            <span class="text-base">❤️</span>
-            <span>2026</span>
-        </button>
-    </div>
-</div>
-
-<!-- Roadside Billboard Memory Overlay Modal -->
-<div id="drive-billboard-overlay" class="hidden-overlay fixed inset-0 z-40 bg-black/40 backdrop-blur-md flex items-center justify-center p-4 sm:p-6">
-    <div class="bg-gradient-to-br from-white/95 to-[#fff0f5]/90 border-2 border-[#f472b6] shadow-2xl rounded-3xl max-w-2xl w-full p-6 sm:p-8 relative max-h-[85vh] overflow-y-auto" dir="rtl">
+<!-- Main Content Area -->
+<main class="pt-32 pb-xl px-gutter max-w-container-max mx-auto w-full flex-grow relative z-10">
+    <div class="max-w-4xl mx-auto">
         
-        <!-- Close / Resume Drive Button -->
-        <button onclick="closeBillboard()" class="absolute top-4 left-4 w-10 h-10 rounded-full bg-primary-container text-secondary flex items-center justify-center hover:bg-secondary hover:text-white transition-colors shadow-sm">
-            <span class="material-symbols-outlined">close</span>
-        </button>
-
-        <!-- Memory Content Target -->
-        <div id="overlay-billboard-body">
-            <!-- Injected by JS -->
+        <!-- Header Section -->
+        <div class="text-center mb-16 scroll-reveal">
+            <span class="text-secondary font-label-md tracking-widest uppercase mb-2 inline-block font-bold">Our Journey</span>
+            <h1 class="font-display-lg text-4xl md:text-5xl text-primary mb-4 font-cairo font-bold">رحلة حكايتنا خطوة بخطوة ♡</h1>
+            <p class="font-body-lg text-on-surface-variant max-w-xl mx-auto font-cairo">كل خطوة، كل تفصيلة، وكل سنة عدت علينا وإحنا سوا هي أجمل أيام عمري ❤️</p>
         </div>
 
-        <!-- Resume Driving CTA -->
-        <div class="mt-6 pt-4 border-t border-[#fbcfe8] flex flex-col sm:flex-row items-center justify-between gap-3">
-            <button onclick="closeBillboard()" class="w-full sm:w-auto px-6 py-3 rounded-full bg-secondary text-white font-cairo font-bold text-sm hover:bg-secondary/90 transition-transform active:scale-95 shadow-md flex items-center justify-center gap-2">
-                <span>🚗</span>
-                <span>كمّل الرحلة على الطريق</span>
-            </button>
-            <div class="flex items-center gap-2">
-                <button onclick="stepToPrevStation()" class="px-4 py-2 rounded-full bg-primary-container/60 text-secondary font-cairo font-bold text-xs hover:bg-primary-container">المحطة السابقة</button>
-                <button onclick="stepToNextStation()" class="px-4 py-2 rounded-full bg-primary-container/60 text-secondary font-cairo font-bold text-xs hover:bg-primary-container">المحطة التالية</button>
+        <!-- The Glowing Progressive Timeline Container -->
+        <div class="relative w-full" id="timeline-container">
+            
+            <!-- Background Static Track -->
+            <div class="timeline-track"></div>
+
+            <!-- Dynamic Glowing Progress Line (الخط المضيء المتوهج مع السكرول) -->
+            <div class="timeline-glowing-progress" id="glowing-timeline-line">
+                <div class="timeline-glow-tip"></div>
+            </div>
+
+            <!-- Timeline Entries -->
+            <div class="space-y-16 md:space-y-24 relative z-10">
+
+                <!-- 1. First Memory • Bechamel Pasta 2022 -->
+                <div class="scroll-reveal flex flex-col md:flex-row items-center justify-between w-full relative z-10 group" id="entry-2022">
+                    <div class="w-full md:w-5/12 flex justify-end md:pr-lg mb-8 md:mb-0">
+                        <div class="timeline-glass-card rounded-3xl p-6 md:p-8 w-full relative text-right" dir="rtl">
+                            <span class="inline-block bg-primary-container text-secondary font-bold text-xs md:text-sm px-4 py-1.5 rounded-full mb-3 shadow-sm font-cairo">🍝 أول ذكرى وأحلى ذكرى • 2022</span>
+                            <h3 class="font-headline-md text-xl md:text-2xl text-primary font-bold mb-3 font-cairo">The Bechamel Pasta • صينية المكرونة</h3>
+                            <p class="font-body-md text-sm md:text-base text-on-surface-variant leading-relaxed font-cairo">
+                                ساعتها دي أول ذكرى وأحلى ذكرى عشان إنتي اللي كنتي عاملاهاااا. إنتي متعرفيش أنا كنت مبسوط إزاي، وإنتي كنتي مكسوفة كده، وحتة «اشطااا» يوميها 😂❤️ أنا يوميها قولت: دي هتبقى أحلى وأنجح علاقة، عشان جبتيني من أحلى حاجة بحبها ❤️😂
+                            </p>
+                            <div class="mt-4 text-secondary font-bold text-sm font-mono">6 Nov 2022 • The Beginning</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Center Glowing Node -->
+                    <div class="w-full md:w-2/12 flex justify-center relative my-4 md:my-0">
+                        <div class="milestone-node w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold shadow-md z-20" id="node-2022">
+                            <span class="text-xs">🍝</span>
+                        </div>
+                    </div>
+
+                    <div class="w-full md:w-5/12 pl-0 md:pl-lg">
+                        <div class="rounded-3xl overflow-hidden shadow-xl shadow-secondary/15 w-full h-[320px] md:h-[360px] border-2 border-[#fbcfe8] relative group cursor-pointer" onclick="openGalleryModal('2022')">
+                            <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" src="assets/2022/01_first_memory_bechamel.jpg" alt="First Memory 2022"/>
+                            <div class="absolute bottom-3 right-3 bg-white/90 backdrop-blur-md px-4 py-1.5 rounded-full text-xs font-bold text-secondary border border-[#f472b6]/40 shadow-sm font-cairo flex items-center gap-1.5">
+                                <span>🍝 أول ذكرى • 2022</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. Trips & Smiles 2023 -->
+                <div class="scroll-reveal flex flex-col md:flex-row-reverse items-center justify-between w-full relative z-10 group" id="entry-2023">
+                    <div class="w-full md:w-5/12 flex justify-start md:pl-lg mb-8 md:mb-0">
+                        <div class="timeline-glass-card rounded-3xl p-6 md:p-8 w-full relative text-right" dir="rtl">
+                            <span class="inline-block bg-primary-container text-secondary font-bold text-xs md:text-sm px-4 py-1.5 rounded-full mb-3 shadow-sm font-cairo">🌸 سنة الذكريات • 2023</span>
+                            <h3 class="font-headline-md text-xl md:text-2xl text-primary font-bold mb-3 font-cairo">Trips & Endless Smiles</h3>
+                            <p class="font-body-md text-sm md:text-base text-on-surface-variant leading-relaxed font-cairo">
+                                سنة كانت مليانة خروجات وسفريات وضحكات من القلب.. كل مكان روحناه سوا بقى فيه حتة من روحنا ومن حبنا اللي بيكبر كل يوم ✨
+                            </p>
+                            <div class="mt-4 text-secondary font-bold text-sm font-mono">Year 2023 • Adventures & Laughs</div>
+                        </div>
+                    </div>
+
+                    <!-- Center Glowing Node -->
+                    <div class="w-full md:w-2/12 flex justify-center relative my-4 md:my-0">
+                        <div class="milestone-node w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold shadow-md z-20" id="node-2023">
+                            <span class="text-xs">🌸</span>
+                        </div>
+                    </div>
+
+                    <div class="w-full md:w-5/12 pr-0 md:pr-lg">
+                        <div class="rounded-3xl overflow-hidden shadow-xl shadow-secondary/15 w-full h-[320px] md:h-[360px] border-2 border-[#fbcfe8] relative group cursor-pointer" onclick="openGalleryModal('2023')">
+                            <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" src="assets/2023/2023_memory_2.jpg" alt="Memory 2023"/>
+                            <div class="absolute bottom-3 right-3 bg-white/90 backdrop-blur-md px-4 py-1.5 rounded-full text-xs font-bold text-secondary border border-[#f472b6]/40 shadow-sm font-cairo flex items-center gap-1.5">
+                                <span>🌸 ضحكات وخروجات • 2023</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. Medicine & Proud 2024 -->
+                <div class="scroll-reveal flex flex-col md:flex-row items-center justify-between w-full relative z-10 group" id="entry-2024">
+                    <div class="w-full md:w-5/12 flex justify-end md:pr-lg mb-8 md:mb-0">
+                        <div class="timeline-glass-card rounded-3xl p-6 md:p-8 w-full relative text-right" dir="rtl">
+                            <span class="inline-block bg-primary-container text-secondary font-bold text-xs md:text-sm px-4 py-1.5 rounded-full mb-3 shadow-sm font-cairo">🩺 فخور بيكي دايماً • 2024</span>
+                            <h3 class="font-headline-md text-xl md:text-2xl text-primary font-bold mb-3 font-cairo">Proud of My Doctor Soso</h3>
+                            <p class="font-body-md text-sm md:text-base text-on-surface-variant leading-relaxed font-cairo">
+                                وقفتك وتعبك ونجاحك في كلية الطب كان أكتر حاجة بتبهرني بيكي وفخور بيها.. أحلى وأشطر دكتورة في الدنيا كلها 💖
+                            </p>
+                            <div class="mt-4 text-secondary font-bold text-sm font-mono">Year 2024 • Doctor Soso</div>
+                        </div>
+                    </div>
+
+                    <!-- Center Glowing Node -->
+                    <div class="w-full md:w-2/12 flex justify-center relative my-4 md:my-0">
+                        <div class="milestone-node w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold shadow-md z-20" id="node-2024">
+                            <span class="text-xs">🩺</span>
+                        </div>
+                    </div>
+
+                    <div class="w-full md:w-5/12 pl-0 md:pl-lg">
+                        <div class="rounded-3xl overflow-hidden shadow-xl shadow-secondary/15 w-full h-[320px] md:h-[360px] border-2 border-[#fbcfe8] relative group cursor-pointer" onclick="openGalleryModal('2024')">
+                            <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" src="assets/2024/2024_medicine.jpg" alt="Doctor Soso 2024"/>
+                            <div class="absolute bottom-3 right-3 bg-white/90 backdrop-blur-md px-4 py-1.5 rounded-full text-xs font-bold text-secondary border border-[#f472b6]/40 shadow-sm font-cairo flex items-center gap-1.5">
+                                <span>🩺 دكتورة سوسو • 2024</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. Nile & Celebrations 2025 -->
+                <div class="scroll-reveal flex flex-col md:flex-row-reverse items-center justify-between w-full relative z-10 group" id="entry-2025">
+                    <div class="w-full md:w-5/12 flex justify-start md:pl-lg mb-8 md:mb-0">
+                        <div class="timeline-glass-card rounded-3xl p-6 md:p-8 w-full relative text-right" dir="rtl">
+                            <span class="inline-block bg-primary-container text-secondary font-bold text-xs md:text-sm px-4 py-1.5 rounded-full mb-3 shadow-sm font-cairo">🌙 ليلة النيل والاحتفال • 2025</span>
+                            <h3 class="font-headline-md text-xl md:text-2xl text-primary font-bold mb-3 font-cairo">Nile Nights & Celebrations</h3>
+                            <p class="font-body-md text-sm md:text-base text-on-surface-variant leading-relaxed font-cairo">
+                                ليلة الاحتفال وضحكتك اللي نورت النيل.. كل تفصيلة وسهرة قضيناها سوا كانت أحلى من ألف احتفال 🌹
+                            </p>
+                            <div class="mt-4 text-secondary font-bold text-sm font-mono">Year 2025 • Magical Nile Nights</div>
+                        </div>
+                    </div>
+
+                    <!-- Center Glowing Node -->
+                    <div class="w-full md:w-2/12 flex justify-center relative my-4 md:my-0">
+                        <div class="milestone-node w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold shadow-md z-20" id="node-2025">
+                            <span class="text-xs">🌙</span>
+                        </div>
+                    </div>
+
+                    <div class="w-full md:w-5/12 pr-0 md:pr-lg">
+                        <div class="rounded-3xl overflow-hidden shadow-xl shadow-secondary/15 w-full h-[320px] md:h-[360px] border-2 border-[#fbcfe8] relative group cursor-pointer" onclick="openGalleryModal('2025')">
+                            <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" src="assets/2025/2025_memory_2.jpg" alt="Memory 2025"/>
+                            <div class="absolute bottom-3 right-3 bg-white/90 backdrop-blur-md px-4 py-1.5 rounded-full text-xs font-bold text-secondary border border-[#f472b6]/40 shadow-sm font-cairo flex items-center gap-1.5">
+                                <span>🌙 ليلة النيل • 2025</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 5. The Glowing Hijab Crown 2026 -->
+                <div class="scroll-reveal flex flex-col md:flex-row items-center justify-between w-full relative z-10 group" id="entry-2026">
+                    <div class="w-full md:w-5/12 flex justify-end md:pr-lg mb-8 md:mb-0">
+                        <div class="timeline-glass-card rounded-3xl p-6 md:p-8 w-full relative text-right" dir="rtl">
+                            <span class="inline-block bg-primary-container text-secondary font-bold text-xs md:text-sm px-4 py-1.5 rounded-full mb-3 shadow-sm font-cairo">🤍 خطوة الحجاب ونور العيون • 2026</span>
+                            <h3 class="font-headline-md text-xl md:text-2xl text-primary font-bold mb-3 font-cairo">The Hijab • سارة القمر</h3>
+                            <p class="font-body-md text-sm md:text-base text-on-surface-variant leading-relaxed font-cairo">
+                                ومن أجمل وأعظم الحاجات اللي حصلت… خطوة الحجاب. فخور بيكي ومبسوط إنك خدتي الخطوة دي وقمر ومنورة حياتي دايماً يا سارة ❤️
+                            </p>
+                            <div class="mt-4 text-secondary font-bold text-sm font-mono">Year 2026 • The Glowing Crown</div>
+                        </div>
+                    </div>
+
+                    <!-- Center Glowing Node -->
+                    <div class="w-full md:w-2/12 flex justify-center relative my-4 md:my-0">
+                        <div class="milestone-node w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold shadow-md z-20" id="node-2026">
+                            <span class="text-xs">🤍</span>
+                        </div>
+                    </div>
+
+                    <div class="w-full md:w-5/12 pl-0 md:pl-lg">
+                        <div class="rounded-3xl overflow-hidden shadow-xl shadow-secondary/15 w-full h-[320px] md:h-[360px] border-2 border-[#fbcfe8] relative group cursor-pointer" onclick="openGalleryModal('2026')">
+                            <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" src="assets/2026/2026_hijab.jpg" alt="Sara in Hijab 2026"/>
+                            <div class="absolute bottom-3 right-3 bg-white/90 backdrop-blur-md px-4 py-1.5 rounded-full text-xs font-bold text-secondary border border-[#f472b6]/40 shadow-sm font-cairo flex items-center gap-1.5">
+                                <span>🤍 خطوة الحجاب • 2026</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
 
+        <!-- Next CTA -->
+        <div class="flex justify-center mt-20 scroll-reveal">
+            <a href="letter.html" class="bg-secondary text-white hover:bg-secondary/90 text-base px-8 py-4 rounded-full transition-all duration-300 shadow-xl shadow-secondary/25 flex items-center gap-2 hover:scale-105 inline-flex font-cairo font-bold">
+                <span class="material-symbols-outlined text-sm">favorite</span>
+                <span>رسائل وخواطر لسارة ♡</span>
+            </a>
+        </div>
+
     </div>
-</div>
+</main>
+
+<!-- Footer -->
+<footer class="bg-[#fff0f5]/70 backdrop-blur-md font-body-md text-body-md w-full py-12 border-t border-[#fbcfe8]/70 flex flex-col items-center gap-2 text-center px-gutter z-10 relative mb-20">
+    <div class="font-headline-sm text-2xl text-primary tracking-wider flex items-center gap-1.5">
+        <span>Y</span><span class="text-secondary text-2xl animate-pulse">❤️</span><span>A</span>
+    </div>
+    <div class="text-secondary font-cairo font-bold text-sm">
+        Made with endless love for Soso ♡
+    </div>
+</footer>
 
 <script src="shared.js"></script>
 </body>
