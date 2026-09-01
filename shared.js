@@ -740,27 +740,266 @@
             }
         });
 
+    // --- Global Page Lifecycles (Singletons to prevent WebGL crashes & context loss) ---
+    let heroHeartRenderer = null;
+    let heroHeartMesh = null;
+    let heroHeartScene = null;
+    let heroHeartCamera = null;
+    let heroHeartAnimId = null;
+    let heroHeartRunning = false;
+    let heroMouseX = 0, heroMouseY = 0;
+
+    function setupHeroHeart() {
+        const container = document.getElementById('threejs-hero-heart');
+        if (!container) return;
+
+        if (heroHeartRenderer && heroHeartRenderer.domElement) {
+            container.innerHTML = '';
+            container.appendChild(heroHeartRenderer.domElement);
+            if (!heroHeartRunning) {
+                heroHeartRunning = true;
+                animateHeroHeart();
+            }
+            return;
+        }
+
+        if (typeof THREE === 'undefined') {
+            container.innerHTML = '<span class="css-heart-fallback">💖</span>';
+            return;
+        }
+
+        try {
+            heroHeartScene = new THREE.Scene();
+            const width = window.innerWidth;
+            const height = window.innerHeight;
+            heroHeartCamera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
+
+            heroHeartRenderer = new THREE.WebGLRenderer({ alpha: true, antialias: true, powerPreference: 'default' });
+            heroHeartRenderer.setSize(width, height);
+            heroHeartRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+            container.innerHTML = '';
+            container.appendChild(heroHeartRenderer.domElement);
+
+            const heartShape = new THREE.Shape();
+            heartShape.moveTo(0, 0);
+            heartShape.bezierCurveTo(0, -0.3, -0.6, -0.3, -0.6, 0);
+            heartShape.bezierCurveTo(-0.6, 0.3, 0, 0.6, 0, 1);
+            heartShape.bezierCurveTo(0, 0.6, 0.6, 0.3, 0.6, 0);
+            heartShape.bezierCurveTo(0.6, -0.3, 0, -0.3, 0, 0);
+
+            const extrudeSettings = { depth: 0.4, bevelEnabled: true, bevelSegments: 8, steps: 2, bevelSize: 0.1, bevelThickness: 0.1 };
+            const geometry = new THREE.ExtrudeGeometry(heartShape, extrudeSettings);
+            geometry.rotateX(Math.PI);
+            geometry.translate(0, 0.4, 0);
+
+            const material = new THREE.MeshPhongMaterial({
+                color: 0xF472B6,
+                shininess: 100,
+                specular: 0xffffff,
+                emissive: 0xdb2777,
+                emissiveIntensity: 0.2
+            });
+            heroHeartMesh = new THREE.Mesh(geometry, material);
+            heroHeartMesh.scale.set(3.0, 3.0, 3.0);
+            heroHeartScene.add(heroHeartMesh);
+
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.85);
+            heroHeartScene.add(ambientLight);
+            const pointLight1 = new THREE.PointLight(0xffffff, 1.2);
+            pointLight1.position.set(2, 3, 5);
+            heroHeartScene.add(pointLight1);
+            const pointLight2 = new THREE.PointLight(0xf472b6, 0.6);
+            pointLight2.position.set(-2, -2, 4);
+            heroHeartScene.add(pointLight2);
+
+            heroHeartCamera.position.z = 8;
+
+            window.addEventListener('mousemove', (e) => {
+                heroMouseX = (e.clientX / window.innerWidth) * 2 - 1;
+                heroMouseY = -(e.clientY / window.innerHeight) * 2 + 1;
+            }, { passive: true });
+
+            window.addEventListener('resize', () => {
+                if (!heroHeartRenderer || !heroHeartCamera) return;
+                heroHeartCamera.aspect = window.innerWidth / window.innerHeight;
+                heroHeartCamera.updateProjectionMatrix();
+                heroHeartRenderer.setSize(window.innerWidth, window.innerHeight);
+            }, { passive: true });
+
+            heroHeartRunning = true;
+            animateHeroHeart();
+
+        } catch (e) {
+            console.warn('Hero Heart Init Fallback:', e);
+            container.innerHTML = '<span class="css-heart-fallback">💖</span>';
+        }
+    }
+
+    function animateHeroHeart() {
+        if (!heroHeartRunning || !heroHeartRenderer || !heroHeartScene || !heroHeartCamera) return;
+        heroHeartAnimId = requestAnimationFrame(animateHeroHeart);
+
+        if (heroHeartMesh) {
+            heroHeartMesh.rotation.y += 0.01;
+            heroHeartMesh.position.y = Math.sin(Date.now() * 0.002) * 0.25 + (-heroMouseY * 0.1);
+            heroHeartMesh.position.x += ((heroMouseX * 0.4) - heroHeartMesh.position.x) * 0.05;
+
+            const scale = 3.0 + Math.sin(Date.now() * 0.004) * 0.15;
+            heroHeartMesh.scale.set(scale, scale, scale);
+        }
+
+        heroHeartRenderer.render(heroHeartScene, heroHeartCamera);
+    }
+
+    function pauseHeroHeart() {
+        heroHeartRunning = false;
+        if (heroHeartAnimId) cancelAnimationFrame(heroHeartAnimId);
+    }
+
+    window.initHeroHeart = setupHeroHeart;
+
+    // Timeline Initializer
+    window.initTimelinePage = function() {
+        const scrollElements = document.querySelectorAll('.scroll-reveal');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible', 'active');
+                }
+            });
+        }, { threshold: 0.05, rootMargin: "0px 0px 50px 0px" });
+
+        scrollElements.forEach(el => {
+            observer.observe(el);
+            const rect = el.getBoundingClientRect();
+            if (rect.top < window.innerHeight) {
+                el.classList.add('visible', 'active');
+            }
+        });
+
+        const drawPath = document.querySelector('.draw-path');
+        const mobileDrawLine = document.querySelector('.mobile-draw-line');
+        const timelineContainer = document.getElementById('timeline-container');
+        
+        if (drawPath && timelineContainer) {
+            const length = drawPath.getTotalLength();
+            drawPath.style.strokeDasharray = length;
+            drawPath.style.strokeDashoffset = length;
+
+            const onScrollTimeline = () => {
+                const rect = timelineContainer.getBoundingClientRect();
+                const containerTop = rect.top;
+                const containerHeight = rect.height;
+                const windowHeight = window.innerHeight;
+                
+                let scrollProgress = 0;
+                if (containerTop < windowHeight) {
+                    scrollProgress = (windowHeight - containerTop) / (containerHeight + windowHeight * 0.3);
+                }
+                scrollProgress = Math.max(0, Math.min(1, scrollProgress));
+                
+                const draw = length * scrollProgress;
+                drawPath.style.strokeDashoffset = length - draw;
+                
+                if (mobileDrawLine) {
+                    mobileDrawLine.style.height = `${scrollProgress * 100}%`;
+                }
+            };
+
+            window.removeEventListener('scroll', window._timelineScrollHandler);
+            window._timelineScrollHandler = onScrollTimeline;
+            window.addEventListener('scroll', onScrollTimeline, { passive: true });
+            onScrollTimeline();
+        }
+
+        initFloatingHearts();
+    };
+
+    // Letter Initializer
+    window.initLetterPage = function() {
+        initFloatingHearts();
+    };
+
+    // Gallery Initializer
+    window.initGalleryPage = function() {
+        const observer = new IntersectionObserver((entries, obs) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    obs.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.reveal-on-scroll').forEach(el => {
+            observer.observe(el);
+        });
+    };
+
+    function initFloatingHearts() {
+        const container = document.getElementById('hearts-container');
+        if (!container) return;
+        container.innerHTML = '';
+        const heartCount = 15;
+        for(let i = 0; i < heartCount; i++) {
+            const heart = document.createElement('span');
+            heart.className = 'material-symbols-outlined floating-heart';
+            heart.textContent = 'favorite';
+            const leftPos = Math.random() * 100;
+            const size = 16 + Math.random() * 24;
+            const animDuration = 10 + Math.random() * 15;
+            const animDelay = Math.random() * 10;
+            heart.style.left = `${leftPos}%`;
+            heart.style.fontSize = `${size}px`;
+            heart.style.animationDuration = `${animDuration}s`;
+            heart.style.animationDelay = `${animDelay}s`;
+            const colors = ['#fc79bd', '#e5bad3', '#ffafd3'];
+            heart.style.color = colors[Math.floor(Math.random() * colors.length)];
+            container.appendChild(heart);
+        }
+    }
+
+    // 4. Seamless SPA Navigation (Audio NEVER pauses when changing pages!)
+    function initSeamlessNavigation() {
+        document.addEventListener('click', function (e) {
+            const link = e.target.closest('a');
+            if (!link) return;
+            const href = link.getAttribute('href');
+            if (!href || href.startsWith('#') || href.startsWith('http') || href.startsWith('mailto')) return;
+
+            if (href.endsWith('.html') || href === 'index.html' || href === 'timeline.html' || href === 'gallery.html' || href === 'letter.html') {
+                e.preventDefault();
+                navigateSeamlessly(href);
+            }
+        });
+
         window.addEventListener('popstate', function () {
             const page = location.pathname.split('/').pop() || 'index.html';
             navigateSeamlessly(page, false);
         });
     }
 
+    const pageCache = {};
+
     async function navigateSeamlessly(url, pushState = true) {
         try {
-            const response = await fetch(url);
-            if (!response.ok) {
-                window.location.href = url;
-                return;
+            let htmlText = pageCache[url];
+            if (!htmlText) {
+                const response = await fetch(url);
+                if (!response.ok) {
+                    window.location.href = url;
+                    return;
+                }
+                htmlText = await response.text();
+                pageCache[url] = htmlText;
             }
-            const htmlText = await response.text();
+
             const parser = new DOMParser();
             const doc = parser.parseFromString(htmlText, 'text/html');
 
-            // Update title
             document.title = doc.title;
 
-            // Update Main and Header
             const newMain = doc.querySelector('main');
             const oldMain = document.querySelector('main');
             if (newMain && oldMain) {
@@ -768,25 +1007,16 @@
                 oldMain.className = newMain.className;
             }
 
-            // Update Header nav active indicators
             const newHeader = doc.querySelector('header');
             const oldHeader = document.querySelector('header');
             if (newHeader && oldHeader) {
                 oldHeader.innerHTML = newHeader.innerHTML;
             }
 
-            // Update footer
             const newFooter = doc.querySelector('footer');
             const oldFooter = document.querySelector('footer');
             if (newFooter && oldFooter) {
                 oldFooter.innerHTML = newFooter.innerHTML;
-            }
-
-            // Update background particles or elements if present
-            const newShader = doc.querySelector('#shader-background');
-            const oldShader = document.querySelector('#shader-background');
-            if (newShader && oldShader) {
-                oldShader.innerHTML = newShader.innerHTML;
             }
 
             if (pushState) {
@@ -795,64 +1025,24 @@
 
             window.scrollTo({ top: 0, behavior: 'smooth' });
 
-            // Clean up any Three.js or WebGL animations before re-running scripts
-            if (typeof window._cleanupHeroHeart === 'function') {
-                try { window._cleanupHeroHeart(); } catch (e) { }
-            }
-            if (typeof window._cleanupShaderBg === 'function') {
-                try { window._cleanupShaderBg(); } catch (e) { }
-            }
-
-            // Re-run inline scripts from new page
-            const scripts = doc.querySelectorAll('main script, body > script:not([src="shared.js"])');
-            scripts.forEach(s => {
-                const newScript = document.createElement('script');
-                if (s.src) {
-                    newScript.src = s.src;
-                } else {
-                    newScript.textContent = s.textContent;
-                }
-                document.body.appendChild(newScript);
-                setTimeout(() => newScript.remove(), 100);
-            });
-
-            // Update active mobile tab
             updateActiveTab();
-
-            // Initialize page-specific features
             initLoveModal();
             initCounter();
 
             const targetPage = (url.split('/').pop().split('?')[0] || 'index.html');
-            setTimeout(() => {
-                if (targetPage === 'index.html' || targetPage === '') {
-                    if (typeof window.initShaderBg === 'function') window.initShaderBg();
-                    if (typeof window.initHeroHeart === 'function') window.initHeroHeart();
-                } else if (targetPage === 'timeline.html') {
-                    if (typeof window.initTimelinePage === 'function') window.initTimelinePage();
+            if (targetPage === 'index.html' || targetPage === '') {
+                setupHeroHeart();
+            } else {
+                pauseHeroHeart();
+                if (targetPage === 'timeline.html') {
+                    window.initTimelinePage();
                 } else if (targetPage === 'gallery.html') {
-                    if (typeof window.initGalleryPage === 'function') window.initGalleryPage();
+                    window.initGalleryPage();
                 } else if (targetPage === 'letter.html') {
-                    if (typeof window.initLetterPage === 'function') window.initLetterPage();
+                    window.initLetterPage();
                 }
-            }, 50);
-
-            // Timeline observers (make sure both visible and active classes are added)
-            const scrollElements = document.querySelectorAll('.scroll-reveal');
-            if (scrollElements.length > 0) {
-                const observer = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            entry.target.classList.add('visible', 'active');
-                            const line = entry.target.querySelector('.mobile-draw-line');
-                            if (line) line.style.height = '100%';
-                        }
-                    });
-                }, { threshold: 0.05, rootMargin: '0px 0px 50px 0px' });
-                scrollElements.forEach(el => observer.observe(el));
             }
 
-            // Keep audio playing seamlessly!
             playAudio();
 
         } catch (err) {
@@ -896,5 +1086,16 @@
         initLoveModal();
         initCounter();
         initSeamlessNavigation();
+
+        const curPage = location.pathname.split('/').pop() || 'index.html';
+        if (curPage === 'index.html' || curPage === '') {
+            setupHeroHeart();
+        } else if (curPage === 'timeline.html') {
+            window.initTimelinePage();
+        } else if (curPage === 'gallery.html') {
+            window.initGalleryPage();
+        } else if (curPage === 'letter.html') {
+            window.initLetterPage();
+        }
     });
 })();
