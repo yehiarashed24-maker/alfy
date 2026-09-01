@@ -224,7 +224,7 @@
         return modal;
     }
 
-    window.openLetter = function(idx, e) {
+    window.openLetter = function (idx, e) {
         const modal = initLoveModal();
         currentLetterIdx = (typeof idx === 'number' ? idx : 0) % SARA_MESSAGES.length;
         const textEl = document.getElementById('modal-letter-text');
@@ -238,12 +238,12 @@
         burstHearts(x, y);
     };
 
-    window.openRandomLetter = function(e) {
+    window.openRandomLetter = function (e) {
         const rand = Math.floor(Math.random() * SARA_MESSAGES.length);
         window.openLetter(rand, e);
     };
 
-    window.openNextLetter = function(e) {
+    window.openNextLetter = function (e) {
         currentLetterIdx = (currentLetterIdx + 1) % SARA_MESSAGES.length;
         const textEl = document.getElementById('modal-letter-text');
         if (textEl) textEl.textContent = SARA_MESSAGES[currentLetterIdx];
@@ -252,7 +252,7 @@
         burstHearts(x, y);
     };
 
-    window.closeLetterModal = function() {
+    window.closeLetterModal = function () {
         const modal = document.getElementById('love-modal');
         if (modal) {
             modal.style.display = 'none';
@@ -299,15 +299,15 @@
         return modal;
     }
 
-    window.openModal = function(year) {
+    window.openModal = function (year) {
         window.openGalleryModal(year);
     };
 
-    window.openGalleryModal = function(year) {
+    window.openGalleryModal = function (year) {
         const modal = initGalleryModal();
         const photos = YEAR_PHOTOS[year] || [];
         currentLightboxYear = year;
-        
+
         modal.innerHTML = `
             <!-- Sticky Modal Header -->
             <div style="position:sticky; top:0; width:100%; background:rgba(255,255,255,0.92); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); border-bottom:1px solid #fbcfe8; padding:1rem 1.5rem; display:flex; align-items:center; justify-content:space-between; z-index:20; box-shadow:0 4px 20px rgba(164,48,115,0.08);">
@@ -350,11 +350,11 @@
         document.body.style.overflow = 'hidden';
     };
 
-    window.closeModal = function() {
+    window.closeModal = function () {
         window.closeGalleryModal();
     };
 
-    window.closeGalleryModal = function() {
+    window.closeGalleryModal = function () {
         const modal = document.getElementById('album-modal');
         if (modal) {
             modal.style.display = 'none';
@@ -363,7 +363,7 @@
     };
 
     // Fullscreen High-Res Photo Lightbox with Next/Prev
-    window.openPhotoLightbox = function(year, idx) {
+    window.openPhotoLightbox = function (year, idx) {
         currentLightboxYear = year;
         currentLightboxIdx = idx;
         const photos = YEAR_PHOTOS[year] || [];
@@ -378,7 +378,7 @@
         }
 
         lightbox.style.cssText = 'position:fixed; inset:0; z-index:1000000; background:rgba(15, 23, 42, 0.95); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px); display:flex; flex-direction:column; align-items:center; justify-content:center; padding:1rem;';
-        
+
         lightbox.innerHTML = `
             <!-- Top Bar -->
             <div style="position:absolute; top:1rem; left:1rem; right:1rem; display:flex; justify-content:space-between; align-items:center; z-index:30;">
@@ -418,14 +418,14 @@
         lightbox.style.display = 'flex';
     };
 
-    window.navigateLightbox = function(dir) {
+    window.navigateLightbox = function (dir) {
         const photos = YEAR_PHOTOS[currentLightboxYear] || [];
         if (photos.length <= 1) return;
         currentLightboxIdx = (currentLightboxIdx + dir + photos.length) % photos.length;
         window.openPhotoLightbox(currentLightboxYear, currentLightboxIdx);
     };
 
-    window.closePhotoLightbox = function() {
+    window.closePhotoLightbox = function () {
         const lightbox = document.getElementById('photo-lightbox');
         if (lightbox) lightbox.style.display = 'none';
     };
@@ -843,28 +843,27 @@
         heroHeartRenderer.render(heroHeartScene, heroHeartCamera);
     }
 
-    // --- 3D Rose Rotunda 360° Engine (Gates of Love) ---
-    let rotundaRenderer = null;
-    let rotundaScene = null;
-    let rotundaCamera = null;
-    let rotundaGates = [];
-    let rotundaPetals = [];
-    let rotundaAnimId = null;
-    let rotundaRunning = false;
-    let currentGardenAngle = 0;
-    let targetGardenAngle = 0;
-    let isInsideGate = false;
-    let activeGateIndex = 0;
-    let isDraggingRotunda = false;
-    let lastMouseX = 0;
-    let rotundaCamTargetPos = null;
-    let rotundaCamTargetLook = null;
+    // --- 3D Romantic Midnight Drive Engine ---
+    let driveRenderer = null;
+    let driveScene = null;
+    let driveCamera = null;
+    let driveBillboards = [];
+    let driveCarGroup = null;
+    let driveAnimId = null;
+    let driveRunning = false;
+    let carCurrentZ = 0;
+    let carTargetZ = 0;
+    let isStationOpen = false;
+    let activeStationIndex = 0;
+    let isDraggingDrive = false;
+    let lastDragY = 0;
 
-    const GATE_DATA = [
+    const HIGHWAY_STATIONS = [
         {
             year: '2022',
-            title: 'The Bechamel Pasta',
-            badge: '🍝 أول ذكرى وأحلى ذكرى • 2022',
+            z: 0,
+            title: 'The Bechamel Pasta Station',
+            badge: '🍝 محطة البداية وأحلى ذكرى • 2022',
             date: '6 Nov 2022',
             text: 'ساعتها دي أول ذكرى وأحلى ذكرى عشان إنتي اللي كنتي عاملاهاااا. إنتي متعرفيش أنا كنت مبسوط إزاي، وإنتي كنتي مكسوفة كده، وحتة «اشطااا» يوميها 😂❤️ أنا يوميها قولت: دي هتبقى أحلى وأنجح علاقة، عشان جبتيني من أحلى حاجة بحبها ❤️😂',
             img: 'assets/2022/01_first_memory_bechamel.jpg',
@@ -872,8 +871,9 @@
         },
         {
             year: '2023',
-            title: 'Trips & Endless Smiles',
-            badge: '🌸 سنة الذكريات والضحك • 2023',
+            z: -60,
+            title: 'Trips & Endless Smiles Station',
+            badge: '🌸 محطة السفر والضحكات • 2023',
             date: 'Year 2023',
             text: 'سنة كانت مليانة خروجات وسفريات وضحكات من القلب.. كل مكان روحناه سوا بقى فيه حتة من روحنا ومن حبنا اللي بيكبر كل يوم ✨',
             img: 'assets/2023/2023_memory_2.jpg',
@@ -881,8 +881,9 @@
         },
         {
             year: '2024',
-            title: 'Proud of My Doctor Soso',
-            badge: '🩺 دكتورة سوسو في كلية الطب • 2024',
+            z: -120,
+            title: 'Proud of My Doctor Soso Station',
+            badge: '🩺 محطة دكتورة سوسو في كلية الطب • 2024',
             date: 'Year 2024',
             text: 'وقفتك وتعبك ونجاحك في كلية الطب كان أكتر حاجة بتبهرني بيكي وفخور بيها.. أحلى وأشطر دكتورة في الدنيا كلها 💖',
             img: 'assets/2024/2024_medicine.jpg',
@@ -890,8 +891,9 @@
         },
         {
             year: '2025',
-            title: 'Nile Nights & Celebrations',
-            badge: '🌙 ليلة النيل والاحتفال • 2025',
+            z: -180,
+            title: 'Nile Nights & Celebrations Station',
+            badge: '🌙 محطة سهرة النيل والاحتفال • 2025',
             date: 'Year 2025',
             text: 'ليلة الاحتفال وضحكتك اللي نورت النيل.. كل تفصيلة وسهرة قضيناها سوا كانت أحلى من ألف احتفال 🌹',
             img: 'assets/2025/2025_memory_2.jpg',
@@ -899,8 +901,9 @@
         },
         {
             year: '2026',
-            title: 'A Glowing Crown',
-            badge: '❤️ خطوة الحجاب ونور العيون • 2026',
+            z: -240,
+            title: 'A Glowing Crown Station',
+            badge: '❤️ محطة خطوة الحجاب ونور العيون • 2026',
             date: 'Year 2026',
             text: 'خطوة الحجاب اللي زادتك نور وجمال.. أحلى وأرق بنت في عيني دايماً، وشايف فيكي كل الخير والجمال اللي في الكون ❤️✨',
             img: 'assets/2026/2026_hijab.jpg',
@@ -908,14 +911,14 @@
         }
     ];
 
-    function setupRoseRotunda3D() {
-        const canvas = document.getElementById('timeline-rotunda-canvas');
+    function setupMidnightDrive3D() {
+        const canvas = document.getElementById('timeline-drive-canvas');
         if (!canvas) return;
 
-        if (rotundaRenderer && rotundaScene) {
-            if (!rotundaRunning) {
-                rotundaRunning = true;
-                animateRoseRotunda();
+        if (driveRenderer && driveScene) {
+            if (!driveRunning) {
+                driveRunning = true;
+                animateMidnightDrive();
             }
             return;
         }
@@ -924,7 +927,7 @@
             const script = document.createElement('script');
             script.src = 'https://ajax.googleapis.com/ajax/libs/threejs/r125/three.min.js';
             script.onload = () => {
-                setupRoseRotunda3D();
+                setupMidnightDrive3D();
             };
             document.head.appendChild(script);
             return;
@@ -934,88 +937,89 @@
             const width = window.innerWidth;
             const height = window.innerHeight;
 
-            rotundaCamTargetPos = new THREE.Vector3(0, 2.5, 0);
-            rotundaCamTargetLook = new THREE.Vector3(0, 2.5, -50);
+            driveScene = new THREE.Scene();
+            driveCamera = new THREE.PerspectiveCamera(60, width / height, 0.1, 1000);
+            driveCamera.position.set(0, 3.2, 10);
 
-            rotundaScene = new THREE.Scene();
-            rotundaCamera = new THREE.PerspectiveCamera(65, width / height, 0.1, 1000);
-            rotundaCamera.position.set(0, 2.5, 0);
+            driveRenderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+            driveRenderer.setSize(width, height);
+            driveRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-            rotundaRenderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
-            rotundaRenderer.setSize(width, height);
-            rotundaRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-
-            // Lighting
+            // Ambient & Warm Sunset/Night Lighting
             const ambient = new THREE.AmbientLight(0xfff0f5, 1.2);
-            rotundaScene.add(ambient);
+            driveScene.add(ambient);
 
-            const centerLight = new THREE.PointLight(0xf472b6, 2.0, 60);
-            centerLight.position.set(0, 8, 0);
-            rotundaScene.add(centerLight);
+            const pinkSun = new THREE.DirectionalLight(0xf472b6, 1.5);
+            pinkSun.position.set(20, 40, -100);
+            driveScene.add(pinkSun);
 
-            // Ground Garden Disk
-            const floorGeo = new THREE.CircleGeometry(32, 48);
-            floorGeo.rotateX(-Math.PI / 2);
-            const floorMat = new THREE.MeshBasicMaterial({
-                color: 0xffd8e7,
-                transparent: true,
-                opacity: 0.45
+            // 1. Endless Romantic Asphalt Road
+            const roadWidth = 14;
+            const roadLength = 400;
+            const roadGeo = new THREE.PlaneGeometry(roadWidth, roadLength);
+            roadGeo.rotateX(-Math.PI / 2);
+            const roadMat = new THREE.MeshPhongMaterial({
+                color: 0x2b1e28,
+                shininess: 40
             });
-            const floorMesh = new THREE.Mesh(floorGeo, floorMat);
-            floorMesh.position.y = -0.1;
-            rotundaScene.add(floorMesh);
+            const roadMesh = new THREE.Mesh(roadGeo, roadMat);
+            roadMesh.position.set(0, -0.1, -150);
+            driveScene.add(roadMesh);
 
-            // Circular Fairy Ring
-            const ringGeo = new THREE.RingGeometry(21.8, 22.2, 64);
-            ringGeo.rotateX(-Math.PI / 2);
-            const ringMat = new THREE.MeshBasicMaterial({ color: 0xf472b6, side: THREE.DoubleSide, transparent: true, opacity: 0.7 });
-            const fairyRing = new THREE.Mesh(ringGeo, ringMat);
-            fairyRing.position.y = 0.05;
-            rotundaScene.add(fairyRing);
+            // 2. Roadside Curbs & Glowing Lines
+            const curbMat = new THREE.MeshBasicMaterial({ color: 0xf472b6 });
+            const leftCurb = new THREE.Mesh(new THREE.BoxGeometry(0.6, 0.3, roadLength), curbMat);
+            leftCurb.position.set(-roadWidth / 2, 0, -150);
+            driveScene.add(leftCurb);
 
-            // Build 5 3D Arched Rose Gates in a circle
-            rotundaGates = [];
-            const R = 22;
-            const gateCount = 5;
+            const rightCurb = new THREE.Mesh(new THREE.BoxGeometry(0.6, 0.3, roadLength), curbMat);
+            rightCurb.position.set(roadWidth / 2, 0, -150);
+            driveScene.add(rightCurb);
 
-            const archMaterial = new THREE.MeshPhongMaterial({
-                color: 0xffffff,
-                emissive: 0xa43073,
-                emissiveIntensity: 0.4,
-                shininess: 90
-            });
-            const roseMaterial = new THREE.MeshPhongMaterial({
-                color: 0xf472b6,
-                emissive: 0xdb2777,
-                emissiveIntensity: 0.5
-            });
+            // 3. Dashed Glowing Center Lane Markers
+            const laneGroup = new THREE.Group();
+            const dashGeo = new THREE.PlaneGeometry(0.3, 3.5);
+            dashGeo.rotateX(-Math.PI / 2);
+            const dashMat = new THREE.MeshBasicMaterial({ color: 0xffafd3 });
 
-            for (let i = 0; i < gateCount; i++) {
-                const angle = (i / gateCount) * Math.PI * 2;
-                const gateGroup = new THREE.Group();
+            for (let z = 50; z > -350; z -= 8) {
+                const dash = new THREE.Mesh(dashGeo, dashMat);
+                dash.position.set(0, 0.02, z);
+                laneGroup.add(dash);
+            }
+            driveScene.add(laneGroup);
 
-                const gx = Math.sin(angle) * R;
-                const gz = -Math.cos(angle) * R;
-                gateGroup.position.set(gx, 0, gz);
-                gateGroup.rotation.y = -angle;
+            // 4. Roadside Heart Lampposts & 5 Billboards
+            driveBillboards = [];
+            const billboardFrameMat = new THREE.MeshPhongMaterial({ color: 0xffffff, emissive: 0xa43073, emissiveIntensity: 0.5 });
 
-                // Arch Geometry
-                const archGeo = new THREE.TorusGeometry(3.6, 0.4, 12, 32, Math.PI);
-                const archMesh = new THREE.Mesh(archGeo, archMaterial);
-                archMesh.position.y = 4.0;
-                gateGroup.add(archMesh);
+            HIGHWAY_STATIONS.forEach((station, idx) => {
+                const isLeft = idx % 2 === 0;
+                const bGroup = new THREE.Group();
+                const posX = isLeft ? -11 : 11;
+                bGroup.position.set(posX, 0, station.z);
+                bGroup.rotation.y = isLeft ? 0.35 : -0.35;
 
-                // Left Pillar
-                const leftPillar = new THREE.Mesh(new THREE.CylinderGeometry(0.35, 0.45, 4.5, 16), archMaterial);
-                leftPillar.position.set(-3.6, 2.25, 0);
-                gateGroup.add(leftPillar);
+                // Support Pillars
+                const poleGeo = new THREE.CylinderGeometry(0.25, 0.35, 7, 16);
+                const pole = new THREE.Mesh(poleGeo, billboardFrameMat);
+                pole.position.set(0, 3.5, 0);
+                bGroup.add(pole);
 
-                // Right Pillar
-                const rightPillar = new THREE.Mesh(new THREE.CylinderGeometry(0.35, 0.45, 4.5, 16), archMaterial);
-                rightPillar.position.set(3.6, 2.25, 0);
-                gateGroup.add(rightPillar);
+                // Billboard Screen Board
+                const screenGeo = new THREE.BoxGeometry(8.5, 5.0, 0.5);
+                const screen = new THREE.Mesh(screenGeo, billboardFrameMat);
+                screen.position.set(0, 7.5, 0);
+                bGroup.add(screen);
 
-                // Heart at Arch Apex
+                // Billboard Glowing Inner Canvas
+                const innerGeo = new THREE.PlaneGeometry(7.8, 4.3);
+                const innerMat = new THREE.MeshBasicMaterial({ color: 0xffd8e7 });
+                const innerScreen = new THREE.Mesh(innerGeo, innerMat);
+                innerScreen.position.set(0, 7.5, 0.28);
+                bGroup.add(innerScreen);
+
+                // Neon Heart on Top
                 const heartShape = new THREE.Shape();
                 heartShape.moveTo(0, 0);
                 heartShape.bezierCurveTo(0, -0.3, -0.5, -0.3, -0.5, 0);
@@ -1023,278 +1027,236 @@
                 heartShape.bezierCurveTo(0, 0.6, 0.5, 0.3, 0.5, 0);
                 heartShape.bezierCurveTo(0.5, -0.3, 0, -0.3, 0, 0);
 
-                const heartExtrude = { depth: 0.3, bevelEnabled: true, bevelSegments: 4, steps: 1, bevelSize: 0.08, bevelThickness: 0.08 };
-                const heartGeo = new THREE.ExtrudeGeometry(heartShape, heartExtrude);
-                heartGeo.rotateX(Math.PI);
-                heartGeo.translate(0, 0.4, 0);
-                const heartMesh = new THREE.Mesh(heartGeo, roseMaterial);
-                heartMesh.scale.set(1.5, 1.5, 1.5);
-                heartMesh.position.set(0, 8.0, 0);
-                gateGroup.add(heartMesh);
+                const heartExtrude = { depth: 0.2, bevelEnabled: true, bevelSegments: 3, steps: 1, bevelSize: 0.05, bevelThickness: 0.05 };
+                const heartMesh = new THREE.Mesh(new THREE.ExtrudeGeometry(heartShape, heartExtrude), new THREE.MeshPhongMaterial({ color: 0xf472b6, emissive: 0xdb2777, emissiveIntensity: 0.6 }));
+                heartMesh.scale.set(1.2, 1.2, 1.2);
+                heartMesh.rotation.x = Math.PI;
+                heartMesh.position.set(0, 10.8, 0);
+                bGroup.add(heartMesh);
 
-                // Portal Floor Glowing Pad
-                const portalGeo = new THREE.CircleGeometry(3.2, 32);
-                portalGeo.rotateX(-Math.PI / 2);
-                const portalMat = new THREE.MeshBasicMaterial({ color: 0xfc79bd, transparent: true, opacity: 0.45 });
-                const portalMesh = new THREE.Mesh(portalGeo, portalMat);
-                portalMesh.position.set(0, 0.08, 0);
-                gateGroup.add(portalMesh);
-
-                gateGroup.userData = {
-                    index: i,
-                    angle: angle,
-                    targetPos: new THREE.Vector3(Math.sin(angle) * (R - 5), 2.5, -Math.cos(angle) * (R - 5)),
-                    lookPos: new THREE.Vector3(Math.sin(angle) * (R + 10), 2.5, -Math.cos(angle) * (R + 10)),
-                    heartMesh
-                };
-
-                rotundaScene.add(gateGroup);
-                rotundaGates.push(gateGroup);
-            }
-
-            // Floating Rose Petals (80 Petals)
-            rotundaPetals = [];
-            const petalShape = new THREE.Shape();
-            petalShape.moveTo(0, 0);
-            petalShape.bezierCurveTo(0.4, 0.5, 0.8, 1.2, 0, 2.0);
-            petalShape.bezierCurveTo(-0.8, 1.2, -0.4, 0.5, 0, 0);
-            const petalGeo = new THREE.ShapeGeometry(petalShape);
-            const petalMat = new THREE.MeshPhongMaterial({
-                color: 0xf472b6,
-                emissive: 0xdb2777,
-                emissiveIntensity: 0.3,
-                side: THREE.DoubleSide
+                bGroup.userData = { index: idx, station, heartMesh };
+                driveScene.add(bGroup);
+                driveBillboards.push(bGroup);
             });
 
-            for (let p = 0; p < 80; p++) {
-                const petal = new THREE.Mesh(petalGeo, petalMat);
-                petal.position.set(
-                    (Math.random() - 0.5) * 50,
-                    Math.random() * 16,
-                    (Math.random() - 0.5) * 50
-                );
-                petal.rotation.set(Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI);
-                const scale = 0.4 + Math.random() * 0.6;
-                petal.scale.set(scale, scale, scale);
-                petal.userData = {
-                    speedY: 0.015 + Math.random() * 0.02,
-                    rotSpeedX: (Math.random() - 0.5) * 0.02,
-                    rotSpeedY: (Math.random() - 0.5) * 0.03
-                };
-                rotundaScene.add(petal);
-                rotundaPetals.push(petal);
+            // 5. Roadside Heart Lampposts along highway
+            for (let z = 30; z > -300; z -= 30) {
+                [-8.5, 8.5].forEach(x => {
+                    const post = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.18, 5, 8), billboardFrameMat);
+                    post.position.set(x, 2.5, z);
+                    const lamp = new THREE.Mesh(new THREE.SphereGeometry(0.4, 16, 16), new THREE.MeshBasicMaterial({ color: 0xfc79bd }));
+                    lamp.position.set(x, 5.2, z);
+                    driveScene.add(post);
+                    driveScene.add(lamp);
+                });
             }
 
-            // Mouse / Touch Drag Events
-            const onDown = (clientX) => {
-                if (isInsideGate) return;
-                isDraggingRotunda = true;
-                lastMouseX = clientX;
+            // 6. Vintage Car Dashboard / Hood in Foreground
+            driveCarGroup = new THREE.Group();
+            const hoodMat = new THREE.MeshPhongMaterial({ color: 0xdb2777, shininess: 100 });
+            const hood = new THREE.Mesh(new THREE.BoxGeometry(4.2, 0.6, 3.0), hoodMat);
+            hood.position.set(0, -0.8, -2.5);
+            driveCarGroup.add(hood);
+
+            // Steering Wheel
+            const wheelMat = new THREE.MeshPhongMaterial({ color: 0x2c1325 });
+            const wheel = new THREE.Mesh(new THREE.TorusGeometry(0.8, 0.1, 8, 24), wheelMat);
+            wheel.position.set(-1.0, -0.3, -1.8);
+            wheel.rotation.x = Math.PI / 4;
+            driveCarGroup.add(wheel);
+
+            // Hanging Crystal Heart from Mirror
+            const mirrorHeart = new THREE.Mesh(new THREE.IcosahedronGeometry(0.2, 0), new THREE.MeshBasicMaterial({ color: 0xf472b6 }));
+            mirrorHeart.position.set(0, 0.5, -1.8);
+            driveCarGroup.add(mirrorHeart);
+
+            driveScene.add(driveCarGroup);
+
+            // Drag / Scroll Driving Controls
+            const onDown = (clientY) => {
+                if (isStationOpen) return;
+                isDraggingDrive = true;
+                lastDragY = clientY;
             };
 
-            const onMove = (clientX) => {
-                if (!isDraggingRotunda || isInsideGate) return;
-                const delta = clientX - lastMouseX;
-                lastMouseX = clientX;
-                targetGardenAngle -= delta * 0.005;
+            const onMove = (clientY) => {
+                if (!isDraggingDrive || isStationOpen) return;
+                const delta = clientY - lastDragY;
+                lastDragY = clientY;
+                carTargetZ += delta * 0.15;
+                carTargetZ = Math.min(20, Math.max(-260, carTargetZ));
             };
 
             const onUp = () => {
-                isDraggingRotunda = false;
+                isDraggingDrive = false;
             };
 
-            canvas.addEventListener('mousedown', (e) => onDown(e.clientX));
-            window.addEventListener('mousemove', (e) => onMove(e.clientX));
+            canvas.addEventListener('mousedown', (e) => onDown(e.clientY));
+            window.addEventListener('mousemove', (e) => onMove(e.clientY));
             window.addEventListener('mouseup', onUp);
 
             canvas.addEventListener('touchstart', (e) => {
-                if (e.touches.length > 0) onDown(e.touches[0].clientX);
+                if (e.touches.length > 0) onDown(e.touches[0].clientY);
             }, { passive: true });
             window.addEventListener('touchmove', (e) => {
-                if (e.touches.length > 0) onMove(e.touches[0].clientX);
+                if (e.touches.length > 0) onMove(e.touches[0].clientY);
             }, { passive: true });
             window.addEventListener('touchend', onUp);
 
-            // Raycasting on Click
-            const raycaster = new THREE.Raycaster();
-            const mouseVec = new THREE.Vector2();
-
-            canvas.addEventListener('click', (e) => {
-                if (isInsideGate) return;
-                mouseVec.x = (e.clientX / window.innerWidth) * 2 - 1;
-                mouseVec.y = -(e.clientY / window.innerHeight) * 2 + 1;
-                raycaster.setFromCamera(mouseVec, rotundaCamera);
-                const intersects = raycaster.intersectObjects(rotundaScene.children, true);
-                if (intersects.length > 0) {
-                    let obj = intersects[0].object;
-                    while (obj && obj.parent !== rotundaScene) {
-                        if (obj.userData && typeof obj.userData.index === 'number') break;
-                        obj = obj.parent;
-                    }
-                    if (obj && obj.userData && typeof obj.userData.index === 'number') {
-                        walkIntoGate(obj.userData.index);
-                    }
-                }
-            });
-
-            window.addEventListener('resize', () => {
-                if (!rotundaRenderer || !rotundaCamera) return;
-                rotundaCamera.aspect = window.innerWidth / window.innerHeight;
-                rotundaCamera.updateProjectionMatrix();
-                rotundaRenderer.setSize(window.innerWidth, window.innerHeight);
+            // Mouse wheel driving
+            canvas.addEventListener('wheel', (e) => {
+                if (isStationOpen) return;
+                carTargetZ -= e.deltaY * 0.08;
+                carTargetZ = Math.min(20, Math.max(-260, carTargetZ));
             }, { passive: true });
 
-            rotundaRunning = true;
-            animateRoseRotunda();
+            window.addEventListener('resize', () => {
+                if (!driveRenderer || !driveCamera) return;
+                driveCamera.aspect = window.innerWidth / window.innerHeight;
+                driveCamera.updateProjectionMatrix();
+                driveRenderer.setSize(window.innerWidth, window.innerHeight);
+            }, { passive: true });
+
+            driveRunning = true;
+            animateMidnightDrive();
 
         } catch (e) {
-            console.warn('3D Rose Rotunda Init Error:', e);
+            console.warn('3D Midnight Drive Init Error:', e);
         }
     }
 
-    function animateRoseRotunda() {
-        if (!rotundaRunning || !rotundaRenderer || !rotundaScene || !rotundaCamera) return;
-        rotundaAnimId = requestAnimationFrame(animateRoseRotunda);
+    function animateMidnightDrive() {
+        if (!driveRunning || !driveRenderer || !driveScene || !driveCamera) return;
+        driveAnimId = requestAnimationFrame(animateMidnightDrive);
 
-        // Interpolate Garden Rotation
-        currentGardenAngle += (targetGardenAngle - currentGardenAngle) * 0.08;
+        // Smooth Car & Camera Z movement
+        carCurrentZ += (carTargetZ - carCurrentZ) * 0.08;
 
-        if (!isInsideGate) {
-            rotundaCamTargetPos.set(0, 2.5, 0);
-            rotundaCamTargetLook.set(
-                Math.sin(currentGardenAngle) * 100,
-                2.5,
-                -Math.cos(currentGardenAngle) * 100
-            );
+        driveCamera.position.z = carCurrentZ + 10;
+        driveCamera.position.y = 3.2 + Math.sin(Date.now() * 0.005) * 0.04;
+        driveCamera.lookAt(0, 3.2, carCurrentZ - 40);
+
+        if (driveCarGroup) {
+            driveCarGroup.position.z = carCurrentZ + 8;
+            driveCarGroup.position.y = 2.4 + Math.sin(Date.now() * 0.005) * 0.02;
         }
 
-        rotundaCamera.position.lerp(rotundaCamTargetPos, 0.08);
-        const currentLook = new THREE.Vector3();
-        rotundaCamera.getWorldDirection(currentLook);
-        const desiredLook = rotundaCamTargetLook.clone().sub(rotundaCamera.position).normalize();
-        currentLook.lerp(desiredLook, 0.08);
-        rotundaCamera.lookAt(rotundaCamera.position.clone().add(currentLook));
-
-        // Animate floating petals
-        rotundaPetals.forEach(petal => {
-            petal.position.y -= petal.userData.speedY;
-            petal.rotation.x += petal.userData.rotSpeedX;
-            petal.rotation.y += petal.userData.rotSpeedY;
-            if (petal.position.y < 0) petal.position.y = 15;
-        });
-
-        // Animate gate hearts
-        rotundaGates.forEach(g => {
-            if (g.userData && g.userData.heartMesh) {
-                g.userData.heartMesh.rotation.y += 0.02;
+        // Animate Billboard Neon Hearts
+        driveBillboards.forEach(b => {
+            if (b.userData && b.userData.heartMesh) {
+                b.userData.heartMesh.rotation.y += 0.02;
             }
         });
 
-        rotundaRenderer.render(rotundaScene, rotundaCamera);
-    }
-
-    function walkIntoGate(index) {
-        activeGateIndex = index;
-        isInsideGate = true;
-        const gate = rotundaGates[index];
-        if (gate) {
-            rotundaCamTargetPos.copy(gate.userData.targetPos);
-            rotundaCamTargetLook.copy(gate.userData.lookPos);
-        }
-
-        document.querySelectorAll('.gate-dock-btn').forEach((btn, i) => {
-            btn.classList.toggle('active', i === index);
+        // Update active station dock button based on closest station
+        let closestIdx = 0;
+        let minDist = 9999;
+        HIGHWAY_STATIONS.forEach((s, idx) => {
+            const dist = Math.abs(carCurrentZ - s.z);
+            if (dist < minDist) {
+                minDist = dist;
+                closestIdx = idx;
+            }
         });
 
-        const data = GATE_DATA[index];
-        const bodyEl = document.getElementById('overlay-memory-body');
-        const overlay = document.getElementById('gate-memory-overlay');
+        document.querySelectorAll('.highway-station-btn').forEach((btn, i) => {
+            btn.classList.toggle('active', i === closestIdx);
+        });
 
-        if (bodyEl && data) {
+        driveRenderer.render(driveScene, driveCamera);
+    }
+
+    function accelerateCar() {
+        carTargetZ -= 20;
+        carTargetZ = Math.min(20, Math.max(-260, carTargetZ));
+    }
+
+    function driveToStation(index) {
+        activeStationIndex = index;
+        const station = HIGHWAY_STATIONS[index];
+        if (!station) return;
+
+        carTargetZ = station.z;
+
+        // Open Billboard Overlay Modal
+        const bodyEl = document.getElementById('overlay-billboard-body');
+        const overlay = document.getElementById('drive-billboard-overlay');
+
+        if (bodyEl) {
             bodyEl.innerHTML = `
                 <div class="flex items-center justify-between mb-4">
                     <span class="bg-primary-container text-secondary font-bold text-xs md:text-sm px-4 py-1.5 rounded-full shadow-sm font-cairo flex items-center gap-1.5">
-                        <span>${data.icon}</span>
-                        <span>${data.badge}</span>
+                        <span>${station.icon}</span>
+                        <span>${station.badge}</span>
                     </span>
-                    <span class="text-xs text-secondary font-mono font-bold">${data.date}</span>
+                    <span class="text-xs text-secondary font-mono font-bold">${station.date}</span>
                 </div>
-                <h2 class="font-headline-md text-2xl sm:text-3xl text-primary font-bold mb-4 font-cairo">${data.title}</h2>
-                <div class="aspect-16/9 rounded-2xl overflow-hidden mb-5 border border-[#f472b6]/40 shadow-lg relative group cursor-pointer" onclick="openGalleryModal('${data.year}')">
-                    <img src="${data.img}" alt="${data.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"/>
+                <h2 class="font-headline-md text-2xl sm:text-3xl text-primary font-bold mb-4 font-cairo">${station.title}</h2>
+                <div class="aspect-16/9 rounded-2xl overflow-hidden mb-5 border border-[#f472b6]/40 shadow-lg relative group cursor-pointer" onclick="openGalleryModal('${station.year}')">
+                    <img src="${station.img}" alt="${station.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"/>
                     <div class="absolute bottom-3 right-3 bg-black/60 backdrop-blur-md text-white px-3 py-1 rounded-full text-xs font-cairo flex items-center gap-1.5">
                         <span class="material-symbols-outlined text-sm">photo_library</span>
-                        <span>اضغطي لعرض صور ${data.year} ♡</span>
+                        <span>اضغطي لعرض صور محطة ${station.year} ♡</span>
                     </div>
                 </div>
                 <p class="font-body-md text-sm sm:text-base text-on-surface-variant leading-relaxed font-cairo mb-3">
-                    ${data.text}
+                    ${station.text}
                 </p>
             `;
         }
 
-        if (overlay) {
-            overlay.classList.remove('hidden-overlay');
-            overlay.classList.add('visible-overlay');
-        }
+        setTimeout(() => {
+            if (overlay) {
+                isStationOpen = true;
+                overlay.classList.remove('hidden-overlay');
+                overlay.classList.add('visible-overlay');
+            }
+        }, 400);
     }
 
-    function exitGateWalk() {
-        isInsideGate = false;
-        const overlay = document.getElementById('gate-memory-overlay');
+    function closeBillboard() {
+        isStationOpen = false;
+        const overlay = document.getElementById('drive-billboard-overlay');
         if (overlay) {
             overlay.classList.remove('visible-overlay');
             overlay.classList.add('hidden-overlay');
         }
     }
 
-    function selectGate(index) {
-        const angle = (index / 5) * Math.PI * 2;
-        targetGardenAngle = angle;
-        setTimeout(() => {
-            walkIntoGate(index);
-        }, 300);
+    function stepToNextStation() {
+        const next = (activeStationIndex + 1) % 5;
+        driveToStation(next);
     }
 
-    function rotateGardenBy(delta) {
-        targetGardenAngle += delta;
+    function stepToPrevStation() {
+        const prev = (activeStationIndex - 1 + 5) % 5;
+        driveToStation(prev);
     }
 
-    function stepToNextGate() {
-        const next = (activeGateIndex + 1) % 5;
-        selectGate(next);
+    function pauseMidnightDrive() {
+        driveRunning = false;
+        if (driveAnimId) cancelAnimationFrame(driveAnimId);
     }
 
-    function stepToPrevGate() {
-        const prev = (activeGateIndex - 1 + 5) % 5;
-        selectGate(prev);
-    }
-
-    function pauseRoseRotunda() {
-        rotundaRunning = false;
-        if (rotundaAnimId) cancelAnimationFrame(rotundaAnimId);
-    }
-
-    window.walkIntoGate = walkIntoGate;
-    window.exitGateWalk = exitGateWalk;
-    window.selectGate = selectGate;
-    window.rotateGardenBy = rotateGardenBy;
-    window.stepToNextGate = stepToNextGate;
-    window.stepToPrevGate = stepToPrevGate;
+    window.accelerateCar = accelerateCar;
+    window.driveToStation = driveToStation;
+    window.closeBillboard = closeBillboard;
+    window.stepToNextStation = stepToNextStation;
+    window.stepToPrevStation = stepToPrevStation;
 
     // Timeline Initializer
-    window.initTimelinePage = function() {
-        setupRoseRotunda3D();
+    window.initTimelinePage = function () {
+        setupMidnightDrive3D();
         initFloatingHearts();
     };
 
     // Letter Initializer
-    window.initLetterPage = function() {
+    window.initLetterPage = function () {
         initFloatingHearts();
     };
 
     // Gallery Initializer
-    window.initGalleryPage = function() {
+    window.initGalleryPage = function () {
         const observer = new IntersectionObserver((entries, obs) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -1314,7 +1276,7 @@
         if (!container) return;
         container.innerHTML = '';
         const heartCount = 15;
-        for(let i = 0; i < heartCount; i++) {
+        for (let i = 0; i < heartCount; i++) {
             const heart = document.createElement('span');
             heart.className = 'material-symbols-outlined floating-heart';
             heart.textContent = 'favorite';
@@ -1403,14 +1365,14 @@
 
             const targetPage = (url.split('/').pop().split('?')[0] || 'index.html');
             if (targetPage === 'index.html' || targetPage === '') {
-                pauseRoseRotunda();
+                pauseMidnightDrive();
                 setupHeroHeart();
             } else if (targetPage === 'timeline.html') {
                 pauseHeroHeart();
                 window.initTimelinePage();
             } else {
                 pauseHeroHeart();
-                pauseRoseRotunda();
+                pauseMidnightDrive();
                 if (targetPage === 'gallery.html') {
                     window.initGalleryPage();
                 } else if (targetPage === 'letter.html') {
