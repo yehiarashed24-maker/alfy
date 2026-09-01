@@ -178,25 +178,186 @@
         window.openLetter(rand, e);
     };
 
-    window.openNextLetter = function (e) {
-        initLoveModal();
-        currentLetterIdx = (currentLetterIdx + 1) % SARA_MESSAGES.length;
-        const textEl = document.getElementById('modal-letter-text');
-        if (textEl) textEl.textContent = SARA_MESSAGES[currentLetterIdx];
-        burstHearts(window.innerWidth / 2, window.innerHeight / 2);
+    // Gallery Album Data & Interactive Lightbox System
+    const YEAR_PHOTOS = {
+        '2022': [
+            { src: 'assets/2022/01_first_memory_bechamel.jpg', caption: '🍝 أول ذكرى (المكرونة بالبشاميل واشطا) • بداية الحكاية ❤️' },
+            { src: 'assets/2022/2022_memory_1.jpg', caption: 'أول أيام حبنا وبداية أجمل قصة في 2022 ✨' },
+            { src: 'assets/2022/2022_memory_2.jpg', caption: 'ضحكات ولحظات لا تُنسى في 2022 🌸' }
+        ],
+        '2023': [
+            { src: 'assets/2023/2023_memory_2.jpg', caption: 'سنة الذكريات واللحظات الحلوة والسفريات ✨' },
+            { src: 'assets/2023/2023_memory_1.jpg', caption: 'ضحكات متتنسيش مع سوسو في 2023 🌸' }
+        ],
+        '2024': [
+            { src: 'assets/2024/2024_medicine.jpg', caption: '🩺 دكتورة سوسو في كلية الطب • فخور بيكي دايماً 💖' },
+            { src: 'assets/2024/2024_memory_2.jpg', caption: 'حب بيكبر ومحطات أجمل سوا في 2024 🌹' },
+            { src: 'assets/2024/2024_memory_1.jpg', caption: 'أحلى سهرات ولقاءات سنة 2024 ✨' }
+        ],
+        '2025': [
+            { src: 'assets/2025/2025_memory_2.jpg', caption: 'ليلة النيل والاحتفال الجميل مع أحلى قمر 🌙' },
+            { src: 'assets/2025/2025_memory_1.jpg', caption: 'أحلى سهرة واحتفال في 2025 ✨' }
+        ],
+        '2026': [
+            { src: 'assets/2026/2026_hijab.jpg', caption: 'خطوة الحجاب وسارة القمر • أجمل وأرق بنت في الكون ❤️' }
+        ]
     };
 
-    window.closeLetterModal = function () {
-        const modal = document.getElementById('love-modal');
+    let currentLightboxYear = '2026';
+    let currentLightboxIdx = 0;
+
+    function initGalleryModal() {
+        let modal = document.getElementById('album-modal');
+        if (!modal) {
+            modal = document.createElement('div');
+            modal.id = 'album-modal';
+            document.body.appendChild(modal);
+        }
+        modal.style.cssText = 'position:fixed; inset:0; z-index:999999; background:rgba(255, 240, 245, 0.96); backdrop-filter:blur(24px); -webkit-backdrop-filter:blur(24px); display:none; flex-direction:column; overflow-y:auto;';
+        return modal;
+    }
+
+    window.openModal = function(year) {
+        window.openGalleryModal(year);
+    };
+
+    window.openGalleryModal = function(year) {
+        const modal = initGalleryModal();
+        const photos = YEAR_PHOTOS[year] || [];
+        currentLightboxYear = year;
+        
+        modal.innerHTML = `
+            <!-- Sticky Modal Header -->
+            <div style="position:sticky; top:0; width:100%; background:rgba(255,255,255,0.92); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); border-bottom:1px solid #fbcfe8; padding:1rem 1.5rem; display:flex; align-items:center; justify-content:space-between; z-index:20; box-shadow:0 4px 20px rgba(164,48,115,0.08);">
+                <div style="display:flex; align-items:center; gap:0.75rem;">
+                    <div style="width:2.5rem; height:2.5rem; border-radius:9999px; background:#fbcfe8; display:flex; align-items:center; justify-content:center; color:#a43073;">
+                        <span class="material-symbols-outlined" style="font-size:1.4rem;">photo_library</span>
+                    </div>
+                    <div>
+                        <h3 style="margin:0; font-size:1.25rem; font-weight:700; color:#765469; font-family:'Playfair Display', serif;">ذكريات ${year} • Alfy & Soso ❤️</h3>
+                        <span style="font-size:0.8rem; color:#a43073; font-weight:600; font-family:'Cairo', sans-serif;">${photos.length} ذكريات وصور مسجلة</span>
+                    </div>
+                </div>
+                <button onclick="closeGalleryModal()" style="background:#ffffff; border:1px solid #fbcfe8; color:#a43073; padding:0.6rem 1.25rem; border-radius:9999px; font-weight:700; font-size:0.9rem; cursor:pointer; display:flex; align-items:center; gap:0.4rem; box-shadow:0 2px 8px rgba(0,0,0,0.06); font-family:'Cairo', sans-serif; transition:all 0.2s;">
+                    <span class="material-symbols-outlined" style="font-size:1.1rem;">close</span>
+                    <span>إغلاق الألبوم</span>
+                </button>
+            </div>
+
+            <!-- Photos Grid -->
+            <div style="max-width:1200px; width:100%; margin:0 auto; padding:2rem 1.5rem 6rem 1.5rem; flex-grow:1;">
+                <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:1.75rem;">
+                    ${photos.map((p, i) => `
+                        <div onclick="openPhotoLightbox('${year}', ${i})" style="background:#ffffff; border:1px solid #fbcfe8; border-radius:1.25rem; overflow:hidden; box-shadow:0 10px 25px -5px rgba(164,48,115,0.12); cursor:pointer; transition:all 0.3s; position:relative;" onmouseover="this.style.transform='translateY(-6px)'; this.style.boxShadow='0 18px 35px -5px rgba(164,48,115,0.22)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 25px -5px rgba(164,48,115,0.12)'">
+                            <div style="position:relative; aspect-ratio:4/3; overflow:hidden; background:#fdf2f8;">
+                                <img src="${p.src}" alt="${p.caption || 'Memory'}" style="width:100%; height:100%; object-fit:cover; display:block; transition:transform 0.5s;" onmouseover="this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'"/>
+                                <div style="position:absolute; top:0.75rem; right:0.75rem; background:rgba(0,0,0,0.5); backdrop-filter:blur(6px); color:#ffffff; font-size:0.75rem; font-weight:600; padding:0.25rem 0.6rem; border-radius:9999px; font-family:'Cairo', sans-serif;">
+                                    🔍 اضغط للتكبير
+                                </div>
+                            </div>
+                            <div style="padding:1.15rem; text-align:center;">
+                                <p style="margin:0; font-size:0.95rem; font-weight:600; color:#765469; font-family:'Cairo', sans-serif; line-height:1.5;" dir="rtl">${p.caption || ''}</p>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+        `;
+
+        modal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+    };
+
+    window.closeModal = function() {
+        window.closeGalleryModal();
+    };
+
+    window.closeGalleryModal = function() {
+        const modal = document.getElementById('album-modal');
         if (modal) {
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
+            modal.style.display = 'none';
             document.body.style.overflow = '';
         }
     };
 
+    // Fullscreen High-Res Photo Lightbox with Next/Prev
+    window.openPhotoLightbox = function(year, idx) {
+        currentLightboxYear = year;
+        currentLightboxIdx = idx;
+        const photos = YEAR_PHOTOS[year] || [];
+        const photo = photos[idx];
+        if (!photo) return;
+
+        let lightbox = document.getElementById('photo-lightbox');
+        if (!lightbox) {
+            lightbox = document.createElement('div');
+            lightbox.id = 'photo-lightbox';
+            document.body.appendChild(lightbox);
+        }
+
+        lightbox.style.cssText = 'position:fixed; inset:0; z-index:1000000; background:rgba(15, 23, 42, 0.95); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px); display:flex; flex-direction:column; align-items:center; justify-content:center; padding:1rem;';
+        
+        lightbox.innerHTML = `
+            <!-- Top Bar -->
+            <div style="position:absolute; top:1rem; left:1rem; right:1rem; display:flex; justify-content:space-between; align-items:center; z-index:30;">
+                <span style="color:#ffffff; font-weight:700; font-size:0.95rem; background:rgba(255,255,255,0.15); padding:0.4rem 1rem; border-radius:9999px; font-family:'Cairo', sans-serif;" dir="rtl">
+                    صورة ${idx + 1} من ${photos.length} (${year})
+                </span>
+                <button onclick="closePhotoLightbox()" style="background:#ffffff; border:none; color:#1e293b; width:2.5rem; height:2.5rem; border-radius:9999px; display:flex; align-items:center; justify-content:center; cursor:pointer; font-weight:bold; box-shadow:0 4px 12px rgba(0,0,0,0.3);">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+
+            <!-- Image & Navigation Arrows -->
+            <div style="position:relative; max-width:90vw; max-height:75vh; display:flex; align-items:center; justify-content:center;">
+                ${photos.length > 1 ? `
+                    <button onclick="navigateLightbox(-1)" style="position:absolute; right:-1rem; md:right:-3rem; background:rgba(255,255,255,0.25); hover:background:rgba(255,255,255,0.5); border:none; color:#ffffff; width:3rem; height:3rem; border-radius:9999px; display:flex; align-items:center; justify-content:center; cursor:pointer; z-index:30; backdrop-filter:blur(8px);">
+                        <span class="material-symbols-outlined" style="font-size:1.8rem;">chevron_right</span>
+                    </button>
+                ` : ''}
+
+                <img id="lightbox-img" src="${photo.src}" alt="${photo.caption}" style="max-width:100%; max-height:75vh; border-radius:1rem; object-fit:contain; box-shadow:0 25px 60px rgba(0,0,0,0.6); border:2px solid rgba(255,255,255,0.2);"/>
+
+                ${photos.length > 1 ? `
+                    <button onclick="navigateLightbox(1)" style="position:absolute; left:-1rem; md:left:-3rem; background:rgba(255,255,255,0.25); hover:background:rgba(255,255,255,0.5); border:none; color:#ffffff; width:3rem; height:3rem; border-radius:9999px; display:flex; align-items:center; justify-content:center; cursor:pointer; z-index:30; backdrop-filter:blur(8px);">
+                        <span class="material-symbols-outlined" style="font-size:1.8rem;">chevron_left</span>
+                    </button>
+                ` : ''}
+            </div>
+
+            <!-- Bottom Caption -->
+            <div style="margin-top:1.25rem; max-width:36rem; text-align:center; padding:0.75rem 1.5rem; background:rgba(255,255,255,0.12); backdrop-filter:blur(10px); border-radius:9999px; border:1px solid rgba(255,255,255,0.2);">
+                <p id="lightbox-caption" style="color:#ffffff; margin:0; font-size:1.05rem; font-weight:600; font-family:'Cairo', sans-serif; line-height:1.4;" dir="rtl">
+                    ${photo.caption || ''}
+                </p>
+            </div>
+        `;
+
+        lightbox.style.display = 'flex';
+    };
+
+    window.navigateLightbox = function(dir) {
+        const photos = YEAR_PHOTOS[currentLightboxYear] || [];
+        if (photos.length <= 1) return;
+        currentLightboxIdx = (currentLightboxIdx + dir + photos.length) % photos.length;
+        window.openPhotoLightbox(currentLightboxYear, currentLightboxIdx);
+    };
+
+    window.closePhotoLightbox = function() {
+        const lightbox = document.getElementById('photo-lightbox');
+        if (lightbox) lightbox.style.display = 'none';
+    };
+
     document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') window.closeLetterModal();
+        if (e.key === 'Escape') {
+            window.closePhotoLightbox();
+            window.closeGalleryModal();
+            window.closeLetterModal();
+        } else if (e.key === 'ArrowRight') {
+            window.navigateLightbox(-1);
+        } else if (e.key === 'ArrowLeft') {
+            window.navigateLightbox(1);
+        }
     });
 
     // 1. Inject Lock Screen if not authenticated
