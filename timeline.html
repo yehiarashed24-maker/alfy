@@ -7,7 +7,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
     <meta name="apple-mobile-web-app-title" content="Y ❤️ A"/>
     <meta name="theme-color" content="#fff0f5"/>
-    <title>Y ❤️ A - 3D Cosmic Timeline</title>
+    <title>Y ❤️ A - حديقة الذكريات والورود</title>
     <script src="https://ajax.googleapis.com/ajax/libs/threejs/r125/three.min.js"></script>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Inter:wght@400;600&family=Playfair+Display:wght@500;600;700&family=Tajawal:wght@500;700;800&display=swap" rel="stylesheet"/>
@@ -17,79 +17,19 @@
           theme: {
             extend: {
               "colors": {
-                      "on-tertiary-container": "#765d00",
-                      "on-tertiary": "#ffffff",
-                      "inverse-primary": "#e5bad3",
-                      "surface-variant": "#ffd8e7",
-                      "on-primary-container": "#78566b",
-                      "secondary-fixed-dim": "#ffafd3",
-                      "tertiary-fixed-dim": "#e9c349",
-                      "surface-container-lowest": "#ffffff",
-                      "on-error": "#ffffff",
-                      "tertiary-container": "#ffd861",
                       "background": "#fff0f5",
                       "surface-dim": "#fce7f3",
-                      "on-tertiary-fixed-variant": "#574500",
-                      "secondary-fixed": "#ffd8e7",
-                      "inverse-surface": "#233144",
-                      "on-primary": "#ffffff",
-                      "on-primary-fixed": "#2c1325",
-                      "on-error-container": "#93000a",
-                      "error": "#ba1a1a",
                       "secondary": "#a43073",
-                      "tertiary-fixed": "#ffe088",
-                      "on-surface-variant": "#4e4449",
-                      "primary": "#765469",
-                      "on-secondary-fixed-variant": "#85145a",
                       "secondary-container": "#fc79bd",
-                      "tertiary": "#735c00",
-                      "on-primary-fixed-variant": "#5c3d51",
-                      "surface-container-high": "#ffd8e7",
+                      "primary": "#765469",
                       "primary-container": "#fbcfe8",
-                      "surface-bright": "#ffffff",
-                      "surface-container-low": "#fff5f8",
-                      "inverse-on-surface": "#ebf1ff",
-                      "error-container": "#ffdad6",
-                      "primary-fixed": "#ffd8ed",
-                      "on-secondary": "#ffffff",
-                      "surface-tint": "#765469",
-                      "surface-container-highest": "#fbcfe8",
-                      "on-surface": "#2c1325",
-                      "on-secondary-fixed": "#3d0026",
-                      "on-tertiary-fixed": "#241a00",
-                      "outline-variant": "#fbcfe8",
                       "on-background": "#2c1325",
-                      "surface": "#fff0f5",
-                      "on-secondary-container": "#76014e",
-                      "outline": "#807479",
-                      "surface-container": "#ffd8e7",
-                      "primary-fixed-dim": "#e5bad3"
-              },
-              "borderRadius": {
-                      "DEFAULT": "0.25rem",
-                      "lg": "0.5rem",
-                      "xl": "0.75rem",
-                      "full": "9999px"
-              },
-              "spacing": {
-                      "xs": "4px",
-                      "md": "24px",
-                      "xl": "80px",
-                      "lg": "48px",
-                      "container-max": "1200px",
-                      "sm": "12px",
-                      "base": "8px",
-                      "gutter": "24px"
+                      "surface-variant": "#ffd8e7"
               },
               "fontFamily": {
-                      "body-lg": ["Inter", "Cairo", "sans-serif"],
                       "headline-lg": ["Playfair Display", "Cairo", "serif"],
-                      "headline-lg-mobile": ["Playfair Display", "Cairo", "serif"],
                       "headline-md": ["Playfair Display", "Cairo", "serif"],
                       "display-lg": ["Playfair Display", "Cairo", "serif"],
-                      "label-md": ["Inter", "Cairo", "sans-serif"],
-                      "body-md": ["Inter", "Cairo", "sans-serif"],
-                      "headline-sm": ["Playfair Display", "Cairo", "serif"],
                       "cairo": ["Cairo", "sans-serif"],
                       "tajawal": ["Tajawal", "sans-serif"]
               }
@@ -103,8 +43,7 @@
             min-height: 100vh;
         }
 
-        /* 3D Canvas Background */
-        #timeline-3d-canvas {
+        #timeline-rose-canvas {
             position: fixed;
             inset: 0;
             width: 100%;
@@ -113,73 +52,69 @@
             pointer-events: none;
         }
 
-        /* 21st.dev Luxury 3D Tilt Card */
-        .cosmic-memory-card {
-            background: linear-gradient(145deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 240, 245, 0.85) 100%);
+        /* Luxury Rose Memory Card */
+        .rose-memory-card {
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.93) 0%, rgba(255, 240, 245, 0.9) 100%);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
             border: 1.5px solid rgba(244, 114, 182, 0.55);
             border-radius: 1.5rem;
-            box-shadow: 0 15px 35px -5px rgba(164, 48, 115, 0.15), 0 0 20px rgba(251, 207, 232, 0.4);
+            box-shadow: 0 15px 35px -5px rgba(164, 48, 115, 0.15), 0 0 25px rgba(251, 207, 232, 0.4);
             transform-style: preserve-3d;
             perspective: 1000px;
-            transition: transform 0.2s cubic-bezier(0.2, 0, 0.2, 1), box-shadow 0.3s ease, border-color 0.3s ease;
-        }
-        .cosmic-memory-card:hover {
-            border-color: rgba(236, 72, 153, 0.9);
-            box-shadow: 0 25px 50px -10px rgba(164, 48, 115, 0.28), 0 0 30px rgba(244, 114, 182, 0.35);
+            transition: all 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
-        /* Year Dock Pill */
-        .year-dock-btn {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(244, 114, 182, 0.4);
-            color: #765469;
-            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-        .year-dock-btn:hover, .year-dock-btn.active {
-            background: #a43073;
-            color: #ffffff;
-            border-color: #a43073;
-            transform: scale(1.1);
-            box-shadow: 0 6px 16px rgba(164, 48, 115, 0.3);
+        /* Progressive Locked State */
+        .rose-step-locked {
+            opacity: 0.35;
+            filter: blur(4px);
+            transform: scale(0.9) translateY(40px);
+            pointer-events: none;
         }
 
-        /* Floating Crystal Badge */
-        .crystal-node-badge {
-            background: linear-gradient(135deg, #fc79bd 0%, #a43073 100%);
-            box-shadow: 0 0 15px rgba(252, 121, 189, 0.8);
-            animation: pulse-crystal 3s ease-in-out infinite;
+        /* Progressive Unlocked State */
+        .rose-step-unlocked {
+            opacity: 1 !important;
+            filter: blur(0px) !important;
+            transform: scale(1) translateY(0) !important;
+            pointer-events: auto !important;
         }
-        @keyframes pulse-crystal {
-            0%, 100% { transform: scale(1); box-shadow: 0 0 15px rgba(252, 121, 189, 0.8); }
-            50% { transform: scale(1.15); box-shadow: 0 0 25px rgba(244, 114, 182, 1); }
+
+        .rose-bud-seal {
+            animation: pulse-bud 2.5s ease-in-out infinite;
+        }
+        @keyframes pulse-bud {
+            0%, 100% { transform: scale(1); filter: drop-shadow(0 0 8px rgba(244, 114, 182, 0.6)); }
+            50% { transform: scale(1.1); filter: drop-shadow(0 0 18px rgba(236, 72, 153, 0.9)); }
+        }
+
+        /* Glowing Vine Line */
+        .rose-vine-line {
+            background: linear-gradient(to bottom, #fc79bd, #a43073, #f472b6);
+            box-shadow: 0 0 12px rgba(244, 114, 182, 0.8);
         }
     </style>
 </head>
 <body class="text-on-background font-body-lg overflow-x-hidden relative min-h-screen flex flex-col">
 
-<!-- 3D Cosmic Space Canvas (Three.js Galaxy Engine) -->
-<canvas id="timeline-3d-canvas"></canvas>
-
-<!-- Floating Ambient Hearts -->
-<div class="fixed inset-0 overflow-hidden z-0 pointer-events-none" id="hearts-container"></div>
+<!-- 3D Rose Garden Canvas (Three.js Blooming Roses & Petal Field) -->
+<canvas id="timeline-rose-canvas"></canvas>
 
 <!-- TopNavBar -->
-<header class="bg-[#fff0f5]/80 backdrop-blur-md font-headline-sm text-headline-sm fixed top-0 w-full z-50 border-b border-[#fbcfe8]/70 shadow-sm shadow-secondary/10">
-    <div class="max-w-container-max mx-auto px-gutter h-20 flex justify-between items-center">
+<header class="bg-[#fff0f5]/80 backdrop-blur-md fixed top-0 w-full z-50 border-b border-[#fbcfe8]/70 shadow-sm shadow-secondary/10">
+    <div class="max-w-6xl mx-auto px-6 h-20 flex justify-between items-center">
         <a href="index.html" class="font-headline-md text-2xl md:text-3xl text-primary font-bold tracking-wider hover:opacity-90 transition-opacity flex items-center gap-1.5">
             <span>Y</span><span class="text-secondary text-2xl md:text-3xl animate-pulse inline-block">❤️</span><span>A</span>
         </a>
-        <nav class="hidden md:flex items-center gap-md">
+        <nav class="hidden md:flex items-center gap-6">
             <a class="text-on-surface-variant hover:text-primary transition-colors hover:bg-primary-container/20 rounded-full px-4 py-2" href="index.html">Home</a>
             <a class="text-secondary border-b-2 border-secondary pb-1 hover:bg-primary-container/20 rounded-full px-4 py-2 font-bold" href="timeline.html">Timeline</a>
             <a class="text-on-surface-variant hover:text-primary transition-colors hover:bg-primary-container/20 rounded-full px-4 py-2" href="gallery.html">Gallery</a>
             <a class="text-on-surface-variant hover:text-primary transition-colors hover:bg-primary-container/20 rounded-full px-4 py-2 font-cairo" href="letter.html">رسالة</a>
         </nav>
-        <a href="timeline.html" class="text-primary font-label-md text-label-md hover:bg-primary-container/20 rounded-full px-6 py-2 border border-secondary/30 hidden md:inline-block transition-transform duration-300 active:scale-95">
-            Our Story
+        <a href="timeline.html" class="text-primary font-cairo text-sm hover:bg-primary-container/20 rounded-full px-6 py-2 border border-secondary/30 hidden md:inline-block transition-transform duration-300 active:scale-95 font-bold">
+            حكايتنا معاً ♡
         </a>
         <!-- Mobile Menu Toggle -->
         <button class="md:hidden text-primary p-2" onclick="document.getElementById('mobile-menu').classList.toggle('hidden')">
@@ -187,7 +122,7 @@
         </button>
     </div>
     <!-- Mobile Menu dropdown -->
-    <div id="mobile-menu" class="hidden md:hidden bg-[#fff0f5]/95 backdrop-blur-md border-b border-[#fbcfe8]/70 px-gutter py-4 flex flex-col gap-2">
+    <div id="mobile-menu" class="hidden md:hidden bg-[#fff0f5]/95 backdrop-blur-md border-b border-[#fbcfe8]/70 px-6 py-4 flex flex-col gap-2">
         <a class="text-on-surface-variant hover:text-primary px-4 py-2 rounded-lg" href="index.html">Home</a>
         <a class="text-secondary font-bold px-4 py-2 rounded-lg bg-primary-container/20" href="timeline.html">Timeline</a>
         <a class="text-on-surface-variant hover:text-primary px-4 py-2 rounded-lg" href="gallery.html">Gallery</a>
@@ -195,45 +130,42 @@
     </div>
 </header>
 
-<!-- Floating Year Warp Dock (Quick 3D Jump) -->
-<aside class="fixed right-3 md:right-6 top-1/2 -translate-y-1/2 z-40 hidden sm:flex flex-col gap-2.5 p-2 rounded-2xl bg-white/40 backdrop-blur-md border border-[#fbcfe8] shadow-lg shadow-secondary/10">
-    <button onclick="warpToYear('year-2022')" class="year-dock-btn w-11 h-11 rounded-xl flex items-center justify-center font-bold text-xs font-mono shadow-sm" title="2022">22</button>
-    <button onclick="warpToYear('year-2023')" class="year-dock-btn w-11 h-11 rounded-xl flex items-center justify-center font-bold text-xs font-mono shadow-sm" title="2023">23</button>
-    <button onclick="warpToYear('year-2024')" class="year-dock-btn w-11 h-11 rounded-xl flex items-center justify-center font-bold text-xs font-mono shadow-sm" title="2024">24</button>
-    <button onclick="warpToYear('year-2025')" class="year-dock-btn w-11 h-11 rounded-xl flex items-center justify-center font-bold text-xs font-mono shadow-sm" title="2025">25</button>
-    <button onclick="warpToYear('year-2026')" class="year-dock-btn w-11 h-11 rounded-xl flex items-center justify-center font-bold text-xs font-mono shadow-sm" title="2026">26</button>
-</aside>
-
-<!-- Main Timeline Content Container -->
-<main class="pt-36 pb-xl min-h-screen relative z-10">
-    <div class="max-w-container-max mx-auto px-gutter">
+<!-- Main Progressive Rose Timeline -->
+<main class="pt-36 pb-28 min-h-screen relative z-10">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6">
         
-        <!-- Hero Title -->
+        <!-- Header -->
         <div class="text-center mb-16 relative">
-            <div class="inline-flex items-center gap-2 bg-primary-container/80 text-on-primary-container px-5 py-2 rounded-full font-label-md text-xs sm:text-sm font-cairo font-bold mb-4 shadow-sm backdrop-blur-sm border border-[#f472b6]/40">
-                <span>✨</span>
-                <span>سافري في مجرة الذكريات ثلاثية الأبعاد</span>
-                <span>✨</span>
+            <div class="inline-flex items-center gap-2 bg-primary-container/90 text-secondary px-6 py-2 rounded-full text-sm font-cairo font-bold mb-4 shadow-sm backdrop-blur-md border border-[#f472b6]/40 rose-bud-seal">
+                <span>🌹</span>
+                <span>حديقة ورود ذكرياتنا.. اسكرول لتتفتح كل سنة أمامك</span>
+                <span>🌹</span>
             </div>
-            <h1 class="font-display-lg text-4xl sm:text-5xl md:text-display-lg text-primary mb-3">Our Cosmic Journey</h1>
-            <p class="font-body-lg text-sm sm:text-base md:text-lg text-on-surface-variant max-w-2xl mx-auto font-cairo">
-                كل خطوة وكل لحظة عاشت جوانا.. حكايتنا في الفضاء والزمن من 2022 لحد آخر العمر ❤️
+            <h1 class="font-display-lg text-4xl sm:text-5xl md:text-6xl text-primary mb-3">Our Love Story in Bloom</h1>
+            <p class="text-sm sm:text-base md:text-lg text-primary/80 max-w-2xl mx-auto font-cairo">
+                كل وردة في الحديقة بتحكي لحظة من أجمل سنين عمرنا.. انزلي بالسكرول عشان تشوفي الوردة وهي بتفتح ذكرياتها ❤️
             </p>
         </div>
 
-        <!-- 3D Timeline Checkpoints Container -->
-        <div class="relative py-8" id="timeline-container">
+        <!-- Rose Timeline Steps Container -->
+        <div class="relative py-8" id="rose-timeline-container">
 
-            <!-- Checkpoint List -->
-            <div class="flex flex-col gap-16 md:gap-28">
+            <!-- Center Vine Line -->
+            <div class="absolute top-12 bottom-12 left-1/2 -translate-x-1/2 w-1 border-l-2 border-dashed border-[#f472b6]/40 hidden md:block z-0 pointer-events-none">
+                <div id="rose-vine-progress" class="w-1 rose-vine-line absolute top-0 -left-[2px] rounded-full transition-all duration-300" style="height: 0%;"></div>
+            </div>
 
-                <!-- 1. 2022: Bechamel Pasta -->
-                <div id="year-2022" class="scroll-reveal flex flex-col md:flex-row items-center justify-between w-full relative z-10 group">
+            <!-- Steps List -->
+            <div class="flex flex-col gap-20 md:gap-36">
+
+                <!-- 1. 2022: The Bechamel Pasta -->
+                <div id="step-2022" class="rose-step rose-step-unlocked flex flex-col md:flex-row items-center justify-between w-full relative z-10 transition-all duration-700">
                     <div class="w-full md:w-5/12 flex justify-end mb-6 md:mb-0">
-                        <div class="cosmic-memory-card p-6 md:p-8 w-full relative text-right cursor-pointer" dir="rtl" onmousemove="tiltMemoryCard(this, event)" onmouseleave="resetMemoryCard(this)" onclick="openGalleryModal('2022')">
+                        <div class="rose-memory-card p-6 md:p-8 w-full relative text-right cursor-pointer" dir="rtl" onmousemove="tiltMemoryCard(this, event)" onmouseleave="resetMemoryCard(this)" onclick="openGalleryModal('2022')">
                             <div class="flex items-center justify-between mb-4">
-                                <span class="bg-primary-container text-on-primary-container font-bold text-xs md:text-sm px-4 py-1.5 rounded-full shadow-sm font-cairo">
-                                    🍝 أول ذكرى وأحلى ذكرى • 2022
+                                <span class="bg-primary-container text-secondary font-bold text-xs md:text-sm px-4 py-1.5 rounded-full shadow-sm font-cairo flex items-center gap-1.5">
+                                    <span>🍝</span>
+                                    <span>أول ذكرى وأحلى ذكرى • 2022</span>
                                 </span>
                                 <span class="text-xs text-secondary font-mono font-bold">6 Nov 2022</span>
                             </div>
@@ -247,15 +179,15 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Center 3D Node Marker -->
+                    <!-- Center 3D Rose Marker -->
                     <div class="hidden md:flex w-2/12 justify-center items-center">
-                        <div class="w-8 h-8 rounded-full crystal-node-badge border-4 border-white flex items-center justify-center text-white text-xs font-bold">
-                            ✦
+                        <div class="w-12 h-12 rounded-full bg-gradient-to-tr from-secondary to-pink-400 border-4 border-white flex items-center justify-center text-white text-lg shadow-lg shadow-secondary/30">
+                            🌹
                         </div>
                     </div>
                     <!-- Right Image Preview -->
                     <div class="w-full md:w-5/12">
-                        <div class="cosmic-memory-card p-3 overflow-hidden rounded-2xl cursor-pointer group" onclick="openGalleryModal('2022')">
+                        <div class="rose-memory-card p-3 overflow-hidden rounded-2xl cursor-pointer group" onclick="openGalleryModal('2022')">
                             <div class="aspect-4/3 rounded-xl overflow-hidden relative">
                                 <img src="assets/2022/01_first_memory_bechamel.jpg" alt="Bechamel Memory" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"/>
                                 <div class="absolute bottom-2 right-2 bg-black/60 backdrop-blur-md text-white px-3 py-1 rounded-full text-xs font-cairo">
@@ -266,11 +198,11 @@
                     </div>
                 </div>
 
-                <!-- 2. 2023: Trips & Joy -->
-                <div id="year-2023" class="scroll-reveal flex flex-col-reverse md:flex-row items-center justify-between w-full relative z-10 group">
+                <!-- 2. 2023: Trips & Endless Smiles -->
+                <div id="step-2023" class="rose-step rose-step-locked flex flex-col-reverse md:flex-row items-center justify-between w-full relative z-10 transition-all duration-700">
                     <!-- Left Image Preview -->
                     <div class="w-full md:w-5/12 mb-6 md:mb-0">
-                        <div class="cosmic-memory-card p-3 overflow-hidden rounded-2xl cursor-pointer group" onclick="openGalleryModal('2023')">
+                        <div class="rose-memory-card p-3 overflow-hidden rounded-2xl cursor-pointer group" onclick="openGalleryModal('2023')">
                             <div class="aspect-4/3 rounded-xl overflow-hidden relative">
                                 <img src="assets/2023/2023_memory_2.jpg" alt="2023 Memory" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"/>
                                 <div class="absolute bottom-2 right-2 bg-black/60 backdrop-blur-md text-white px-3 py-1 rounded-full text-xs font-cairo">
@@ -279,18 +211,19 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Center 3D Node Marker -->
+                    <!-- Center 3D Rose Marker -->
                     <div class="hidden md:flex w-2/12 justify-center items-center">
-                        <div class="w-8 h-8 rounded-full crystal-node-badge border-4 border-white flex items-center justify-center text-white text-xs font-bold">
-                            ✦
+                        <div class="w-12 h-12 rounded-full bg-gradient-to-tr from-secondary to-pink-400 border-4 border-white flex items-center justify-center text-white text-lg shadow-lg shadow-secondary/30">
+                            🌸
                         </div>
                     </div>
                     <!-- Right Text Card -->
                     <div class="w-full md:w-5/12 flex justify-start">
-                        <div class="cosmic-memory-card p-6 md:p-8 w-full relative text-right cursor-pointer" dir="rtl" onmousemove="tiltMemoryCard(this, event)" onmouseleave="resetMemoryCard(this)" onclick="openGalleryModal('2023')">
+                        <div class="rose-memory-card p-6 md:p-8 w-full relative text-right cursor-pointer" dir="rtl" onmousemove="tiltMemoryCard(this, event)" onmouseleave="resetMemoryCard(this)" onclick="openGalleryModal('2023')">
                             <div class="flex items-center justify-between mb-4">
-                                <span class="bg-primary-container text-on-primary-container font-bold text-xs md:text-sm px-4 py-1.5 rounded-full shadow-sm font-cairo">
-                                    🌸 سنة الذكريات والضحك • 2023
+                                <span class="bg-primary-container text-secondary font-bold text-xs md:text-sm px-4 py-1.5 rounded-full shadow-sm font-cairo flex items-center gap-1.5">
+                                    <span>🌸</span>
+                                    <span>سنة الذكريات والضحك • 2023</span>
                                 </span>
                                 <span class="text-xs text-secondary font-mono font-bold">Year 2023</span>
                             </div>
@@ -306,13 +239,14 @@
                     </div>
                 </div>
 
-                <!-- 3. 2024: Medicine Doctor Soso -->
-                <div id="year-2024" class="scroll-reveal flex flex-col md:flex-row items-center justify-between w-full relative z-10 group">
+                <!-- 3. 2024: Proud of My Doctor Soso -->
+                <div id="step-2024" class="rose-step rose-step-locked flex flex-col md:flex-row items-center justify-between w-full relative z-10 transition-all duration-700">
                     <div class="w-full md:w-5/12 flex justify-end mb-6 md:mb-0">
-                        <div class="cosmic-memory-card p-6 md:p-8 w-full relative text-right cursor-pointer" dir="rtl" onmousemove="tiltMemoryCard(this, event)" onmouseleave="resetMemoryCard(this)" onclick="openGalleryModal('2024')">
+                        <div class="rose-memory-card p-6 md:p-8 w-full relative text-right cursor-pointer" dir="rtl" onmousemove="tiltMemoryCard(this, event)" onmouseleave="resetMemoryCard(this)" onclick="openGalleryModal('2024')">
                             <div class="flex items-center justify-between mb-4">
-                                <span class="bg-primary-container text-on-primary-container font-bold text-xs md:text-sm px-4 py-1.5 rounded-full shadow-sm font-cairo">
-                                    🩺 دكتورة سوسو في كلية الطب • 2024
+                                <span class="bg-primary-container text-secondary font-bold text-xs md:text-sm px-4 py-1.5 rounded-full shadow-sm font-cairo flex items-center gap-1.5">
+                                    <span>🩺</span>
+                                    <span>دكتورة سوسو في كلية الطب • 2024</span>
                                 </span>
                                 <span class="text-xs text-secondary font-mono font-bold">Year 2024</span>
                             </div>
@@ -326,15 +260,15 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Center 3D Node Marker -->
+                    <!-- Center 3D Rose Marker -->
                     <div class="hidden md:flex w-2/12 justify-center items-center">
-                        <div class="w-8 h-8 rounded-full crystal-node-badge border-4 border-white flex items-center justify-center text-white text-xs font-bold">
-                            ✦
+                        <div class="w-12 h-12 rounded-full bg-gradient-to-tr from-secondary to-pink-400 border-4 border-white flex items-center justify-center text-white text-lg shadow-lg shadow-secondary/30">
+                            🩺
                         </div>
                     </div>
                     <!-- Right Image Preview -->
                     <div class="w-full md:w-5/12">
-                        <div class="cosmic-memory-card p-3 overflow-hidden rounded-2xl cursor-pointer group" onclick="openGalleryModal('2024')">
+                        <div class="rose-memory-card p-3 overflow-hidden rounded-2xl cursor-pointer group" onclick="openGalleryModal('2024')">
                             <div class="aspect-4/3 rounded-xl overflow-hidden relative">
                                 <img src="assets/2024/2024_medicine.jpg" alt="Medicine Doctor Soso" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"/>
                                 <div class="absolute bottom-2 right-2 bg-black/60 backdrop-blur-md text-white px-3 py-1 rounded-full text-xs font-cairo">
@@ -346,10 +280,10 @@
                 </div>
 
                 <!-- 4. 2025: Nile Celebration -->
-                <div id="year-2025" class="scroll-reveal flex flex-col-reverse md:flex-row items-center justify-between w-full relative z-10 group">
+                <div id="step-2025" class="rose-step rose-step-locked flex flex-col-reverse md:flex-row items-center justify-between w-full relative z-10 transition-all duration-700">
                     <!-- Left Image Preview -->
                     <div class="w-full md:w-5/12 mb-6 md:mb-0">
-                        <div class="cosmic-memory-card p-3 overflow-hidden rounded-2xl cursor-pointer group" onclick="openGalleryModal('2025')">
+                        <div class="rose-memory-card p-3 overflow-hidden rounded-2xl cursor-pointer group" onclick="openGalleryModal('2025')">
                             <div class="aspect-4/3 rounded-xl overflow-hidden relative">
                                 <img src="assets/2025/2025_memory_2.jpg" alt="2025 Nile Memory" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"/>
                                 <div class="absolute bottom-2 right-2 bg-black/60 backdrop-blur-md text-white px-3 py-1 rounded-full text-xs font-cairo">
@@ -358,18 +292,19 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Center 3D Node Marker -->
+                    <!-- Center 3D Rose Marker -->
                     <div class="hidden md:flex w-2/12 justify-center items-center">
-                        <div class="w-8 h-8 rounded-full crystal-node-badge border-4 border-white flex items-center justify-center text-white text-xs font-bold">
-                            ✦
+                        <div class="w-12 h-12 rounded-full bg-gradient-to-tr from-secondary to-pink-400 border-4 border-white flex items-center justify-center text-white text-lg shadow-lg shadow-secondary/30">
+                            🌙
                         </div>
                     </div>
                     <!-- Right Text Card -->
                     <div class="w-full md:w-5/12 flex justify-start">
-                        <div class="cosmic-memory-card p-6 md:p-8 w-full relative text-right cursor-pointer" dir="rtl" onmousemove="tiltMemoryCard(this, event)" onmouseleave="resetMemoryCard(this)" onclick="openGalleryModal('2025')">
+                        <div class="rose-memory-card p-6 md:p-8 w-full relative text-right cursor-pointer" dir="rtl" onmousemove="tiltMemoryCard(this, event)" onmouseleave="resetMemoryCard(this)" onclick="openGalleryModal('2025')">
                             <div class="flex items-center justify-between mb-4">
-                                <span class="bg-primary-container text-on-primary-container font-bold text-xs md:text-sm px-4 py-1.5 rounded-full shadow-sm font-cairo">
-                                    🌙 ليلة النيل وسهرتنا • 2025
+                                <span class="bg-primary-container text-secondary font-bold text-xs md:text-sm px-4 py-1.5 rounded-full shadow-sm font-cairo flex items-center gap-1.5">
+                                    <span>🌙</span>
+                                    <span>ليلة النيل وسهرتنا • 2025</span>
                                 </span>
                                 <span class="text-xs text-secondary font-mono font-bold">Year 2025</span>
                             </div>
@@ -386,12 +321,13 @@
                 </div>
 
                 <!-- 5. 2026: The Hijab Step -->
-                <div id="year-2026" class="scroll-reveal flex flex-col md:flex-row items-center justify-between w-full relative z-10 group">
+                <div id="step-2026" class="rose-step rose-step-locked flex flex-col md:flex-row items-center justify-between w-full relative z-10 transition-all duration-700">
                     <div class="w-full md:w-5/12 flex justify-end mb-6 md:mb-0">
-                        <div class="cosmic-memory-card p-6 md:p-8 w-full relative text-right cursor-pointer" dir="rtl" onmousemove="tiltMemoryCard(this, event)" onmouseleave="resetMemoryCard(this)" onclick="openGalleryModal('2026')">
+                        <div class="rose-memory-card p-6 md:p-8 w-full relative text-right cursor-pointer" dir="rtl" onmousemove="tiltMemoryCard(this, event)" onmouseleave="resetMemoryCard(this)" onclick="openGalleryModal('2026')">
                             <div class="flex items-center justify-between mb-4">
-                                <span class="bg-primary-container text-on-primary-container font-bold text-xs md:text-sm px-4 py-1.5 rounded-full shadow-sm font-cairo">
-                                    ❤️ خطوة الحجاب ونور العيون • 2026
+                                <span class="bg-primary-container text-secondary font-bold text-xs md:text-sm px-4 py-1.5 rounded-full shadow-sm font-cairo flex items-center gap-1.5">
+                                    <span>❤️</span>
+                                    <span>خطوة الحجاب ونور العيون • 2026</span>
                                 </span>
                                 <span class="text-xs text-secondary font-mono font-bold">Year 2026</span>
                             </div>
@@ -405,15 +341,15 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Center 3D Node Marker -->
+                    <!-- Center 3D Rose Marker -->
                     <div class="hidden md:flex w-2/12 justify-center items-center">
-                        <div class="w-8 h-8 rounded-full crystal-node-badge border-4 border-white flex items-center justify-center text-white text-xs font-bold">
-                            ✦
+                        <div class="w-12 h-12 rounded-full bg-gradient-to-tr from-secondary to-pink-400 border-4 border-white flex items-center justify-center text-white text-lg shadow-lg shadow-secondary/30">
+                            ✨
                         </div>
                     </div>
                     <!-- Right Image Preview -->
                     <div class="w-full md:w-5/12">
-                        <div class="cosmic-memory-card p-3 overflow-hidden rounded-2xl cursor-pointer group" onclick="openGalleryModal('2026')">
+                        <div class="rose-memory-card p-3 overflow-hidden rounded-2xl cursor-pointer group" onclick="openGalleryModal('2026')">
                             <div class="aspect-4/3 rounded-xl overflow-hidden relative">
                                 <img src="assets/2026/2026_hijab.jpg" alt="2026 Hijab Memory" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"/>
                                 <div class="absolute bottom-2 right-2 bg-black/60 backdrop-blur-md text-white px-3 py-1 rounded-full text-xs font-cairo">
@@ -442,27 +378,20 @@
 </footer>
 
 <script>
-    // 3D Card Interactive Tilt (Motion / 21st.dev effect)
+    // 3D Card Interactive Tilt
     function tiltMemoryCard(card, e) {
         const rect = card.getBoundingClientRect();
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
         const centerX = rect.width / 2;
         const centerY = rect.height / 2;
-        const rotateX = ((y - centerY) / centerY) * -7;
-        const rotateY = ((x - centerX) / centerX) * 7;
+        const rotateX = ((y - centerY) / centerY) * -6;
+        const rotateY = ((x - centerX) / centerX) * 6;
         card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
     }
 
     function resetMemoryCard(card) {
         card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
-    }
-
-    function warpToYear(yearId) {
-        const el = document.getElementById(yearId);
-        if (el) {
-            el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
     }
 </script>
 <script src="shared.js"></script>

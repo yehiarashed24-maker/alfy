@@ -843,27 +843,26 @@
         heroHeartRenderer.render(heroHeartScene, heroHeartCamera);
     }
 
-    // --- 3D Cosmic Timeline Engine (Three.js Spline Flythrough & Galaxy Ribbon) ---
-    let timelineRenderer = null;
-    let timelineScene = null;
-    let timelineCamera = null;
-    let timelineCurve = null;
-    let timelineParticles = null;
-    let timelineNodes = [];
-    let timelineAnimId = null;
-    let timelineRunning = false;
-    let targetCameraT = 0;
-    let currentCameraT = 0;
-    let timelineMouseX = 0, timelineMouseY = 0;
+    // --- 3D Blooming Rose Garden & Floating Petals Engine ---
+    let roseRenderer = null;
+    let roseScene = null;
+    let roseCamera = null;
+    let rosePetals = [];
+    let roseFlowers = [];
+    let roseAnimId = null;
+    let roseRunning = false;
+    let targetRoseCameraY = 15;
+    let currentRoseCameraY = 15;
+    let roseMouseX = 0, roseMouseY = 0;
 
-    function setupCosmicTimeline3D() {
-        const canvas = document.getElementById('timeline-3d-canvas');
+    function setupRoseGarden3D() {
+        const canvas = document.getElementById('timeline-rose-canvas');
         if (!canvas) return;
 
-        if (timelineRenderer && timelineScene) {
-            if (!timelineRunning) {
-                timelineRunning = true;
-                animateCosmicTimeline();
+        if (roseRenderer && roseScene) {
+            if (!roseRunning) {
+                roseRunning = true;
+                animateRoseGarden();
             }
             return;
         }
@@ -872,7 +871,7 @@
             const script = document.createElement('script');
             script.src = 'https://ajax.googleapis.com/ajax/libs/threejs/r125/three.min.js';
             script.onload = () => {
-                setupCosmicTimeline3D();
+                setupRoseGarden3D();
             };
             document.head.appendChild(script);
             return;
@@ -882,219 +881,223 @@
             const width = window.innerWidth;
             const height = window.innerHeight;
 
-            timelineScene = new THREE.Scene();
-            timelineCamera = new THREE.PerspectiveCamera(60, width / height, 0.1, 2000);
+            roseScene = new THREE.Scene();
+            roseCamera = new THREE.PerspectiveCamera(60, width / height, 0.1, 1000);
+            roseCamera.position.set(0, 15, 25);
 
-            timelineRenderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
-            timelineRenderer.setSize(width, height);
-            timelineRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            roseRenderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+            roseRenderer.setSize(width, height);
+            roseRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-            // 1. Ambient & Point Lighting
-            const ambient = new THREE.AmbientLight(0xfff0f5, 0.9);
-            timelineScene.add(ambient);
+            // Ambient & Soft Romantic Lights
+            const ambient = new THREE.AmbientLight(0xfff0f5, 1.1);
+            roseScene.add(ambient);
 
-            const pLight1 = new THREE.PointLight(0xfc79bd, 1.5, 100);
-            pLight1.position.set(0, 10, 20);
-            timelineScene.add(pLight1);
+            const pinkLight1 = new THREE.PointLight(0xf472b6, 1.8, 80);
+            pinkLight1.position.set(0, 10, 15);
+            roseScene.add(pinkLight1);
 
-            const pLight2 = new THREE.PointLight(0xa43073, 1.2, 100);
-            pLight2.position.set(0, -10, -20);
-            timelineScene.add(pLight2);
+            const warmLight2 = new THREE.PointLight(0xffafd3, 1.4, 80);
+            warmLight2.position.set(0, -20, 15);
+            roseScene.add(warmLight2);
 
-            // 2. 3D Spline Path (Galaxy Ribbon)
-            const points = [
-                new THREE.Vector3(0, 15, 40),
-                new THREE.Vector3(-10, 5, 20),
-                new THREE.Vector3(10, -5, 0),
-                new THREE.Vector3(-10, -15, -20),
-                new THREE.Vector3(10, -25, -40),
-                new THREE.Vector3(0, -35, -60)
-            ];
-            timelineCurve = new THREE.CatmullRomCurve3(points);
+            // 1. Floating 3D Rose Petals (80 Petals with organic curved geometry)
+            rosePetals = [];
+            const petalShape = new THREE.Shape();
+            petalShape.moveTo(0, 0);
+            petalShape.bezierCurveTo(0.4, 0.5, 0.8, 1.2, 0, 2.0);
+            petalShape.bezierCurveTo(-0.8, 1.2, -0.4, 0.5, 0, 0);
 
-            const tubeGeo = new THREE.TubeGeometry(timelineCurve, 100, 0.35, 8, false);
-            const tubeMat = new THREE.MeshPhongMaterial({
-                color: 0xfc79bd,
-                emissive: 0xa43073,
-                emissiveIntensity: 0.45,
-                transparent: true,
-                opacity: 0.7,
-                wireframe: true
+            const petalGeo = new THREE.ShapeGeometry(petalShape);
+            const petalMat = new THREE.MeshPhongMaterial({
+                color: 0xf472b6,
+                emissive: 0xdb2777,
+                emissiveIntensity: 0.25,
+                side: THREE.DoubleSide,
+                shininess: 90
             });
-            const tubeMesh = new THREE.Mesh(tubeGeo, tubeMat);
-            timelineScene.add(tubeMesh);
 
-            // 3. Floating Crystal Checkpoints
-            timelineNodes = [];
-            const nodeGeometries = [
-                new THREE.IcosahedronGeometry(1.4, 0),
-                new THREE.OctahedronGeometry(1.6, 0),
-                new THREE.DodecahedronGeometry(1.5, 0),
-                new THREE.IcosahedronGeometry(1.6, 1),
-                new THREE.TorusGeometry(1.3, 0.3, 8, 24),
-                new THREE.OctahedronGeometry(1.8, 0)
-            ];
+            for (let i = 0; i < 75; i++) {
+                const petal = new THREE.Mesh(petalGeo, petalMat);
+                petal.position.set(
+                    (Math.random() - 0.5) * 40,
+                    (Math.random() - 0.5) * 70,
+                    (Math.random() - 0.5) * 30
+                );
+                petal.rotation.set(
+                    Math.random() * Math.PI * 2,
+                    Math.random() * Math.PI * 2,
+                    Math.random() * Math.PI * 2
+                );
+                const scale = 0.5 + Math.random() * 0.7;
+                petal.scale.set(scale, scale, scale);
 
-            for (let i = 0; i < points.length; i++) {
-                const p = points[i];
-                const geo = nodeGeometries[i % nodeGeometries.length];
-                const mat = new THREE.MeshPhongMaterial({
-                    color: 0xffffff,
-                    emissive: 0xf472b6,
-                    emissiveIntensity: 0.5,
-                    shininess: 120,
-                    wireframe: (i % 2 === 1)
+                petal.userData = {
+                    speedY: 0.02 + Math.random() * 0.03,
+                    rotSpeedX: (Math.random() - 0.5) * 0.02,
+                    rotSpeedY: (Math.random() - 0.5) * 0.03,
+                    wobbleSpeed: 0.002 + Math.random() * 0.003,
+                    initX: petal.position.x
+                };
+                roseScene.add(petal);
+                rosePetals.push(petal);
+            }
+
+            // 2. 5 3D Blooming Rose Flower Meshes for each milestone
+            roseFlowers = [];
+            const roseYPositions = [15, 3, -9, -21, -33];
+
+            roseYPositions.forEach((yPos, idx) => {
+                const flowerGroup = new THREE.Group();
+                flowerGroup.position.set(idx % 2 === 0 ? 0 : 0, yPos, 0);
+
+                // Central Rose Bud
+                const centerGeo = new THREE.SphereGeometry(1.0, 16, 16);
+                const centerMat = new THREE.MeshPhongMaterial({
+                    color: 0xdb2777,
+                    emissive: 0xa43073,
+                    emissiveIntensity: 0.4
                 });
-                const mesh = new THREE.Mesh(geo, mat);
-                mesh.position.copy(p);
-                timelineScene.add(mesh);
+                const centerMesh = new THREE.Mesh(centerGeo, centerMat);
+                flowerGroup.add(centerMesh);
 
-                // Orbiting Ring
-                const ringGeo = new THREE.RingGeometry(2.0, 2.15, 32);
-                const ringMat = new THREE.MeshBasicMaterial({ color: 0xfc79bd, side: THREE.DoubleSide, transparent: true, opacity: 0.6 });
-                const ring = new THREE.Mesh(ringGeo, ringMat);
-                ring.position.copy(p);
-                ring.rotation.x = Math.PI / 3;
-                timelineScene.add(ring);
+                // Nested Petal Layers (Blooming animation targets)
+                const petalsList = [];
+                for (let layer = 0; layer < 3; layer++) {
+                    const layerGroup = new THREE.Group();
+                    const petalCount = 5 + layer * 2;
+                    for (let p = 0; p < petalCount; p++) {
+                        const angle = (p / petalCount) * Math.PI * 2;
+                        const pMesh = new THREE.Mesh(petalGeo, petalMat);
+                        pMesh.position.set(Math.cos(angle) * (0.8 + layer * 0.5), Math.sin(angle) * (0.8 + layer * 0.5), 0);
+                        pMesh.rotation.z = angle - Math.PI / 2;
+                        pMesh.rotation.x = 0.3 + layer * 0.3;
+                        pMesh.scale.set(0.6 + layer * 0.3, 0.6 + layer * 0.3, 0.6 + layer * 0.3);
+                        layerGroup.add(pMesh);
+                    }
+                    flowerGroup.add(layerGroup);
+                    petalsList.push(layerGroup);
+                }
 
-                timelineNodes.push({ mesh, ring });
-            }
+                flowerGroup.scale.set(0.1, 0.1, 0.1); // Initial closed bud
+                flowerGroup.userData = {
+                    unlocked: idx === 0, // 2022 starts unlocked
+                    targetScale: idx === 0 ? 1.4 : 0.1,
+                    currentScale: idx === 0 ? 1.4 : 0.1,
+                    petalsList
+                };
 
-            // 4. Stardust Particles (600 Floating Stars)
-            const starGeo = new THREE.BufferGeometry();
-            const starCount = 600;
-            const starPos = new Float32Array(starCount * 3);
-            for (let i = 0; i < starCount * 3; i += 3) {
-                starPos[i] = (Math.random() - 0.5) * 80;
-                starPos[i + 1] = (Math.random() - 0.5) * 80;
-                starPos[i + 2] = (Math.random() - 0.5) * 100;
-            }
-            starGeo.setAttribute('position', new THREE.BufferAttribute(starPos, 3));
-            const starMat = new THREE.PointsMaterial({
-                color: 0xfc79bd,
-                size: 0.45,
-                transparent: true,
-                opacity: 0.75
+                roseScene.add(flowerGroup);
+                roseFlowers.push(flowerGroup);
             });
-            timelineParticles = new THREE.Points(starGeo, starMat);
-            timelineScene.add(timelineParticles);
 
             window.addEventListener('mousemove', (e) => {
-                timelineMouseX = (e.clientX / window.innerWidth - 0.5) * 2;
-                timelineMouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+                roseMouseX = (e.clientX / window.innerWidth - 0.5) * 2;
+                roseMouseY = (e.clientY / window.innerHeight - 0.5) * 2;
             }, { passive: true });
 
             window.addEventListener('resize', () => {
-                if (!timelineRenderer || !timelineCamera) return;
-                timelineCamera.aspect = window.innerWidth / window.innerHeight;
-                timelineCamera.updateProjectionMatrix();
-                timelineRenderer.setSize(window.innerWidth, window.innerHeight);
+                if (!roseRenderer || !roseCamera) return;
+                roseCamera.aspect = window.innerWidth / window.innerHeight;
+                roseCamera.updateProjectionMatrix();
+                roseRenderer.setSize(window.innerWidth, window.innerHeight);
             }, { passive: true });
 
-            timelineRunning = true;
-            animateCosmicTimeline();
+            roseRunning = true;
+            animateRoseGarden();
 
         } catch (e) {
-            console.warn('3D Cosmic Timeline Init Error:', e);
+            console.warn('3D Rose Garden Init Error:', e);
         }
     }
 
-    function animateCosmicTimeline() {
-        if (!timelineRunning || !timelineRenderer || !timelineScene || !timelineCamera || !timelineCurve) return;
-        timelineAnimId = requestAnimationFrame(animateCosmicTimeline);
+    function animateRoseGarden() {
+        if (!roseRunning || !roseRenderer || !roseScene || !roseCamera) return;
+        roseAnimId = requestAnimationFrame(animateRoseGarden);
 
-        // Smooth camera lerp along curve
-        currentCameraT += (targetCameraT - currentCameraT) * 0.08;
-        const clampedT = Math.max(0.001, Math.min(0.999, currentCameraT));
+        // Smooth camera lerp
+        currentRoseCameraY += (targetRoseCameraY - currentRoseCameraY) * 0.08;
+        roseCamera.position.y = currentRoseCameraY + (-roseMouseY * 1.5);
+        roseCamera.position.x = roseMouseX * 1.5;
+        roseCamera.lookAt(0, currentRoseCameraY, 0);
 
-        const camPos = timelineCurve.getPointAt(clampedT);
-        const lookPos = timelineCurve.getPointAt(Math.min(1, clampedT + 0.05));
+        // Animate floating petals
+        const time = Date.now();
+        rosePetals.forEach(petal => {
+            petal.position.y -= petal.userData.speedY;
+            petal.position.x = petal.userData.initX + Math.sin(time * petal.userData.wobbleSpeed) * 1.5;
+            petal.rotation.x += petal.userData.rotSpeedX;
+            petal.rotation.y += petal.userData.rotSpeedY;
 
-        timelineCamera.position.set(
-            camPos.x + (timelineMouseX * 1.5),
-            camPos.y + 2 - (timelineMouseY * 1.5),
-            camPos.z + 8
-        );
-        timelineCamera.lookAt(lookPos);
-
-        // Rotate nodes & rings
-        timelineNodes.forEach((node, idx) => {
-            node.mesh.rotation.y += 0.015 * (idx % 2 === 0 ? 1 : -1);
-            node.mesh.rotation.x += 0.01;
-            node.ring.rotation.z += 0.02;
-        });
-
-        // Rotate stardust
-        if (timelineParticles) {
-            timelineParticles.rotation.y += 0.001;
-        }
-
-        timelineRenderer.render(timelineScene, timelineCamera);
-    }
-
-    function pauseCosmicTimeline() {
-        timelineRunning = false;
-        if (timelineAnimId) cancelAnimationFrame(timelineAnimId);
-    }
-
-    // Timeline Initializer
-    window.initTimelinePage = function() {
-        setupCosmicTimeline3D();
-
-        const scrollElements = document.querySelectorAll('.scroll-reveal');
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible', 'active');
-                }
-            });
-        }, { threshold: 0.05, rootMargin: "0px 0px 50px 0px" });
-
-        scrollElements.forEach(el => {
-            observer.observe(el);
-            const rect = el.getBoundingClientRect();
-            if (rect.top < window.innerHeight) {
-                el.classList.add('visible', 'active');
+            if (petal.position.y < currentRoseCameraY - 30) {
+                petal.position.y = currentRoseCameraY + 30;
             }
         });
 
-        const timelineContainer = document.getElementById('timeline-container');
-        if (timelineContainer) {
-            const onScrollTimeline = () => {
-                const rect = timelineContainer.getBoundingClientRect();
-                const containerTop = rect.top;
-                const containerHeight = rect.height;
-                const windowHeight = window.innerHeight;
-                
-                let scrollProgress = 0;
-                if (containerTop < windowHeight) {
-                    scrollProgress = (windowHeight - containerTop) / (containerHeight + windowHeight * 0.2);
-                }
-                scrollProgress = Math.max(0, Math.min(1, scrollProgress));
-                
-                // Update 3D Camera target progress
-                targetCameraT = scrollProgress;
+        // Animate blooming rose flowers
+        roseFlowers.forEach(flower => {
+            flower.rotation.z += 0.005;
+            flower.userData.currentScale += (flower.userData.targetScale - flower.userData.currentScale) * 0.08;
+            flower.scale.set(flower.userData.currentScale, flower.userData.currentScale, flower.userData.currentScale);
+        });
 
-                // Update year dock buttons active state
-                const yearDocks = document.querySelectorAll('.year-dock-btn');
-                const years = ['year-2022', 'year-2023', 'year-2024', 'year-2025', 'year-2026'];
-                years.forEach((yId, idx) => {
-                    const el = document.getElementById(yId);
-                    if (el && yearDocks[idx]) {
-                        const r = el.getBoundingClientRect();
-                        if (r.top <= windowHeight * 0.5 && r.bottom >= windowHeight * 0.2) {
-                            yearDocks[idx].classList.add('active');
-                        } else {
-                            yearDocks[idx].classList.remove('active');
+        roseRenderer.render(roseScene, roseCamera);
+    }
+
+    function pauseRoseGarden() {
+        roseRunning = false;
+        if (roseAnimId) cancelAnimationFrame(roseAnimId);
+    }
+
+    // Progressive Timeline Initializer
+    window.initTimelinePage = function() {
+        setupRoseGarden3D();
+
+        const timelineContainer = document.getElementById('rose-timeline-container');
+        const vineProgress = document.getElementById('rose-vine-progress');
+        const stepIds = ['step-2022', 'step-2023', 'step-2024', 'step-2025', 'step-2026'];
+        const roseYTargets = [15, 3, -9, -21, -33];
+
+        if (timelineContainer) {
+            const onScrollRoseTimeline = () => {
+                const windowHeight = window.innerHeight;
+                const rect = timelineContainer.getBoundingClientRect();
+                const progress = Math.max(0, Math.min(1, (windowHeight * 0.8 - rect.top) / rect.height));
+
+                if (vineProgress) {
+                    vineProgress.style.height = `${progress * 100}%`;
+                }
+
+                // Progressive reveal of each step
+                stepIds.forEach((sId, idx) => {
+                    const stepEl = document.getElementById(sId);
+                    if (stepEl) {
+                        const sRect = stepEl.getBoundingClientRect();
+                        // When step enters visible screen zone
+                        if (sRect.top < windowHeight * 0.75) {
+                            if (stepEl.classList.contains('rose-step-locked')) {
+                                stepEl.classList.remove('rose-step-locked');
+                                stepEl.classList.add('rose-step-unlocked');
+
+                                // Trigger 3D Rose Blossom
+                                if (roseFlowers[idx]) {
+                                    roseFlowers[idx].userData.targetScale = 1.4;
+                                }
+                            }
+
+                            // Center 3D Camera around active year
+                            if (sRect.top >= 0 && sRect.top < windowHeight * 0.6) {
+                                targetRoseCameraY = roseYTargets[idx] || 15;
+                            }
                         }
                     }
                 });
             };
 
-            window.removeEventListener('scroll', window._timelineScrollHandler);
-            window._timelineScrollHandler = onScrollTimeline;
-            window.addEventListener('scroll', onScrollTimeline, { passive: true });
-            onScrollTimeline();
+            window.removeEventListener('scroll', window._roseTimelineHandler);
+            window._roseTimelineHandler = onScrollRoseTimeline;
+            window.addEventListener('scroll', onScrollRoseTimeline, { passive: true });
+            onScrollRoseTimeline();
         }
 
         initFloatingHearts();
@@ -1215,14 +1218,14 @@
 
             const targetPage = (url.split('/').pop().split('?')[0] || 'index.html');
             if (targetPage === 'index.html' || targetPage === '') {
-                pauseCosmicTimeline();
+                pauseRoseGarden();
                 setupHeroHeart();
             } else if (targetPage === 'timeline.html') {
                 pauseHeroHeart();
                 window.initTimelinePage();
             } else {
                 pauseHeroHeart();
-                pauseCosmicTimeline();
+                pauseRoseGarden();
                 if (targetPage === 'gallery.html') {
                     window.initGalleryPage();
                 } else if (targetPage === 'letter.html') {
