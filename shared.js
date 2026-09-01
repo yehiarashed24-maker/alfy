@@ -108,15 +108,64 @@
         }
     }
 
-    // Global Letter Modal Functions
+    // Global Letter Modal System (Appended directly to document.body with z-[200])
+    function initLoveModal() {
+        let modal = document.getElementById('love-modal');
+        if (!modal) {
+            modal = document.createElement('div');
+            modal.id = 'love-modal';
+            modal.className = 'fixed inset-0 z-[200] bg-inverse-surface/60 backdrop-blur-md hidden items-center justify-center p-4';
+            modal.innerHTML = `
+                <div class="bg-surface-container-lowest modal-fade-in rounded-3xl p-6 md:p-10 max-w-lg w-full relative text-center border border-secondary/30 shadow-2xl my-auto">
+                    <button onclick="closeLetterModal()" class="absolute top-4 left-4 w-9 h-9 rounded-full bg-surface-container hover:bg-secondary hover:text-white flex items-center justify-center transition-colors text-primary shadow-sm" title="إغلاق">
+                        <span class="material-symbols-outlined text-base">close</span>
+                    </button>
+                    <div class="w-14 h-14 rounded-full bg-primary-container/40 flex items-center justify-center mx-auto mb-3 border border-secondary/30">
+                        <span class="material-symbols-outlined text-3xl text-secondary animate-pulse">favorite</span>
+                    </div>
+                    <div class="text-secondary font-label-md text-sm mb-3 tracking-wider font-cairo font-bold">رسالة حب خاصة لسارة ❤️</div>
+                    <div class="my-4 p-5 rounded-2xl bg-surface-container-low border border-outline-variant/30 shadow-inner">
+                        <p id="modal-letter-text" class="text-primary font-headline-sm text-base sm:text-xl md:text-2xl leading-relaxed font-semibold font-cairo" dir="rtl">
+                            "${SARA_MESSAGES[0]}"
+                        </p>
+                    </div>
+                    <div class="w-20 h-[2px] bg-gradient-to-r from-transparent via-secondary to-transparent mx-auto mb-5"></div>
+                    <div class="flex items-center justify-center gap-3 flex-wrap">
+                        <button onclick="openNextLetter(event)" class="px-5 py-2.5 rounded-full bg-secondary-container hover:bg-secondary text-on-secondary-container hover:text-white font-label-md transition-all transform active:scale-95 hover:scale-105 shadow-sm flex items-center gap-2 font-cairo font-bold">
+                            <span>رسالة تانية لسارة</span>
+                            <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                        </button>
+                        <button onclick="closeLetterModal()" class="px-5 py-2.5 rounded-full bg-surface-container-high hover:bg-surface-container-highest text-primary font-label-md transition-all border border-outline-variant/40 font-cairo">
+                            إغلاق
+                        </button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+
+            modal.addEventListener('click', (e) => {
+                if (e.target.id === 'love-modal') {
+                    window.closeLetterModal();
+                }
+            });
+        } else {
+            if (modal.parentElement !== document.body) {
+                document.body.appendChild(modal);
+            }
+            modal.className = 'fixed inset-0 z-[200] bg-inverse-surface/60 backdrop-blur-md hidden items-center justify-center p-4';
+        }
+    }
+
     window.openLetter = function(idx, e) {
-        currentLetterIdx = idx % SARA_MESSAGES.length;
+        initLoveModal();
+        currentLetterIdx = (typeof idx === 'number' ? idx : 0) % SARA_MESSAGES.length;
         const textEl = document.getElementById('modal-letter-text');
         const modal = document.getElementById('love-modal');
         if (textEl) textEl.textContent = SARA_MESSAGES[currentLetterIdx];
         if (modal) {
             modal.classList.remove('hidden');
             modal.classList.add('flex');
+            document.body.style.overflow = 'hidden';
         }
         const x = (e && e.clientX) ? e.clientX : (window.innerWidth / 2);
         const y = (e && e.clientY) ? e.clientY : (window.innerHeight / 2);
@@ -124,11 +173,13 @@
     };
 
     window.openRandomLetter = function(e) {
+        initLoveModal();
         const rand = Math.floor(Math.random() * SARA_MESSAGES.length);
         window.openLetter(rand, e);
     };
 
     window.openNextLetter = function(e) {
+        initLoveModal();
         currentLetterIdx = (currentLetterIdx + 1) % SARA_MESSAGES.length;
         const textEl = document.getElementById('modal-letter-text');
         if (textEl) textEl.textContent = SARA_MESSAGES[currentLetterIdx];
@@ -140,8 +191,13 @@
         if (modal) {
             modal.classList.add('hidden');
             modal.classList.remove('flex');
+            document.body.style.overflow = '';
         }
     };
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') window.closeLetterModal();
+    });
 
     // 1. Inject Lock Screen if not authenticated
     function initAuth() {
@@ -489,6 +545,14 @@
 
             window.scrollTo({ top: 0, behavior: 'smooth' });
 
+            // Clean up any Three.js or WebGL animations before re-running scripts
+            if (typeof window._cleanupHeroHeart === 'function') {
+                try { window._cleanupHeroHeart(); } catch(e) {}
+            }
+            if (typeof window._cleanupShaderBg === 'function') {
+                try { window._cleanupShaderBg(); } catch(e) {}
+            }
+
             // Re-run inline scripts from new page
             const scripts = doc.querySelectorAll('main script, body > script:not([src="shared.js"])');
             scripts.forEach(s => {
@@ -506,6 +570,7 @@
             updateActiveTab();
 
             // Initialize page-specific features
+            initLoveModal();
             initCounter();
 
             // Timeline observers
@@ -564,6 +629,7 @@
         initPlayer();
         initMobileTabBar();
         initAuth();
+        initLoveModal();
         initCounter();
         initSeamlessNavigation();
     });

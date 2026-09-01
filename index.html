@@ -110,6 +110,9 @@
       }
     </script>
 <style>
+        body, #shader-background {
+            background: radial-gradient(circle at 50% 30%, #ffd8e7 0%, #fff0f5 45%, #fce7f3 100%) !important;
+        }
         .glass-effect {
             background: rgba(255, 255, 255, 0.2);
             backdrop-filter: blur(16px);
@@ -130,6 +133,17 @@
             80% { opacity: 0.8; }
             100% { transform: translateY(-20vh) scale(1.2); opacity: 0; }
         }
+        .css-heart-fallback {
+            display: inline-block;
+            font-size: 6rem;
+            color: #f472b6;
+            filter: drop-shadow(0 0 25px rgba(244, 114, 182, 0.6));
+            animation: heartPulse 1.8s ease-in-out infinite;
+        }
+        @keyframes heartPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.12); }
+        }
     </style>
 </head>
 <body class="bg-background text-on-background relative min-h-screen overflow-x-hidden font-body-lg">
@@ -137,10 +151,34 @@
 <div class="fixed inset-0 z-0 pointer-events-none w-full h-full" id="shader-background"></div>
 <script>
     (function() {
+        if (window._cleanupShaderBg) {
+            window._cleanupShaderBg();
+        }
+
+        const container = document.getElementById('shader-background');
+        if (!container) return;
+        container.innerHTML = '';
+
         const canvas = document.createElement('canvas');
-        document.getElementById('shader-background').appendChild(canvas);
-        const gl = canvas.getContext('webgl');
+        container.appendChild(canvas);
+        const gl = canvas.getContext('webgl', { alpha: true, antialias: false, powerPreference: 'low-power' });
         if (!gl) return;
+
+        let animId = null;
+        let isRunning = true;
+
+        window._cleanupShaderBg = function() {
+            isRunning = false;
+            if (animId) cancelAnimationFrame(animId);
+            window.removeEventListener('resize', resize);
+            if (canvas && canvas.parentNode) canvas.remove();
+        };
+
+        canvas.addEventListener('webglcontextlost', function(e) {
+            e.preventDefault();
+            isRunning = false;
+            if (animId) cancelAnimationFrame(animId);
+        }, false);
 
         const vsSource = `
             attribute vec2 position;
@@ -157,7 +195,6 @@ varying vec2 v_texCoord;
 uniform float u_time;
 uniform vec2 u_resolution;
 
-// Perlin-like noise function
 float noise(vec2 p) {
     return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453);
 }
@@ -175,29 +212,23 @@ float smoothNoise(vec2 p) {
 
 void main() {
     vec2 uv = v_texCoord;
-    
-    // Create multi-layered organic movement
     float n1 = smoothNoise(uv * 3.0 + u_time * 0.2);
     float n2 = smoothNoise(uv * 5.0 - u_time * 0.15);
     float movement = (n1 + n2) * 0.5;
     
-    // Luxurious Pink & Rose Palette
-    vec3 baseColor = vec3(0.98, 0.94, 0.96); // Soft Cream Pink
-    vec3 accent1 = vec3(1.0, 0.85, 0.9);   // Rose Quartz
-    vec3 accent2 = vec3(0.95, 0.8, 0.85);  // Dusty Rose
+    vec3 baseColor = vec3(0.98, 0.94, 0.96);
+    vec3 accent1 = vec3(1.0, 0.85, 0.9);
+    vec3 accent2 = vec3(0.95, 0.8, 0.85);
     
-    // Dynamic mixing based on noise and position
     float mix1 = smoothstep(0.2, 0.8, uv.y + movement * 0.2);
     float mix2 = smoothstep(0.0, 1.0, uv.x + movement * 0.3);
     
     vec3 color = mix(baseColor, accent1, mix1);
     color = mix(color, accent2, mix2 * 0.4);
     
-    // Add a subtle pearlescent shimmer
     float shimmer = pow(movement, 4.0) * 0.05;
     color += shimmer;
     
-    // Soft Vignette for focus
     float dist = distance(uv, vec2(0.5));
     color *= 1.0 - dist * 0.15;
     
@@ -233,6 +264,7 @@ void main() {
         const resolutionLocation = gl.getUniformLocation(program, 'u_resolution');
 
         function resize() {
+            if (!canvas || !gl) return;
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
             gl.viewport(0, 0, canvas.width, canvas.height);
@@ -242,11 +274,12 @@ void main() {
         resize();
 
         function render(time) {
+            if (!isRunning) return;
             gl.uniform1f(timeLocation, time * 0.001);
             gl.drawArrays(gl.TRIANGLES, 0, 6);
-            requestAnimationFrame(render);
+            animId = requestAnimationFrame(render);
         }
-        requestAnimationFrame(render);
+        animId = requestAnimationFrame(render);
     })();
 </script>
 <!-- Love Particles -->
@@ -254,6 +287,8 @@ void main() {
 <script>
     (function() {
         const container = document.getElementById('particles-container');
+        if (!container) return;
+        container.innerHTML = '';
         const symbols = ['✧', '✦', '♡', '♥'];
         
         for(let i=0; i<15; i++) {
@@ -298,132 +333,179 @@ void main() {
 </header>
 <!-- Main Content -->
 <main class="relative z-10 flex flex-col items-center justify-center min-h-screen pt-24 px-gutter text-center">
-<!-- 3D Heart Container (Balanced & Centered) -->
+<!-- 3D Heart Container (Balanced & Centered with Graceful Fallback) -->
 <div class="absolute inset-0 z-0 pointer-events-none flex items-center justify-center opacity-75" id="threejs-hero-heart"></div>
 <script>
-    (function() {
-      const container = document.getElementById('threejs-hero-heart');
-      const scene = new THREE.Scene();
-      const containerWidth = window.innerWidth;
-      const containerHeight = window.innerHeight;
-      const camera = new THREE.PerspectiveCamera(75, containerWidth / containerHeight, 0.1, 1000);
-      const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-      renderer.setSize(containerWidth, containerHeight);
-      container.appendChild(renderer.domElement);
-
-      // Create Heart Shape
-      const heartShape = new THREE.Shape();
-      heartShape.moveTo(0, 0);
-      heartShape.bezierCurveTo(0, -0.3, -0.6, -0.3, -0.6, 0);
-      heartShape.bezierCurveTo(-0.6, 0.3, 0, 0.6, 0, 1);
-      heartShape.bezierCurveTo(0, 0.6, 0.6, 0.3, 0.6, 0);
-      heartShape.bezierCurveTo(0.6, -0.3, 0, -0.3, 0, 0);
-
-      const extrudeSettings = { depth: 0.4, bevelEnabled: true, bevelSegments: 10, steps: 2, bevelSize: 0.1, bevelThickness: 0.1 };
-      const geometry = new THREE.ExtrudeGeometry(heartShape, extrudeSettings);
-      geometry.rotateX(Math.PI);
-      geometry.translate(0, 0.4, 0);
-
-      // Romantic Aesthetic Material
-      const material = new THREE.MeshPhongMaterial({ 
-          color: 0xF472B6, 
-          shininess: 100,
-          specular: 0xffffff,
-          emissive: 0xdb2777,
-          emissiveIntensity: 0.15
-      });
-      const heartMesh = new THREE.Mesh(geometry, material);
-      // Balanced scale centered in the middle
-      heartMesh.scale.set(3.0, 3.0, 3.0);
-      scene.add(heartMesh);
-
-      // Lights
-      const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
-      scene.add(ambientLight);
-      const pointLight1 = new THREE.PointLight(0xffffff, 1.2);
-      pointLight1.position.set(2, 3, 5);
-      scene.add(pointLight1);
-      const pointLight2 = new THREE.PointLight(0xf472b6, 0.6);
-      pointLight2.position.set(-2, -2, 4);
-      scene.add(pointLight2);
-
-      camera.position.z = 8;
-      
-      // Mouse Interaction
-      let mouseX = 0;
-      let mouseY = 0;
-      let targetX = 0;
-      let targetY = 0;
-
-      document.addEventListener('mousemove', (event) => {
-          mouseX = (event.clientX / window.innerWidth) * 2 - 1;
-          mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
-      });
-
-      // Animation Loop
-      function animate() {
-          requestAnimationFrame(animate);
-          
-          targetX = mouseX * 0.4;
-          targetY = mouseY * 0.4;
-          
-          // Floating and Rotating smoothly in the center
-          heartMesh.rotation.y += 0.01;
-          heartMesh.position.y = Math.sin(Date.now() * 0.002) * 0.25 + (targetY * 0.3);
-          heartMesh.position.x += (targetX - heartMesh.position.x) * 0.05;
-          
-          // Subtle gentle heartbeat pulsing
-          const scale = 3.0 + Math.sin(Date.now() * 0.004) * 0.15;
-          heartMesh.scale.set(scale, scale, scale);
-          
-          renderer.render(scene, camera);
+    (function initHeart() {
+      if (window._cleanupHeroHeart) {
+          window._cleanupHeroHeart();
       }
-      animate();
 
-      window.addEventListener('resize', () => {
-          const width = window.innerWidth;
-          const height = window.innerHeight;
-          camera.aspect = width / height;
-          camera.updateProjectionMatrix();
-          renderer.setSize(width, height);
-      });
+      const container = document.getElementById('threejs-hero-heart');
+      if (!container) return;
+      container.innerHTML = '';
+
+      if (typeof THREE === 'undefined') {
+          // If Three.js CDN is unavailable or loading, show beautiful glowing CSS heart fallback
+          container.innerHTML = '<span class="css-heart-fallback">💖</span>';
+          return;
+      }
+
+      let animId = null;
+      let renderer = null;
+      let isRunning = true;
+
+      try {
+          const scene = new THREE.Scene();
+          const containerWidth = window.innerWidth;
+          const containerHeight = window.innerHeight;
+          const camera = new THREE.PerspectiveCamera(75, containerWidth / containerHeight, 0.1, 1000);
+          
+          renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true, powerPreference: 'default' });
+          renderer.setSize(containerWidth, containerHeight);
+          renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+          container.appendChild(renderer.domElement);
+
+          renderer.domElement.addEventListener('webglcontextlost', function(e) {
+              e.preventDefault();
+              isRunning = false;
+              if (animId) cancelAnimationFrame(animId);
+              container.innerHTML = '<span class="css-heart-fallback">💖</span>';
+          }, false);
+
+          // Create Heart Shape
+          const heartShape = new THREE.Shape();
+          heartShape.moveTo(0, 0);
+          heartShape.bezierCurveTo(0, -0.3, -0.6, -0.3, -0.6, 0);
+          heartShape.bezierCurveTo(-0.6, 0.3, 0, 0.6, 0, 1);
+          heartShape.bezierCurveTo(0, 0.6, 0.6, 0.3, 0.6, 0);
+          heartShape.bezierCurveTo(0.6, -0.3, 0, -0.3, 0, 0);
+
+          const extrudeSettings = { depth: 0.4, bevelEnabled: true, bevelSegments: 8, steps: 2, bevelSize: 0.1, bevelThickness: 0.1 };
+          const geometry = new THREE.ExtrudeGeometry(heartShape, extrudeSettings);
+          geometry.rotateX(Math.PI);
+          geometry.translate(0, 0.4, 0);
+
+          const material = new THREE.MeshPhongMaterial({ 
+              color: 0xF472B6, 
+              shininess: 100,
+              specular: 0xffffff,
+              emissive: 0xdb2777,
+              emissiveIntensity: 0.15
+          });
+          const heartMesh = new THREE.Mesh(geometry, material);
+          heartMesh.scale.set(3.0, 3.0, 3.0);
+          scene.add(heartMesh);
+
+          const ambientLight = new THREE.AmbientLight(0xffffff, 0.85);
+          scene.add(ambientLight);
+          const pointLight1 = new THREE.PointLight(0xffffff, 1.2);
+          pointLight1.position.set(2, 3, 5);
+          scene.add(pointLight1);
+          const pointLight2 = new THREE.PointLight(0xf472b6, 0.6);
+          pointLight2.position.set(-2, -2, 4);
+          scene.add(pointLight2);
+
+          camera.position.z = 8;
+          
+          let mouseX = 0;
+          let mouseY = 0;
+          let targetX = 0;
+          let targetY = 0;
+
+          const onMouseMove = (event) => {
+              mouseX = (event.clientX / window.innerWidth) * 2 - 1;
+              mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
+          };
+          document.addEventListener('mousemove', onMouseMove);
+
+          const onResize = () => {
+              if (!renderer) return;
+              const width = window.innerWidth;
+              const height = window.innerHeight;
+              camera.aspect = width / height;
+              camera.updateProjectionMatrix();
+              renderer.setSize(width, height);
+          };
+          window.addEventListener('resize', onResize);
+
+          window._cleanupHeroHeart = function() {
+              isRunning = false;
+              if (animId) cancelAnimationFrame(animId);
+              document.removeEventListener('mousemove', onMouseMove);
+              window.removeEventListener('resize', onResize);
+              if (renderer) {
+                  renderer.dispose();
+                  if (renderer.domElement && renderer.domElement.parentNode) {
+                      renderer.domElement.remove();
+                  }
+              }
+              if (geometry) geometry.dispose();
+              if (material) material.dispose();
+          };
+
+          function animate() {
+              if (!isRunning) return;
+              animId = requestAnimationFrame(animate);
+              
+              targetX = mouseX * 0.4;
+              targetY = mouseY * 0.4;
+              
+              heartMesh.rotation.y += 0.01;
+              heartMesh.position.y = Math.sin(Date.now() * 0.002) * 0.25 + (targetY * 0.3);
+              heartMesh.position.x += (targetX - heartMesh.position.x) * 0.05;
+              
+              const scale = 3.0 + Math.sin(Date.now() * 0.004) * 0.15;
+              heartMesh.scale.set(scale, scale, scale);
+              
+              renderer.render(scene, camera);
+          }
+          animate();
+
+      } catch (err) {
+          console.warn('WebGL Heart Init Fallback:', err);
+          container.innerHTML = '<span class="css-heart-fallback">💖</span>';
+      }
     })();
 </script>
-<div class="relative z-20 flex flex-col items-center py-16 px-6 mt-8 bg-white/30 backdrop-blur-[3px] rounded-3xl border border-white/40 shadow-2xl max-w-4xl w-full text-center">
+<div class="relative z-20 flex flex-col items-center py-10 sm:py-16 px-4 sm:px-6 mt-4 sm:mt-8 bg-white/30 backdrop-blur-[4px] rounded-3xl border border-white/40 shadow-2xl max-w-4xl w-full text-center">
     <span class="inline-block bg-primary-container text-on-primary-container font-label-md text-xs md:text-sm px-4 py-1.5 rounded-full mb-4 shadow-sm">
         بدأت الحكاية يوم 6 نوفمبر 2022 ❤️
     </span>
-    <h1 class="text-primary mb-3 md:mb-4 max-w-3xl drop-shadow-sm tracking-wide leading-tight text-center">
-        <div class="font-display-lg text-3xl sm:text-4xl md:text-5xl lg:text-display-lg flex items-center justify-center gap-2 md:gap-3 whitespace-nowrap">
+    <h1 class="text-primary mb-3 md:mb-4 max-w-3xl drop-shadow-sm tracking-wide leading-tight text-center w-full">
+        <div class="font-display-lg text-2xl sm:text-4xl md:text-5xl lg:text-display-lg flex items-center justify-center gap-2 md:gap-3 whitespace-nowrap flex-nowrap leading-none py-1">
+            <span>Alfy</span>
+            <span class="text-secondary animate-pulse inline-block text-xl sm:text-3xl md:text-4xl mx-1">❤️</span>
             <span>Soso</span>
-            <span class="text-secondary animate-pulse inline-block text-2xl sm:text-3xl md:text-4xl">❤️</span>
-            <span>Lofa</span>
         </div>
-        <span class="block mt-2 text-xl sm:text-2xl md:text-3xl font-headline-md opacity-90 text-secondary">The Most Beautiful Story</span>
+        <span class="block mt-2 text-base sm:text-2xl md:text-3xl font-headline-md opacity-90 text-secondary">The Most Beautiful Story</span>
     </h1>
-    <p class="font-body-lg text-lg md:text-xl text-on-surface-variant max-w-2xl mb-8 opacity-95 leading-relaxed">
+    <p class="font-body-lg text-sm sm:text-lg md:text-xl text-on-surface-variant max-w-2xl mb-6 sm:mb-8 opacity-95 leading-relaxed">
         Four years. Countless memories. One story that is ours. كل ثانية عدّت علينا بقت أجمل جزء من حكايتنا.
     </p>
 
-    <!-- Real-time Love Counter Widget -->
-    <div class="mb-10 w-full max-w-lg bg-surface-container-lowest/80 backdrop-blur-sm rounded-2xl p-6 border border-secondary/20 shadow-md">
-        <h3 class="text-xs uppercase tracking-widest text-secondary font-bold mb-4 font-cairo">⏳ من يومها لحد دلوقتي</h3>
-        <div class="grid grid-cols-4 gap-3 text-center">
-            <div class="bg-surface-container-low rounded-xl p-3 border border-outline-variant/30">
-                <span id="love-days" class="block font-headline-md text-2xl md:text-3xl text-secondary font-bold">00</span>
-                <span class="text-xs text-on-surface-variant">يوم</span>
+    <!-- Real-time Love Counter Widget (Mobile Responsive) -->
+    <div class="mb-8 md:mb-10 w-full max-w-md md:max-w-lg bg-surface-container-lowest/85 backdrop-blur-md rounded-2xl p-3.5 sm:p-5 md:p-6 border border-secondary/20 shadow-lg">
+        <h3 class="text-xs sm:text-sm uppercase tracking-widest text-secondary font-bold mb-3 sm:mb-4 font-cairo flex items-center justify-center gap-1.5">
+            <span>⏳</span>
+            <span>من يومها لحد دلوقتي</span>
+        </h3>
+        <div class="grid grid-cols-4 gap-1.5 sm:gap-3 text-center">
+            <div class="bg-surface-container-low rounded-xl py-2 px-1 sm:p-3 border border-outline-variant/30 flex flex-col justify-center items-center min-w-0 shadow-sm">
+                <span id="love-days" class="block font-headline-md text-base sm:text-2xl md:text-3xl text-secondary font-bold tracking-tight whitespace-nowrap tabular-nums">00</span>
+                <span class="text-[11px] sm:text-xs text-on-surface-variant font-medium mt-0.5 sm:mt-1">يوم</span>
             </div>
-            <div class="bg-surface-container-low rounded-xl p-3 border border-outline-variant/30">
-                <span id="love-hours" class="block font-headline-md text-2xl md:text-3xl text-secondary font-bold">00</span>
-                <span class="text-xs text-on-surface-variant">ساعة</span>
+            <div class="bg-surface-container-low rounded-xl py-2 px-1 sm:p-3 border border-outline-variant/30 flex flex-col justify-center items-center min-w-0 shadow-sm">
+                <span id="love-hours" class="block font-headline-md text-base sm:text-2xl md:text-3xl text-secondary font-bold tracking-tight whitespace-nowrap tabular-nums">00</span>
+                <span class="text-[11px] sm:text-xs text-on-surface-variant font-medium mt-0.5 sm:mt-1">ساعة</span>
             </div>
-            <div class="bg-surface-container-low rounded-xl p-3 border border-outline-variant/30">
-                <span id="love-mins" class="block font-headline-md text-2xl md:text-3xl text-secondary font-bold">00</span>
-                <span class="text-xs text-on-surface-variant">دقيقة</span>
+            <div class="bg-surface-container-low rounded-xl py-2 px-1 sm:p-3 border border-outline-variant/30 flex flex-col justify-center items-center min-w-0 shadow-sm">
+                <span id="love-mins" class="block font-headline-md text-base sm:text-2xl md:text-3xl text-secondary font-bold tracking-tight whitespace-nowrap tabular-nums">00</span>
+                <span class="text-[11px] sm:text-xs text-on-surface-variant font-medium mt-0.5 sm:mt-1">دقيقة</span>
             </div>
-            <div class="bg-surface-container-low rounded-xl p-3 border border-outline-variant/30">
-                <span id="love-secs" class="block font-headline-md text-2xl md:text-3xl text-secondary font-bold">00</span>
-                <span class="text-xs text-on-surface-variant">ثانية</span>
+            <div class="bg-surface-container-low rounded-xl py-2 px-1 sm:p-3 border border-outline-variant/30 flex flex-col justify-center items-center min-w-0 shadow-sm">
+                <span id="love-secs" class="block font-headline-md text-base sm:text-2xl md:text-3xl text-secondary font-bold tracking-tight whitespace-nowrap tabular-nums">00</span>
+                <span class="text-[11px] sm:text-xs text-on-surface-variant font-medium mt-0.5 sm:mt-1">ثانية</span>
             </div>
         </div>
     </div>
