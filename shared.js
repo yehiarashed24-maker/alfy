@@ -725,21 +725,6 @@
         });
     }
 
-    // 4. Seamless SPA Navigation (Audio NEVER pauses when changing pages!)
-    function initSeamlessNavigation() {
-        document.addEventListener('click', function (e) {
-            const link = e.target.closest('a');
-            if (!link) return;
-            const href = link.getAttribute('href');
-            if (!href || href.startsWith('#') || href.startsWith('http') || href.startsWith('mailto')) return;
-
-            // Target is an internal page
-            if (href.endsWith('.html') || href === 'index.html' || href === 'timeline.html' || href === 'gallery.html' || href === 'letter.html') {
-                e.preventDefault();
-                navigateSeamlessly(href);
-            }
-        });
-
     // --- Global Page Lifecycles (Singletons to prevent WebGL crashes & context loss) ---
     let heroHeartRenderer = null;
     let heroHeartMesh = null;
