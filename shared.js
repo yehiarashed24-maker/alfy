@@ -1,4 +1,4 @@
-// Shared Auth, Continuous Audio Player, iOS Bottom TabBar, and Love Counter System
+// Shared Auth, Continuous Audio Player, iOS Bottom TabBar, Love Counter, and Universal Modals System
 (function() {
     const START_DATE = new Date('2022-11-06T00:00:00+02:00');
 
@@ -17,6 +17,19 @@
             img: 'assets/2022/01_first_memory_bechamel.jpg'
         }
     ];
+
+    // Sara Love Messages (Global Data)
+    const SARA_MESSAGES = [
+        "\"يا سارة، أنتِ أجمل صدفة نوّرت حياتي وحوّلتها لأحلى قصة حب. بحبك من كل قلبي ❤️\"",
+        "\"سارة.. في عيونك لقيت أماني، وفي ابتسامتك لقيت كل سعادة الدنيا ✨\"",
+        "\"كل يوم بيمر وأنتِ معايا بحس إنه هدية غالية من ربنا.. مفيش في قلبي غيرك يا سارة 🌸\"",
+        "\"سارة.. أنتِ مش بس حبيبتي، أنتِ راحتي وبيتي ونبض قلبي للأبد 💖\"",
+        "\"لو اتعاد عمري ألف مرة، هختارك أنتِ يا سارة في كل مرة وبنفس الحب والعشق 💍\"",
+        "\"ضحكتك يا سارة كفيلة تخلّي الدنيا كلها تنوّر وتضحك في عيوني.. بحبك يا أغلى ما عندي 🌹\"",
+        "\"يا سارة، حبك هو النور والأمان اللي مالي طريقي، ومعاكِ بس عرفت معنى السعادة الحقيقية ♡\""
+    ];
+
+    let currentLetterIdx = 0;
 
     // Determine current song index (strictly alternates every single time the user enters/opens the site)
     let lastTrack = parseInt(localStorage.getItem('story_last_played_idx') ?? '-1', 10);
@@ -47,11 +60,11 @@
                 overflow-x: hidden;
             }
             /* iOS Touch Active Scale */
-            .ios-touch:active {
-                transform: scale(0.92);
+            .ios-touch:active, .envelope-3d-card:active {
+                transform: scale(0.95);
                 transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1);
             }
-            /* iOS Tab Bar Glow */
+            /* iOS Tab Bar Active Indicator */
             .ios-tab-active {
                 color: #a43073 !important;
                 position: relative;
@@ -67,9 +80,68 @@
                 background-color: #a43073;
                 border-radius: 50%;
             }
+            .burst-heart {
+                position: fixed;
+                pointer-events: none;
+                z-index: 9999;
+                animation: burstFade 2s ease-out forwards;
+            }
+            @keyframes burstFade {
+                0% { transform: scale(0.5) translateY(0); opacity: 1; }
+                100% { transform: scale(1.6) translateY(-100px); opacity: 0; }
+            }
         `;
         document.head.appendChild(style);
     }
+
+    // Burst hearts effect on tap
+    function burstHearts(x, y) {
+        for(let i = 0; i < 6; i++) {
+            const h = document.createElement('span');
+            h.className = 'material-symbols-outlined burst-heart text-secondary';
+            h.textContent = 'favorite';
+            h.style.left = (x + (Math.random() - 0.5) * 60) + 'px';
+            h.style.top = (y + (Math.random() - 0.5) * 60) + 'px';
+            h.style.fontSize = (18 + Math.random() * 20) + 'px';
+            document.body.appendChild(h);
+            setTimeout(() => h.remove(), 2100);
+        }
+    }
+
+    // Global Letter Modal Functions
+    window.openLetter = function(idx, e) {
+        currentLetterIdx = idx % SARA_MESSAGES.length;
+        const textEl = document.getElementById('modal-letter-text');
+        const modal = document.getElementById('love-modal');
+        if (textEl) textEl.textContent = SARA_MESSAGES[currentLetterIdx];
+        if (modal) {
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+        const x = (e && e.clientX) ? e.clientX : (window.innerWidth / 2);
+        const y = (e && e.clientY) ? e.clientY : (window.innerHeight / 2);
+        burstHearts(x, y);
+    };
+
+    window.openRandomLetter = function(e) {
+        const rand = Math.floor(Math.random() * SARA_MESSAGES.length);
+        window.openLetter(rand, e);
+    };
+
+    window.openNextLetter = function(e) {
+        currentLetterIdx = (currentLetterIdx + 1) % SARA_MESSAGES.length;
+        const textEl = document.getElementById('modal-letter-text');
+        if (textEl) textEl.textContent = SARA_MESSAGES[currentLetterIdx];
+        burstHearts(window.innerWidth / 2, window.innerHeight / 2);
+    };
+
+    window.closeLetterModal = function() {
+        const modal = document.getElementById('love-modal');
+        if (modal) {
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+    };
 
     // 1. Inject Lock Screen if not authenticated
     function initAuth() {
@@ -162,7 +234,6 @@
 
         const playerDiv = document.createElement('div');
         playerDiv.id = 'floating-music-player';
-        // On Mobile, docks cleanly above the iOS bottom navigation tab bar with safe-area spacing
         playerDiv.className = 'fixed bottom-[calc(4.5rem+env(safe-area-inset-bottom))] left-3 right-3 md:bottom-6 md:left-auto md:right-6 md:w-96 z-50 bg-surface-container-lowest/90 backdrop-blur-xl border border-secondary/25 rounded-2xl p-2.5 md:p-3 shadow-2xl flex flex-col gap-1.5 md:gap-2 transition-all duration-300';
         playerDiv.innerHTML = `
             <div class="flex items-center gap-2.5 md:gap-3">
@@ -308,7 +379,7 @@
         window.addEventListener('keydown', triggerOnFirstGesture, { once: true });
     }
 
-    // 3. Native iOS Mobile Bottom TabBar (App-Like Experience)
+    // 3. Native iOS Mobile Bottom TabBar (Home, Timeline, Gallery, رسالة)
     function initMobileTabBar() {
         if (document.getElementById('ios-bottom-tabbar')) {
             updateActiveTab();
@@ -321,15 +392,15 @@
         tabBar.innerHTML = `
             <a href="index.html" data-tab="index.html" class="flex flex-col items-center gap-0.5 text-on-surface-variant py-1 px-3 rounded-xl ios-touch transition-all">
                 <span class="material-symbols-outlined text-2xl">home</span>
-                <span class="text-[10px] font-medium font-cairo">الرئيسية</span>
+                <span class="text-[10px] font-medium font-sans">Home</span>
             </a>
             <a href="timeline.html" data-tab="timeline.html" class="flex flex-col items-center gap-0.5 text-on-surface-variant py-1 px-3 rounded-xl ios-touch transition-all">
                 <span class="material-symbols-outlined text-2xl">auto_stories</span>
-                <span class="text-[10px] font-medium font-cairo">قصتنا</span>
+                <span class="text-[10px] font-medium font-sans">Timeline</span>
             </a>
             <a href="gallery.html" data-tab="gallery.html" class="flex flex-col items-center gap-0.5 text-on-surface-variant py-1 px-3 rounded-xl ios-touch transition-all">
                 <span class="material-symbols-outlined text-2xl">photo_library</span>
-                <span class="text-[10px] font-medium font-cairo">الصور</span>
+                <span class="text-[10px] font-medium font-sans">Gallery</span>
             </a>
             <a href="letter.html" data-tab="letter.html" class="flex flex-col items-center gap-0.5 text-on-surface-variant py-1 px-3 rounded-xl ios-touch transition-all">
                 <span class="material-symbols-outlined text-2xl">favorite</span>

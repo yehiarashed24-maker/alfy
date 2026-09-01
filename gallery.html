@@ -330,8 +330,20 @@
 </div>
 </div>
 </div>
-</article>
-</section>
+    <!-- Fullscreen Modal Overlay -->
+    <div class="fixed inset-0 z-50 modal-overlay flex flex-col overflow-y-auto" id="album-modal">
+    <div class="sticky top-0 w-full bg-background/80 backdrop-blur-lg border-b border-outline-variant/30 px-gutter py-4 flex items-center justify-between z-10 transition-all">
+    <h3 class="font-headline-lg text-headline-lg text-primary" id="modal-title">Memories of 2026</h3>
+    <button class="bg-surface text-on-surface-variant hover:text-primary hover:bg-primary-container/30 transition-all duration-300 flex items-center gap-2 font-label-md px-5 py-2.5 rounded-full border border-outline-variant/50 shadow-sm" onclick="closeModal()">
+    <span class="material-symbols-outlined text-sm">arrow_back</span> Back to Albums
+            </button>
+    </div>
+    <div class="p-gutter max-w-container-max mx-auto w-full modal-content flex-grow mb-xl mt-4">
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-sm md:gap-md" id="modal-photo-grid">
+    <!-- Dynamically populated -->
+    </div>
+    </div>
+    </div>
 </main>
 <!-- Footer -->
 <footer class="w-full py-xl bg-surface-container-low border-t border-outline-variant/50 flex flex-col items-center gap-md text-center px-gutter relative z-10 mt-auto mb-20 transition-all">
@@ -340,20 +352,6 @@
 </a>
 <p class="font-body-md text-body-md text-secondary mt-sm">Made with love for Soso ♡</p>
 </footer>
-<!-- Fullscreen Modal Overlay -->
-<div class="fixed inset-0 z-50 modal-overlay flex flex-col overflow-y-auto" id="album-modal">
-<div class="sticky top-0 w-full bg-background/80 backdrop-blur-lg border-b border-outline-variant/30 px-gutter py-4 flex items-center justify-between z-10 transition-all">
-<h3 class="font-headline-lg text-headline-lg text-primary" id="modal-title">Memories of 2026</h3>
-<button class="bg-surface text-on-surface-variant hover:text-primary hover:bg-primary-container/30 transition-all duration-300 flex items-center gap-2 font-label-md px-5 py-2.5 rounded-full border border-outline-variant/50 shadow-sm" onclick="closeModal()">
-<span class="material-symbols-outlined text-sm">arrow_back</span> Back to Albums
-        </button>
-</div>
-<div class="p-gutter max-w-container-max mx-auto w-full modal-content flex-grow mb-xl mt-4">
-<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-sm md:gap-md" id="modal-photo-grid">
-<!-- Dynamically populated -->
-</div>
-</div>
-</div>
 <script src="shared.js"></script>
 <script>
         const yearPhotos = {
