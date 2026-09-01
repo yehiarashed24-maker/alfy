@@ -13,7 +13,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
     <script id="tailwind-config">
         tailwind.config = {
-          darkMode: "class",
           theme: {
             extend: {
               "colors": {
@@ -128,18 +127,20 @@
         }
 
         .envelope-3d-card {
-            background: rgba(255, 255, 255, 0.45);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(251, 207, 232, 0.8);
-            box-shadow: 0 10px 30px rgba(164, 48, 115, 0.08);
-            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.85) 0%, rgba(255, 240, 245, 0.75) 100%);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1.5px solid rgba(244, 114, 182, 0.55);
+            border-radius: 1.25rem;
+            box-shadow: 0 10px 25px -4px rgba(164, 48, 115, 0.12), 0 4px 10px rgba(0, 0, 0, 0.03);
+            transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
             perspective: 1000px;
+            position: relative;
         }
         .envelope-3d-card:hover {
             transform: translateY(-8px) scale(1.03);
-            border-color: rgba(244, 114, 182, 0.9);
-            box-shadow: 0 20px 40px rgba(164, 48, 115, 0.18);
+            border-color: rgba(236, 72, 153, 0.95);
+            box-shadow: 0 20px 40px -6px rgba(164, 48, 115, 0.28), 0 0 25px rgba(244, 114, 182, 0.25);
         }
     </style>
 </head>
@@ -193,66 +194,66 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 w-full max-w-5xl mb-12">
         
         <!-- Card 1 -->
-        <div onclick="openLetter(0, event)" class="envelope-3d-card rounded-2xl p-6 cursor-pointer flex flex-col items-center justify-between h-48 group">
-            <div class="w-12 h-12 rounded-full bg-primary-container/60 flex items-center justify-center group-hover:scale-110 transition-transform shadow-sm">
-                <span class="material-symbols-outlined text-secondary text-2xl">mail</span>
+        <div onclick="openLetter(0, event)" class="envelope-3d-card p-6 cursor-pointer flex flex-col items-center justify-between h-52 group">
+            <div class="w-14 h-14 rounded-full bg-gradient-to-tr from-secondary to-pink-400 text-white flex items-center justify-center shadow-md group-hover:rotate-12 transition-transform">
+                <span class="material-symbols-outlined text-2xl">mail</span>
             </div>
-            <div class="font-headline-sm text-primary font-bold font-cairo">الرسالة الأولى</div>
-            <span class="text-xs bg-primary-container text-on-primary-container px-3.5 py-1 rounded-full font-label-md font-cairo">افتح الرسالة ♡</span>
+            <div class="font-headline-sm text-lg text-primary font-bold font-cairo">الرسالة الأولى</div>
+            <span class="text-xs bg-secondary text-white font-bold px-4 py-1.5 rounded-full shadow-sm group-hover:scale-105 transition-transform font-cairo">افتح الرسالة ♡</span>
         </div>
 
         <!-- Card 2 -->
-        <div onclick="openLetter(1, event)" class="envelope-3d-card rounded-2xl p-6 cursor-pointer flex flex-col items-center justify-between h-48 group">
-            <div class="w-12 h-12 rounded-full bg-primary-container/60 flex items-center justify-center group-hover:scale-110 transition-transform shadow-sm">
-                <span class="material-symbols-outlined text-secondary text-2xl">favorite</span>
+        <div onclick="openLetter(1, event)" class="envelope-3d-card p-6 cursor-pointer flex flex-col items-center justify-between h-52 group">
+            <div class="w-14 h-14 rounded-full bg-gradient-to-tr from-secondary to-pink-400 text-white flex items-center justify-center shadow-md group-hover:rotate-12 transition-transform">
+                <span class="material-symbols-outlined text-2xl">favorite</span>
             </div>
-            <div class="font-headline-sm text-primary font-bold font-cairo">الرسالة الثانية</div>
-            <span class="text-xs bg-primary-container text-on-primary-container px-3.5 py-1 rounded-full font-label-md font-cairo">افتح الرسالة ♡</span>
+            <div class="font-headline-sm text-lg text-primary font-bold font-cairo">الرسالة الثانية</div>
+            <span class="text-xs bg-secondary text-white font-bold px-4 py-1.5 rounded-full shadow-sm group-hover:scale-105 transition-transform font-cairo">افتح الرسالة ♡</span>
         </div>
 
         <!-- Card 3 -->
-        <div onclick="openLetter(2, event)" class="envelope-3d-card rounded-2xl p-6 cursor-pointer flex flex-col items-center justify-between h-48 group">
-            <div class="w-12 h-12 rounded-full bg-primary-container/60 flex items-center justify-center group-hover:scale-110 transition-transform shadow-sm">
-                <span class="material-symbols-outlined text-secondary text-2xl">local_florist</span>
+        <div onclick="openLetter(2, event)" class="envelope-3d-card p-6 cursor-pointer flex flex-col items-center justify-between h-52 group">
+            <div class="w-14 h-14 rounded-full bg-gradient-to-tr from-secondary to-pink-400 text-white flex items-center justify-center shadow-md group-hover:rotate-12 transition-transform">
+                <span class="material-symbols-outlined text-2xl">local_florist</span>
             </div>
-            <div class="font-headline-sm text-primary font-bold font-cairo">الرسالة الثالثة</div>
-            <span class="text-xs bg-primary-container text-on-primary-container px-3.5 py-1 rounded-full font-label-md font-cairo">افتح الرسالة ♡</span>
+            <div class="font-headline-sm text-lg text-primary font-bold font-cairo">الرسالة الثالثة</div>
+            <span class="text-xs bg-secondary text-white font-bold px-4 py-1.5 rounded-full shadow-sm group-hover:scale-105 transition-transform font-cairo">افتح الرسالة ♡</span>
         </div>
 
         <!-- Card 4 -->
-        <div onclick="openLetter(3, event)" class="envelope-3d-card rounded-2xl p-6 cursor-pointer flex flex-col items-center justify-between h-48 group">
-            <div class="w-12 h-12 rounded-full bg-primary-container/60 flex items-center justify-center group-hover:scale-110 transition-transform shadow-sm">
-                <span class="material-symbols-outlined text-secondary text-2xl">diamond</span>
+        <div onclick="openLetter(3, event)" class="envelope-3d-card p-6 cursor-pointer flex flex-col items-center justify-between h-52 group">
+            <div class="w-14 h-14 rounded-full bg-gradient-to-tr from-secondary to-pink-400 text-white flex items-center justify-center shadow-md group-hover:rotate-12 transition-transform">
+                <span class="material-symbols-outlined text-2xl">diamond</span>
             </div>
-            <div class="font-headline-sm text-primary font-bold font-cairo">الرسالة الرابعة</div>
-            <span class="text-xs bg-primary-container text-on-primary-container px-3.5 py-1 rounded-full font-label-md font-cairo">افتح الرسالة ♡</span>
+            <div class="font-headline-sm text-lg text-primary font-bold font-cairo">الرسالة الرابعة</div>
+            <span class="text-xs bg-secondary text-white font-bold px-4 py-1.5 rounded-full shadow-sm group-hover:scale-105 transition-transform font-cairo">افتح الرسالة ♡</span>
         </div>
 
         <!-- Card 5 -->
-        <div onclick="openLetter(4, event)" class="envelope-3d-card rounded-2xl p-6 cursor-pointer flex flex-col items-center justify-between h-48 group">
-            <div class="w-12 h-12 rounded-full bg-primary-container/60 flex items-center justify-center group-hover:scale-110 transition-transform shadow-sm">
-                <span class="material-symbols-outlined text-secondary text-2xl">sentiment_very_satisfied</span>
+        <div onclick="openLetter(4, event)" class="envelope-3d-card p-6 cursor-pointer flex flex-col items-center justify-between h-52 group">
+            <div class="w-14 h-14 rounded-full bg-gradient-to-tr from-secondary to-pink-400 text-white flex items-center justify-center shadow-md group-hover:rotate-12 transition-transform">
+                <span class="material-symbols-outlined text-2xl">sentiment_very_satisfied</span>
             </div>
-            <div class="font-headline-sm text-primary font-bold font-cairo">الرسالة الخامسة</div>
-            <span class="text-xs bg-primary-container text-on-primary-container px-3.5 py-1 rounded-full font-label-md font-cairo">افتح الرسالة ♡</span>
+            <div class="font-headline-sm text-lg text-primary font-bold font-cairo">الرسالة الخامسة</div>
+            <span class="text-xs bg-secondary text-white font-bold px-4 py-1.5 rounded-full shadow-sm group-hover:scale-105 transition-transform font-cairo">افتح الرسالة ♡</span>
         </div>
 
         <!-- Card 6 -->
-        <div onclick="openLetter(5, event)" class="envelope-3d-card rounded-2xl p-6 cursor-pointer flex flex-col items-center justify-between h-48 group">
-            <div class="w-12 h-12 rounded-full bg-primary-container/60 flex items-center justify-center group-hover:scale-110 transition-transform shadow-sm">
-                <span class="material-symbols-outlined text-secondary text-2xl">auto_awesome</span>
+        <div onclick="openLetter(5, event)" class="envelope-3d-card p-6 cursor-pointer flex flex-col items-center justify-between h-52 group">
+            <div class="w-14 h-14 rounded-full bg-gradient-to-tr from-secondary to-pink-400 text-white flex items-center justify-center shadow-md group-hover:rotate-12 transition-transform">
+                <span class="material-symbols-outlined text-2xl">auto_awesome</span>
             </div>
-            <div class="font-headline-sm text-primary font-bold font-cairo">الرسالة السادسة</div>
-            <span class="text-xs bg-primary-container text-on-primary-container px-3.5 py-1 rounded-full font-label-md font-cairo">افتح الرسالة ♡</span>
+            <div class="font-headline-sm text-lg text-primary font-bold font-cairo">الرسالة السادسة</div>
+            <span class="text-xs bg-secondary text-white font-bold px-4 py-1.5 rounded-full shadow-sm group-hover:scale-105 transition-transform font-cairo">افتح الرسالة ♡</span>
         </div>
 
         <!-- Card 7 -->
-        <div onclick="openLetter(6, event)" class="envelope-3d-card rounded-2xl p-6 cursor-pointer flex flex-col items-center justify-between h-48 group col-span-1 sm:col-span-2 md:col-span-1 lg:col-span-2">
-            <div class="w-12 h-12 rounded-full bg-primary-container/60 flex items-center justify-center group-hover:scale-110 transition-transform shadow-sm">
-                <span class="material-symbols-outlined text-secondary text-2xl">stars</span>
+        <div onclick="openLetter(6, event)" class="envelope-3d-card p-6 cursor-pointer flex flex-col items-center justify-between h-52 group col-span-1 sm:col-span-2 md:col-span-1 lg:col-span-2">
+            <div class="w-14 h-14 rounded-full bg-gradient-to-tr from-secondary to-pink-400 text-white flex items-center justify-center shadow-md group-hover:rotate-12 transition-transform">
+                <span class="material-symbols-outlined text-2xl">stars</span>
             </div>
-            <div class="font-headline-sm text-primary font-bold font-cairo">الرسالة السابعة</div>
-            <span class="text-xs bg-primary-container text-on-primary-container px-3.5 py-1 rounded-full font-label-md font-cairo">افتح الرسالة ♡</span>
+            <div class="font-headline-sm text-lg text-primary font-bold font-cairo">الرسالة السابعة</div>
+            <span class="text-xs bg-secondary text-white font-bold px-4 py-1.5 rounded-full shadow-sm group-hover:scale-105 transition-transform font-cairo">افتح الرسالة ♡</span>
         </div>
 
     </div>
@@ -275,8 +276,7 @@
 </footer>
 
 <script>
-    // Floating Ambient Hearts
-    (function initFloatingHearts() {
+    window.initLetterPage = function() {
         const container = document.getElementById('hearts-container');
         if (!container) return;
         container.innerHTML = '';
@@ -297,7 +297,8 @@
             heart.style.color = colors[Math.floor(Math.random() * colors.length)];
             container.appendChild(heart);
         }
-    })();
+    };
+    window.initLetterPage();
 </script>
 <script src="shared.js"></script>
 </body>

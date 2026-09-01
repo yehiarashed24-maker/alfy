@@ -19,7 +19,6 @@
         rel="stylesheet" />
     <script id="tailwind-config">
         tailwind.config = {
-            darkMode: "class",
             theme: {
                 extend: {
                     "colors": {
@@ -404,9 +403,8 @@
         </a>
         <p class="font-body-md text-body-md text-secondary mt-sm font-cairo">Made with love for Soso ♡</p>
     </footer>
-    <script src="shared.js"></script>
     <script>
-        (function initGalleryPage() {
+        window.initGalleryPage = function() {
             // Enhanced Particle Generation
             const particleContainer = document.getElementById('particles');
             if (particleContainer) {
@@ -470,7 +468,10 @@
             document.querySelectorAll('.reveal-on-scroll').forEach(el => {
                 observer.observe(el);
             });
-        })();
+        };
+
+        window.initGalleryPage();
     </script>
+    <script src="shared.js"></script>
 </body>
 </html>

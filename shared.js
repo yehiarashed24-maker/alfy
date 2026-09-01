@@ -709,6 +709,13 @@
                 oldFooter.innerHTML = newFooter.innerHTML;
             }
 
+            // Update background particles or elements if present
+            const newShader = doc.querySelector('#shader-background');
+            const oldShader = document.querySelector('#shader-background');
+            if (newShader && oldShader) {
+                oldShader.innerHTML = newShader.innerHTML;
+            }
+
             if (pushState) {
                 history.pushState(null, '', url);
             }
@@ -743,18 +750,32 @@
             initLoveModal();
             initCounter();
 
-            // Timeline observers
+            const targetPage = (url.split('/').pop().split('?')[0] || 'index.html');
+            setTimeout(() => {
+                if (targetPage === 'index.html' || targetPage === '') {
+                    if (typeof window.initShaderBg === 'function') window.initShaderBg();
+                    if (typeof window.initHeroHeart === 'function') window.initHeroHeart();
+                } else if (targetPage === 'timeline.html') {
+                    if (typeof window.initTimelinePage === 'function') window.initTimelinePage();
+                } else if (targetPage === 'gallery.html') {
+                    if (typeof window.initGalleryPage === 'function') window.initGalleryPage();
+                } else if (targetPage === 'letter.html') {
+                    if (typeof window.initLetterPage === 'function') window.initLetterPage();
+                }
+            }, 50);
+
+            // Timeline observers (make sure both visible and active classes are added)
             const scrollElements = document.querySelectorAll('.scroll-reveal');
             if (scrollElements.length > 0) {
                 const observer = new IntersectionObserver((entries) => {
                     entries.forEach(entry => {
                         if (entry.isIntersecting) {
-                            entry.target.classList.add('active');
+                            entry.target.classList.add('visible', 'active');
                             const line = entry.target.querySelector('.mobile-draw-line');
                             if (line) line.style.height = '100%';
                         }
                     });
-                }, { threshold: 0.1 });
+                }, { threshold: 0.05, rootMargin: '0px 0px 50px 0px' });
                 scrollElements.forEach(el => observer.observe(el));
             }
 

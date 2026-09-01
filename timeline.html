@@ -13,7 +13,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
     <script id="tailwind-config">
         tailwind.config = {
-          darkMode: "class",
           theme: {
             extend: {
               "colors": {
@@ -448,65 +447,74 @@
     Made with love for Soso ♡
 </div>
 </footer>
-<script src="shared.js"></script>
 <script>
-        // Intersection Observer for Timeline Cards and Scroll Elements Animation
-        document.addEventListener("DOMContentLoaded", function() {
-            const scrollElements = document.querySelectorAll('.scroll-reveal');
-            
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                    }
-                });
-            }, {
-                threshold: 0.1,
-                rootMargin: "0px 0px -50px 0px"
+    window.initTimelinePage = function() {
+        const scrollElements = document.querySelectorAll('.scroll-reveal');
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible', 'active');
+                }
             });
+        }, {
+            threshold: 0.05,
+            rootMargin: "0px 0px 50px 0px"
+        });
 
-            scrollElements.forEach(el => {
-                observer.observe(el);
-            });
-
-            // Path Drawing Animation
-            const drawPath = document.querySelector('.draw-path');
-            const mobileDrawLine = document.querySelector('.mobile-draw-line');
-            const timelineContainer = document.getElementById('timeline-container');
-            
-            if (drawPath) {
-                const length = drawPath.getTotalLength();
-                drawPath.style.strokeDasharray = length;
-                drawPath.style.strokeDashoffset = length;
-
-                window.addEventListener('scroll', () => {
-                    const rect = timelineContainer.getBoundingClientRect();
-                    const containerTop = rect.top;
-                    const containerHeight = rect.height;
-                    const windowHeight = window.innerHeight;
-                    
-                    let scrollProgress = 0;
-                    if (containerTop < windowHeight) {
-                        scrollProgress = (windowHeight - containerTop) / (containerHeight + windowHeight * 0.5);
-                    }
-                    
-                    scrollProgress = Math.max(0, Math.min(1, scrollProgress));
-                    
-                    const draw = length * scrollProgress;
-                    drawPath.style.strokeDashoffset = length - draw;
-                    
-                    if (mobileDrawLine) {
-                        mobileDrawLine.style.height = `${scrollProgress * 100}%`;
-                    }
-                });
-                
-                window.dispatchEvent(new Event('scroll'));
+        scrollElements.forEach(el => {
+            observer.observe(el);
+            // If already in viewport on load, reveal immediately
+            const rect = el.getBoundingClientRect();
+            if (rect.top < window.innerHeight) {
+                el.classList.add('visible', 'active');
             }
+        });
 
-            // Generate Floating Hearts
-            const container = document.getElementById('hearts-container');
-            const heartCount = 15;
+        // Path Drawing Animation
+        const drawPath = document.querySelector('.draw-path');
+        const mobileDrawLine = document.querySelector('.mobile-draw-line');
+        const timelineContainer = document.getElementById('timeline-container');
+        
+        if (drawPath && timelineContainer) {
+            const length = drawPath.getTotalLength();
+            drawPath.style.strokeDasharray = length;
+            drawPath.style.strokeDashoffset = length;
+
+            const onScrollTimeline = () => {
+                const rect = timelineContainer.getBoundingClientRect();
+                const containerTop = rect.top;
+                const containerHeight = rect.height;
+                const windowHeight = window.innerHeight;
+                
+                let scrollProgress = 0;
+                if (containerTop < windowHeight) {
+                    scrollProgress = (windowHeight - containerTop) / (containerHeight + windowHeight * 0.3);
+                }
+                
+                scrollProgress = Math.max(0, Math.min(1, scrollProgress));
+                
+                const draw = length * scrollProgress;
+                drawPath.style.strokeDashoffset = length - draw;
+                
+                if (mobileDrawLine) {
+                    mobileDrawLine.style.height = `${scrollProgress * 100}%`;
+                }
+            };
+
+            window.removeEventListener('scroll', window._timelineScrollHandler);
+            window._timelineScrollHandler = onScrollTimeline;
+            window.addEventListener('scroll', onScrollTimeline, { passive: true });
             
+            // Initial call
+            onScrollTimeline();
+        }
+
+        // Generate Floating Hearts
+        const container = document.getElementById('hearts-container');
+        if (container) {
+            container.innerHTML = '';
+            const heartCount = 15;
             for(let i = 0; i < heartCount; i++) {
                 const heart = document.createElement('span');
                 heart.className = 'material-symbols-outlined floating-heart';
@@ -527,7 +535,11 @@
                 
                 container.appendChild(heart);
             }
-        });
-    </script>
+        }
+    };
+
+    window.initTimelinePage();
+</script>
+<script src="shared.js"></script>
 </body>
 </html>
