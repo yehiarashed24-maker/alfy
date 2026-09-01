@@ -1,572 +1,484 @@
 <!DOCTYPE html>
 <html class="scroll-smooth" lang="en">
+
 <head>
-    <meta charset="utf-8"/>
-    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/>
-    <meta name="apple-mobile-web-app-capable" content="yes"/>
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
-    <meta name="apple-mobile-web-app-title" content="Y ❤️ A"/>
-    <meta name="theme-color" content="#fff0f5"/>
-    <title>Y ❤️ A - Gallery & Memory Corridor</title>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+        name="viewport" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Y ❤️ A" />
+    <meta name="theme-color" content="#fff0f5" />
+    <title>Y ❤️ A - Gallery</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/threejs/r125/three.min.js"></script>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Inter:wght@400;600&family=Playfair+Display:wght@500;600;700&family=Tajawal:wght@500;700;800&display=swap" rel="stylesheet"/>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;family=Playfair+Display:wght@500;600;700&amp;family=Cairo:wght@400;600;700;800&amp;display=swap"
+        rel="stylesheet" />
     <script id="tailwind-config">
         tailwind.config = {
             theme: {
                 extend: {
                     "colors": {
                         "background": "#fff0f5",
-                        "surface-dim": "#fce7f3",
-                        "secondary": "#a43073",
-                        "secondary-container": "#fc79bd",
-                        "primary": "#765469",
-                        "primary-container": "#fbcfe8",
+                        "on-error-container": "#93000a",
                         "on-background": "#2c1325",
-                        "surface-variant": "#ffd8e7"
+                        "error-container": "#ffdad6",
+                        "tertiary-fixed": "#ffe088",
+                        "primary-fixed": "#ffd8ed",
+                        "on-surface": "#2c1325",
+                        "secondary-fixed": "#ffd8e7",
+                        "surface-dim": "#fce7f3",
+                        "primary": "#765469",
+                        "on-primary-fixed": "#2c1325",
+                        "inverse-primary": "#e5bad3",
+                        "surface-container-high": "#ffd8e7",
+                        "surface-bright": "#ffffff",
+                        "inverse-on-surface": "#ebf1ff",
+                        "inverse-surface": "#233144",
+                        "error": "#ba1a1a",
+                        "on-secondary-fixed-variant": "#85145a",
+                        "on-tertiary": "#ffffff",
+                        "surface-container-highest": "#fbcfe8",
+                        "surface-tint": "#765469",
+                        "secondary-fixed-dim": "#ffafd3",
+                        "tertiary-fixed-dim": "#e9c349",
+                        "on-tertiary-container": "#765d00",
+                        "secondary": "#a43073",
+                        "on-primary-container": "#78566b",
+                        "on-secondary-container": "#76014e",
+                        "tertiary": "#735c00",
+                        "surface": "#fff0f5",
+                        "on-secondary-fixed": "#3d0026",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary-fixed-variant": "#5c3d51",
+                        "primary-container": "#fbcfe8",
+                        "tertiary-container": "#ffd861",
+                        "on-error": "#ffffff",
+                        "on-tertiary-fixed": "#241a00",
+                        "outline-variant": "#fbcfe8",
+                        "surface-variant": "#ffd8e7",
+                        "on-primary": "#ffffff",
+                        "outline": "#807479",
+                        "surface-container": "#ffd8e7",
+                        "primary-fixed-dim": "#e5bad3",
+                        "on-surface-variant": "#4e4449",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-fixed-variant": "#574500",
+                        "surface-container-low": "#fff5f8",
+                        "secondary-container": "#fc79bd"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "xs": "4px",
+                        "sm": "12px",
+                        "base": "8px",
+                        "md": "24px",
+                        "lg": "48px",
+                        "container-max": "1200px",
+                        "xl": "80px"
                     },
                     "fontFamily": {
-                        "headline-lg": ["Playfair Display", "Cairo", "serif"],
-                        "headline-md": ["Playfair Display", "Cairo", "serif"],
+                        "body-lg": ["Inter", "Cairo", "sans-serif"],
                         "display-lg": ["Playfair Display", "Cairo", "serif"],
-                        "cairo": ["Cairo", "sans-serif"],
-                        "tajawal": ["Tajawal", "sans-serif"],
-                        "body-lg": ["Inter", "Cairo", "sans-serif"]
+                        "headline-lg-mobile": ["Playfair Display", "Cairo", "serif"],
+                        "label-md": ["Inter", "Cairo", "sans-serif"],
+                        "headline-lg": ["Playfair Display", "Cairo", "serif"],
+                        "body-md": ["Inter", "Cairo", "sans-serif"],
+                        "headline-sm": ["Playfair Display", "Cairo", "serif"],
+                        "headline-md": ["Playfair Display", "Cairo", "serif"],
+                        "cairo": ["Cairo", "sans-serif"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["1.125rem", { "lineHeight": "1.7", "fontWeight": "400" }],
+                        "display-lg": ["4.5rem", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-lg-mobile": ["2.25rem", { "lineHeight": "1.2", "fontWeight": "600" }],
+                        "label-md": ["0.875rem", { "lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "headline-lg": ["3rem", { "lineHeight": "1.2", "fontWeight": "600" }],
+                        "body-md": ["1rem", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "headline-sm": ["1.5rem", { "lineHeight": "1.4", "fontWeight": "500" }],
+                        "headline-md": ["2rem", { "lineHeight": "1.3", "fontWeight": "500" }]
                     }
                 }
             }
         }
     </script>
     <style>
-        body {
+        body,
+        .particles-bg {
             background: radial-gradient(circle at 50% 30%, #ffd8e7 0%, #fff0f5 45%, #fce7f3 100%) !important;
-            min-height: 100vh;
         }
 
-        /* ── 3D Image Stream Corridor (ممر ذكرياتنا البصري ثلاثي الأبعاد) ── */
-        .image-stream-container {
-            container-type: inline-size;
-            position: relative;
-            overflow: hidden;
-            width: 100%;
-            height: 480px;
-            border-radius: 2rem;
-            background: linear-gradient(180deg, rgba(255, 240, 245, 0.95) 0%, rgba(253, 231, 243, 0.85) 100%);
-            border: 1.5px solid rgba(244, 114, 182, 0.4);
-            box-shadow: 0 15px 35px -5px rgba(164, 48, 115, 0.15), 0 0 25px rgba(244, 114, 182, 0.2);
+        .glass-card {
+            background: rgba(255, 255, 255, 0.45);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(251, 207, 232, 0.8);
+            box-shadow: 0 10px 30px rgba(164, 48, 115, 0.08);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        @media (min-width: 768px) {
-            .image-stream-container {
-                height: 560px;
-            }
+        .glass-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            border-color: rgba(252, 121, 189, 0.9);
+            box-shadow: 0 20px 40px -10px rgba(164, 48, 115, 0.25), 0 0 20px rgba(252, 121, 189, 0.2);
         }
 
-        .corridor-viewport {
-            pointer-events: none;
-            position: absolute;
-            inset: 0;
-            perspective: 30cqw;
-            perspective-origin: 50% 55%;
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .corridor-stage {
-            position: absolute;
-            inset: 0;
-            transform-style: preserve-3d;
+        .fade-in-up.is-visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
-        .corridor-card {
-            position: absolute;
-            overflow: hidden;
-            left: 50%;
-            top: 55%;
-            width: 18cqw;
-            height: 25cqw;
-            margin-left: -9cqw;
-            margin-top: -12.5cqw;
-            border-radius: 1.2cqw;
-            border: 1.5px solid rgba(255, 255, 255, 0.8);
-            box-shadow: 0 10px 25px rgba(164, 48, 115, 0.25), 0 0 15px rgba(244, 114, 182, 0.3);
-            backface-visibility: hidden;
-            background: #fff;
+        .delay-100 {
+            transition-delay: 100ms;
         }
 
-        .corridor-card img {
+        .delay-200 {
+            transition-delay: 200ms;
+        }
+
+        .delay-300 {
+            transition-delay: 300ms;
+        }
+
+        .particles-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
-            object-fit: cover;
-            draggable: false;
-        }
-
-        /* Corridor Keyframes Generated From Component Geometry */
-        @keyframes corridorRight {
-            0.00% { transform: translate3d(-11.00cqw, 0, -258.46cqw) rotateY(-6.00deg); }
-            4.17% { transform: translate3d(-9.54cqw, 0, -219.06cqw) rotateY(-6.92deg); }
-            8.33% { transform: translate3d(-8.02cqw, 0, -183.84cqw) rotateY(-7.83deg); }
-            12.50% { transform: translate3d(-6.44cqw, 0, -152.37cqw) rotateY(-8.75deg); }
-            16.67% { transform: translate3d(-4.80cqw, 0, -124.23cqw) rotateY(-9.67deg); }
-            20.83% { transform: translate3d(-3.09cqw, 0, -99.07cqw) rotateY(-10.58deg); }
-            25.00% { transform: translate3d(-1.32cqw, 0, -76.58cqw) rotateY(-11.50deg); }
-            29.17% { transform: translate3d(0.53cqw, 0, -56.48cqw) rotateY(-12.42deg); }
-            33.33% { transform: translate3d(2.46cqw, 0, -38.51cqw) rotateY(-13.33deg); }
-            37.50% { transform: translate3d(4.47cqw, 0, -22.44cqw) rotateY(-14.25deg); }
-            41.67% { transform: translate3d(6.57cqw, 0, -8.08cqw) rotateY(-15.17deg); }
-            45.83% { transform: translate3d(8.75cqw, 0, 4.76cqw) rotateY(-16.08deg); }
-            50.00% { transform: translate3d(11.01cqw, 0, 16.24cqw) rotateY(-17.00deg); }
-            54.17% { transform: translate3d(13.36cqw, 0, 26.50cqw) rotateY(-17.92deg); }
-            58.33% { transform: translate3d(15.79cqw, 0, 35.68cqw) rotateY(-18.83deg); }
-            62.50% { transform: translate3d(18.31cqw, 0, 43.88cqw) rotateY(-19.75deg); }
-            66.67% { transform: translate3d(20.91cqw, 0, 51.22cqw) rotateY(-20.67deg); }
-            70.83% { transform: translate3d(23.59cqw, 0, 57.77cqw) rotateY(-21.58deg); }
-            75.00% { transform: translate3d(26.36cqw, 0, 63.63cqw) rotateY(-22.50deg); }
-            79.17% { transform: translate3d(29.21cqw, 0, 68.87cqw) rotateY(-23.42deg); }
-            83.33% { transform: translate3d(32.14cqw, 0, 73.55cqw) rotateY(-24.33deg); }
-            87.50% { transform: translate3d(35.15cqw, 0, 77.74cqw) rotateY(-25.25deg); }
-            91.67% { transform: translate3d(38.24cqw, 0, 81.48cqw) rotateY(-26.17deg); }
-            95.83% { transform: translate3d(41.41cqw, 0, 84.83cqw) rotateY(-27.08deg); }
-            100.00% { transform: translate3d(44.00cqw, 0, 87.83cqw) rotateY(-28.00deg); }
-        }
-
-        @keyframes corridorLeft {
-            0.00% { transform: translate3d(11.00cqw, 0, -258.46cqw) rotateY(6.00deg); }
-            4.17% { transform: translate3d(9.54cqw, 0, -219.06cqw) rotateY(6.92deg); }
-            8.33% { transform: translate3d(8.02cqw, 0, -183.84cqw) rotateY(7.83deg); }
-            12.50% { transform: translate3d(6.44cqw, 0, -152.37cqw) rotateY(8.75deg); }
-            16.67% { transform: translate3d(4.80cqw, 0, -124.23cqw) rotateY(9.67deg); }
-            20.83% { transform: translate3d(3.09cqw, 0, -99.07cqw) rotateY(10.58deg); }
-            25.00% { transform: translate3d(1.32cqw, 0, -76.58cqw) rotateY(11.50deg); }
-            29.17% { transform: translate3d(-0.53cqw, 0, -56.48cqw) rotateY(12.42deg); }
-            33.33% { transform: translate3d(-2.46cqw, 0, -38.51cqw) rotateY(13.33deg); }
-            37.50% { transform: translate3d(-4.47cqw, 0, -22.44cqw) rotateY(14.25deg); }
-            41.67% { transform: translate3d(-6.57cqw, 0, -8.08cqw) rotateY(15.17deg); }
-            45.83% { transform: translate3d(-8.75cqw, 0, 4.76cqw) rotateY(16.08deg); }
-            50.00% { transform: translate3d(-11.01cqw, 0, 16.24cqw) rotateY(17.00deg); }
-            54.17% { transform: translate3d(-13.36cqw, 0, 26.50cqw) rotateY(17.92deg); }
-            58.33% { transform: translate3d(-15.79cqw, 0, 35.68cqw) rotateY(18.83deg); }
-            62.50% { transform: translate3d(-18.31cqw, 0, 43.88cqw) rotateY(19.75deg); }
-            66.67% { transform: translate3d(-20.91cqw, 0, 51.22cqw) rotateY(20.67deg); }
-            70.83% { transform: translate3d(-23.59cqw, 0, 57.77cqw) rotateY(21.58deg); }
-            75.00% { transform: translate3d(-26.36cqw, 0, 63.63cqw) rotateY(22.50deg); }
-            79.17% { transform: translate3d(-29.21cqw, 0, 68.87cqw) rotateY(23.42deg); }
-            83.33% { transform: translate3d(-32.14cqw, 0, 73.55cqw) rotateY(24.33deg); }
-            87.50% { transform: translate3d(-35.15cqw, 0, 77.74cqw) rotateY(25.25deg); }
-            91.67% { transform: translate3d(-38.24cqw, 0, 81.48cqw) rotateY(26.17deg); }
-            95.83% { transform: translate3d(-41.41cqw, 0, 84.83cqw) rotateY(27.08deg); }
-            100.00% { transform: translate3d(-44.00cqw, 0, 87.83cqw) rotateY(28.00deg); }
-        }
-
-        .card-right { animation: corridorRight 18s linear infinite; }
-        .card-left { animation: corridorLeft 18s linear infinite; }
-
-        /* Floating Hearts */
-        .floating-heart {
-            position: absolute;
-            animation: float 15s infinite linear;
-            opacity: 0;
+            z-index: -1;
+            overflow: hidden;
             pointer-events: none;
-            color: #fc79bd;
-        }
-        @keyframes float {
-            0% { transform: translateY(100vh) scale(0.5); opacity: 0; }
-            10% { opacity: 0.4; }
-            90% { opacity: 0.4; }
-            100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
         }
 
-        /* Glass Card */
-        .gallery-card {
-            background: linear-gradient(145deg, rgba(255, 255, 255, 0.85) 0%, rgba(255, 240, 245, 0.75) 100%);
-            backdrop-filter: blur(16px);
-            border: 1.5px solid rgba(244, 114, 182, 0.45);
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .gallery-card:hover {
-            transform: translateY(-8px) scale(1.02);
-            border-color: rgba(236, 72, 153, 0.9);
-            box-shadow: 0 20px 40px -10px rgba(164, 48, 115, 0.25), 0 0 20px rgba(244, 114, 182, 0.3);
+        .particle {
+            position: absolute;
+            background: rgba(251, 207, 232, 0.6);
+            border-radius: 50%;
+            pointer-events: none;
         }
 
-        .filter-btn {
-            background: rgba(255, 255, 255, 0.8);
-            border: 1px solid rgba(244, 114, 182, 0.4);
-            color: #765469;
-            transition: all 0.3s ease;
-        }
-        .filter-btn:hover, .filter-btn.active {
-            background: linear-gradient(135deg, #a43073 0%, #ec4899 100%);
-            color: #ffffff;
-            border-color: #ec4899;
-            box-shadow: 0 4px 15px rgba(164, 48, 115, 0.3);
+        @keyframes drift {
+            0% {
+                transform: translateY(0) translateX(0) rotate(0deg);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 0.6;
+            }
+
+            90% {
+                opacity: 0.6;
+            }
+
+            100% {
+                transform: translateY(-100vh) translateX(100px) rotate(360deg);
+                opacity: 0;
+            }
         }
     </style>
 </head>
-<body class="text-on-background font-body-lg min-h-screen flex flex-col justify-between selection:bg-secondary-container selection:text-on-secondary-container relative">
 
-<!-- Floating Hearts Background Container -->
-<div class="fixed inset-0 overflow-hidden z-[-1] pointer-events-none" id="hearts-container"></div>
+<body
+    class="text-on-background font-body-md min-h-screen flex flex-col antialiased selection:bg-secondary-container selection:text-on-secondary-container relative">
+    <!-- Particle Background -->
+    <div class="particles-bg" id="particles"></div>
 
-<!-- Unified Navigation Bar -->
-<header class="bg-[#fff0f5]/80 backdrop-blur-md fixed top-0 w-full z-50 border-b border-[#fbcfe8]/70 shadow-sm shadow-secondary/10">
-    <div class="max-w-6xl mx-auto px-6 h-20 flex justify-between items-center">
-        <a href="index.html" class="font-headline-md text-2xl md:text-3xl text-primary font-bold tracking-wider hover:opacity-90 transition-opacity flex items-center gap-1.5">
-            <span>Y</span><span class="text-secondary text-2xl md:text-3xl animate-pulse inline-block">❤️</span><span>A</span>
+    <!-- TopNavBar -->
+    <header
+        class="bg-[#fff0f5]/80 backdrop-blur-md font-headline-sm text-headline-sm fixed top-0 w-full z-50 border-b border-[#fbcfe8]/70 shadow-sm shadow-secondary/10">
+        <div class="max-w-container-max mx-auto px-gutter h-20 flex justify-between items-center">
+            <!-- Brand -->
+            <a href="index.html"
+                class="font-headline-md text-2xl md:text-3xl text-primary font-bold tracking-wider hover:opacity-90 transition-opacity flex items-center gap-1.5">
+                <span>Y</span><span
+                    class="text-secondary text-2xl md:text-3xl animate-pulse inline-block">❤️</span><span>A</span>
+            </a>
+            <!-- Desktop Navigation -->
+            <nav class="hidden md:flex items-center gap-md">
+                <a class="text-on-surface-variant hover:text-primary transition-colors hover:bg-primary-container/20 rounded-full px-4 py-2"
+                    href="index.html">Home</a>
+                <a class="text-on-surface-variant hover:text-primary transition-colors hover:bg-primary-container/20 rounded-full px-4 py-2"
+                    href="timeline.html">Timeline</a>
+                <a class="text-secondary border-b-2 border-secondary pb-1 hover:bg-primary-container/20 rounded-full px-4 py-2"
+                    href="gallery.html">Gallery</a>
+                <a class="text-on-surface-variant hover:text-primary transition-colors hover:bg-primary-container/20 rounded-full px-4 py-2 font-cairo"
+                    href="letter.html">رسالة</a>
+            </nav>
+            <!-- Trailing Action -->
+            <a href="timeline.html"
+                class="text-primary font-label-md text-label-md hover:bg-primary-container/20 rounded-full px-6 py-2 border border-secondary/30 hidden md:inline-block transition-transform duration-300 active:scale-95">
+                Our Story
+            </a>
+            <!-- Mobile Menu Toggle -->
+            <button class="md:hidden text-primary p-2"
+                onclick="document.getElementById('mobile-menu').classList.toggle('hidden')">
+                <span class="material-symbols-outlined">menu</span>
+            </button>
+        </div>
+        <!-- Mobile Menu dropdown -->
+        <div id="mobile-menu"
+            class="hidden md:hidden bg-[#fff0f5]/95 backdrop-blur-md border-b border-[#fbcfe8]/70 px-gutter py-4 flex flex-col gap-2">
+            <a class="text-on-surface-variant hover:text-primary px-4 py-2 rounded-lg" href="index.html">Home</a>
+            <a class="text-on-surface-variant hover:text-primary px-4 py-2 rounded-lg" href="timeline.html">Timeline</a>
+            <a class="text-secondary font-bold px-4 py-2 rounded-lg bg-primary-container/20"
+                href="gallery.html">Gallery</a>
+            <a class="text-on-surface-variant hover:text-primary px-4 py-2 rounded-lg font-cairo"
+                href="letter.html">رسالة</a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow pt-32 pb-xl px-gutter max-w-container-max mx-auto w-full relative z-10">
+        <!-- Header Section -->
+        <section class="text-center mb-xl fade-in-up is-visible">
+            <h1
+                class="font-display-lg text-display-lg md:font-display-lg md:text-display-lg font-headline-lg-mobile text-headline-lg-mobile text-primary mb-4 text-balance">
+                Years of Love</h1>
+            <p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto italic">"Every year, a new
+                chapter of us."</p>
+            <!-- Decorative Divider -->
+            <div class="flex items-center justify-center gap-4 mt-8">
+                <div class="h-px w-16 bg-secondary/30"></div>
+                <span class="material-symbols-outlined text-secondary/60 text-sm animate-pulse"
+                    style="font-variation-settings: 'FILL' 1;">favorite</span>
+                <div class="h-px w-16 bg-secondary/30"></div>
+            </div>
+        </section>
+        <!-- Bento Grid of Years -->
+        <section class="grid grid-cols-1 md:grid-cols-12 gap-md mb-xl" id="gallery-grid">
+            <!-- 2026 Album (Large Feature - The Hijab) -->
+            <article class="md:col-span-8 group cursor-pointer fade-in-up delay-100 reveal-on-scroll"
+                onclick="openModal('2026')">
+                <div class="glass-card rounded-2xl overflow-hidden relative h-[400px] w-full">
+                    <img class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 z-0"
+                        src="assets/2026/2026_hijab.jpg" alt="2026 The Hijab" />
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent z-10 transition-opacity duration-500 group-hover:opacity-90">
+                    </div>
+                    <div class="absolute bottom-0 left-0 p-lg z-20 w-full">
+                        <div class="flex justify-between items-end">
+                            <div>
+                                <span
+                                    class="bg-primary-container text-on-primary-container font-label-md text-label-md px-3.5 py-1 rounded-full mb-3 inline-block shadow-sm font-cairo">New
+                                    Chapter</span>
+                                <h2
+                                    class="font-headline-lg text-headline-lg text-white mb-2 transition-transform duration-500 origin-left group-hover:scale-105">
+                                    2026</h2>
+                                <p
+                                    class="font-body-md text-body-md text-pink-100 opacity-90 group-hover:opacity-100 transition-opacity font-cairo">
+                                    خطوة الحجاب وسارة القمر • فخور بيكي دايماً ❤️</p>
+                            </div>
+                            <div
+                                class="bg-white/20 backdrop-blur-md rounded-full p-4 text-white transition-all duration-500 group-hover:translate-x-2 group-hover:bg-secondary group-hover:shadow-lg">
+                                <span class="material-symbols-outlined">fullscreen</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- 2025 Album (Tall Feature) -->
+            <article class="md:col-span-4 group cursor-pointer fade-in-up delay-200 reveal-on-scroll"
+                onclick="openModal('2025')">
+                <div class="glass-card rounded-2xl overflow-hidden relative h-[400px] w-full">
+                    <img class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 z-0"
+                        src="assets/2025/2025_memory_2.jpg" alt="2025 Celebration" />
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent z-10 transition-opacity duration-500 group-hover:opacity-90">
+                    </div>
+                    <div class="absolute bottom-0 left-0 p-md z-20 w-full flex justify-between items-end">
+                        <div>
+                            <h2
+                                class="font-headline-md text-headline-md text-white mb-2 transition-transform duration-500 origin-left group-hover:scale-105">
+                                2025</h2>
+                            <p class="font-body-md text-body-md text-pink-100 opacity-90 font-cairo">ليلة النيل
+                                والاحتفال
+                                الجميل ❤️</p>
+                        </div>
+                        <div
+                            class="bg-white/20 backdrop-blur-md rounded-full p-3 text-white opacity-0 transform translate-x-4 transition-all duration-500 group-hover:opacity-100 group-hover:translate-x-0">
+                            <span class="material-symbols-outlined text-sm">fullscreen</span>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- 2024 Album -->
+            <article class="md:col-span-4 group cursor-pointer fade-in-up delay-100 reveal-on-scroll"
+                onclick="openModal('2024')">
+                <div class="glass-card rounded-2xl overflow-hidden relative h-[300px] w-full">
+                    <img class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 z-0"
+                        src="assets/2024/2024_memory_2.jpg" alt="2024 Moments" />
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent z-10 transition-opacity duration-500 group-hover:opacity-90">
+                    </div>
+                    <div class="absolute bottom-0 left-0 p-md z-20 w-full flex justify-between items-end">
+                        <div>
+                            <h2
+                                class="font-headline-md text-headline-md text-white mb-2 transition-transform duration-500 origin-left group-hover:scale-105">
+                                2024</h2>
+                            <p class="font-body-md text-body-md text-pink-100 opacity-90 font-cairo">حب بيكبر ومحطات
+                                أجمل
+                                سوا ❤️</p>
+                        </div>
+                        <div
+                            class="bg-white/20 backdrop-blur-md rounded-full p-3 text-white opacity-0 transform translate-y-4 transition-all duration-500 group-hover:opacity-100 group-hover:translate-y-0">
+                            <span class="material-symbols-outlined text-sm">fullscreen</span>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- 2023 Album -->
+            <article class="md:col-span-4 group cursor-pointer fade-in-up delay-200 reveal-on-scroll"
+                onclick="openModal('2023')">
+                <div class="glass-card rounded-2xl overflow-hidden relative h-[300px] w-full">
+                    <img class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 z-0"
+                        src="assets/2023/2023_memory_2.jpg" alt="2023 Adventures" />
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent z-10 transition-opacity duration-500 group-hover:opacity-90">
+                    </div>
+                    <div class="absolute bottom-0 left-0 p-md z-20 w-full flex justify-between items-end">
+                        <div>
+                            <h2
+                                class="font-headline-md text-headline-md text-white mb-2 transition-transform duration-500 origin-left group-hover:scale-105">
+                                2023</h2>
+                            <p class="font-body-md text-body-md text-pink-100 opacity-90 font-cairo">سنة الذكريات
+                                واللحظات
+                                الحلوة ❤️</p>
+                        </div>
+                        <div
+                            class="bg-white/20 backdrop-blur-md rounded-full p-3 text-white opacity-0 transform translate-y-4 transition-all duration-500 group-hover:opacity-100 group-hover:translate-y-0">
+                            <span class="material-symbols-outlined text-sm">fullscreen</span>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- 2022 Album (First Memory Only) -->
+            <article class="md:col-span-4 group cursor-pointer fade-in-up delay-300 reveal-on-scroll"
+                onclick="openModal('2022')">
+                <div class="glass-card rounded-2xl overflow-hidden relative h-[300px] w-full">
+                    <img class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 z-0"
+                        src="assets/2022/01_first_memory_bechamel.jpg" alt="2022 First Memory" />
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent z-10 transition-opacity duration-500 group-hover:opacity-90">
+                    </div>
+                    <div class="absolute bottom-0 left-0 p-md z-20 w-full flex justify-between items-end">
+                        <div>
+                            <h2
+                                class="font-headline-md text-headline-md text-white mb-2 transition-transform duration-500 origin-left group-hover:scale-105">
+                                2022</h2>
+                            <p class="font-body-md text-body-md text-pink-100 opacity-90 font-cairo">🍝 أول ذكرى
+                                (المكرونة
+                                بالبشاميل واشطا)</p>
+                        </div>
+                        <div
+                            class="bg-white/20 backdrop-blur-md rounded-full p-3 text-white opacity-0 transform translate-y-4 transition-all duration-500 group-hover:opacity-100 group-hover:translate-y-0">
+                            <span class="material-symbols-outlined text-sm">fullscreen</span>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </section>
+    </main>
+    <!-- Footer -->
+    <footer
+        class="w-full py-xl bg-[#fff0f5]/70 backdrop-blur-md border-t border-[#fbcfe8]/70 flex flex-col items-center gap-md text-center px-gutter relative z-10 mt-auto mb-20 transition-all">
+        <a class="font-headline-sm text-2xl text-primary hover:opacity-80 transition-opacity flex items-center gap-1.5"
+            href="index.html">
+            <span>Y</span><span class="text-secondary text-2xl">❤️</span><span>A</span>
         </a>
-        <nav class="hidden md:flex items-center gap-6">
-            <a class="text-on-surface-variant hover:text-primary transition-colors hover:bg-primary-container/20 rounded-full px-4 py-2" href="index.html">Home</a>
-            <a class="text-on-surface-variant hover:text-primary transition-colors hover:bg-primary-container/20 rounded-full px-4 py-2" href="timeline.html">Timeline</a>
-            <a class="text-secondary font-bold border-b-2 border-secondary pb-1 hover:bg-primary-container/20 rounded-full px-4 py-2" href="gallery.html">Gallery</a>
-            <a class="text-on-surface-variant hover:text-primary transition-colors hover:bg-primary-container/20 rounded-full px-4 py-2 font-cairo" href="letter.html">رسالة</a>
-        </nav>
-        <a href="timeline.html" class="text-primary font-cairo text-sm hover:bg-primary-container/20 rounded-full px-6 py-2 border border-secondary/30 hidden md:inline-block font-bold">
-            رحلتنا معاً ♡
-        </a>
-        <!-- Mobile Menu Toggle -->
-        <button class="md:hidden text-primary p-2" onclick="document.getElementById('mobile-menu').classList.toggle('hidden')">
-            <span class="material-symbols-outlined">menu</span>
-        </button>
-    </div>
-    <!-- Mobile Menu dropdown -->
-    <div id="mobile-menu" class="hidden md:hidden bg-[#fff0f5]/95 backdrop-blur-md border-b border-[#fbcfe8]/70 px-6 py-4 flex flex-col gap-2">
-        <a class="text-on-surface-variant hover:text-primary px-4 py-2 rounded-lg" href="index.html">Home</a>
-        <a class="text-on-surface-variant hover:text-primary px-4 py-2 rounded-lg" href="timeline.html">Timeline</a>
-        <a class="text-secondary font-bold px-4 py-2 rounded-lg bg-primary-container/20" href="gallery.html">Gallery</a>
-        <a class="text-on-surface-variant hover:text-primary px-4 py-2 rounded-lg font-cairo" href="letter.html">رسالة</a>
-    </div>
-</header>
+        <p class="font-body-md text-body-md text-secondary mt-sm font-cairo">Made with love for Soso ♡</p>
+    </footer>
+    <script>
+        window.initGalleryPage = function () {
+            // Enhanced Particle Generation
+            const particleContainer = document.getElementById('particles');
+            if (particleContainer) {
+                particleContainer.innerHTML = '';
+                const particleCount = 25;
 
-<!-- Main Content Area -->
-<main class="pt-28 pb-xl px-4 sm:px-6 max-w-6xl mx-auto w-full flex-grow relative z-10">
+                for (let i = 0; i < particleCount; i++) {
+                    const particle = document.createElement('div');
+                    particle.classList.add('particle');
 
-    <!-- 1. 3D Image Stream Corridor Hero Section (ممر الذكريات البصري 3D) -->
-    <section class="mb-16">
-        <div class="image-stream-container">
-            <!-- 3D Projected Corridor Viewport -->
-            <div class="corridor-viewport" aria-hidden="true">
-                <div class="corridor-stage" id="corridor-stage">
-                    <!-- Injected dynamically via script -->
-                </div>
-            </div>
+                    const size = Math.random() * 6 + 2;
+                    const left = Math.random() * 100;
+                    const duration = Math.random() * 25 + 15;
+                    const delay = Math.random() * 15;
 
-            <!-- Foreground Hero Content -->
-            <div class="relative z-10 flex h-full flex-col items-center justify-between py-10 sm:py-12 px-6 text-center pointer-events-none">
-                <div>
-                    <span class="inline-flex items-center gap-1.5 bg-white/85 backdrop-blur-md text-secondary px-4 py-1.5 rounded-full text-xs sm:text-sm font-cairo font-bold shadow-sm border border-[#f472b6]/40 mb-3">
-                        <span class="animate-pulse">✨</span>
-                        <span>ممر ذكرياتنا الحيّة ثلاثي الأبعاد • 3D Image Stream</span>
-                    </span>
-                    <h1 class="font-headline-md text-3xl sm:text-5xl text-primary font-bold tracking-tight font-cairo drop-shadow-sm">
-                        ألبوم سارة ويوسف ♡
-                    </h1>
-                </div>
-                <div class="bg-white/80 backdrop-blur-md rounded-2xl px-6 py-3 border border-[#fbcfe8] max-w-md shadow-lg pointer-events-auto">
-                    <p class="font-cairo text-xs sm:text-sm text-on-surface-variant font-medium">
-                        كل صورة وكل لحظة اتصورت كانت ذكرى محفورة في قلبي، وبتفضل تكبر وتحلى معاكي يا سوسو ❤️
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
+                    const opacities = [0.3, 0.5, 0.7];
+                    const opacity = opacities[Math.floor(Math.random() * opacities.length)];
 
-    <!-- 2. Year Filter Bar -->
-    <section class="mb-10 text-center">
-        <div class="inline-flex flex-wrap items-center justify-center gap-2 p-2 rounded-full bg-white/70 backdrop-blur-md border border-[#fbcfe8] shadow-sm">
-            <button onclick="filterGallery('all')" class="filter-btn active px-5 py-2 rounded-full text-xs sm:text-sm font-cairo font-bold" id="filter-all">الكل (11 صورة)</button>
-            <button onclick="filterGallery('2022')" class="filter-btn px-4 py-2 rounded-full text-xs sm:text-sm font-cairo font-bold" id="filter-2022">🍝 2022</button>
-            <button onclick="filterGallery('2023')" class="filter-btn px-4 py-2 rounded-full text-xs sm:text-sm font-cairo font-bold" id="filter-2023">🌸 2023</button>
-            <button onclick="filterGallery('2024')" class="filter-btn px-4 py-2 rounded-full text-xs sm:text-sm font-cairo font-bold" id="filter-2024">🩺 2024</button>
-            <button onclick="filterGallery('2025')" class="filter-btn px-4 py-2 rounded-full text-xs sm:text-sm font-cairo font-bold" id="filter-2025">🌙 2025</button>
-            <button onclick="filterGallery('2026')" class="filter-btn px-4 py-2 rounded-full text-xs sm:text-sm font-cairo font-bold" id="filter-2026">🤍 2026</button>
-        </div>
-    </section>
+                    particle.style.width = `${size}px`;
+                    particle.style.height = `${size}px`;
+                    particle.style.left = `${left}%`;
+                    particle.style.bottom = `-50px`;
+                    particle.style.opacity = opacity;
+                    particle.style.animation = `drift ${duration}s linear ${delay}s infinite`;
 
-    <!-- 3. Photo Gallery Grid -->
-    <section>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8" id="gallery-grid">
-
-            <!-- 2022: Bechamel -->
-            <div class="gallery-card rounded-3xl overflow-hidden p-3 shadow-md flex flex-col group cursor-pointer" data-year="2022" onclick="openPhotoModal(0)">
-                <div class="aspect-4/3 rounded-2xl overflow-hidden relative mb-3 bg-white/40">
-                    <img src="assets/2022/01_first_memory_bechamel.jpg" alt="Bechamel 2022" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"/>
-                    <span class="absolute top-3 right-3 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold text-secondary shadow-sm font-cairo">🍝 أول ذكرى • 2022</span>
-                </div>
-                <div class="p-2 text-right" dir="rtl">
-                    <h3 class="font-cairo font-bold text-primary text-base mb-1">صينية المكرونة بالبشاميل</h3>
-                    <p class="font-cairo text-xs text-on-surface-variant leading-relaxed">أول ذكرى وأحلى أكلة من إيد سوسو ❤️</p>
-                </div>
-            </div>
-
-            <!-- 2022: Memory 1 -->
-            <div class="gallery-card rounded-3xl overflow-hidden p-3 shadow-md flex flex-col group cursor-pointer" data-year="2022" onclick="openPhotoModal(1)">
-                <div class="aspect-4/3 rounded-2xl overflow-hidden relative mb-3 bg-white/40">
-                    <img src="assets/2022/2022_memory_1.jpg" alt="Memory 2022" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"/>
-                    <span class="absolute top-3 right-3 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold text-secondary shadow-sm font-cairo">✨ البدايات • 2022</span>
-                </div>
-                <div class="p-2 text-right" dir="rtl">
-                    <h3 class="font-cairo font-bold text-primary text-base mb-1">أيام البدايات الحلوة</h3>
-                    <p class="font-cairo text-xs text-on-surface-variant leading-relaxed">أول نظرة وأول ضحكة من القلب سوا ✨</p>
-                </div>
-            </div>
-
-            <!-- 2022: Memory 2 -->
-            <div class="gallery-card rounded-3xl overflow-hidden p-3 shadow-md flex flex-col group cursor-pointer" data-year="2022" onclick="openPhotoModal(2)">
-                <div class="aspect-4/3 rounded-2xl overflow-hidden relative mb-3 bg-white/40">
-                    <img src="assets/2022/2022_memory_2.jpg" alt="Memory 2022" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"/>
-                    <span class="absolute top-3 right-3 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold text-secondary shadow-sm font-cairo">💖 2022</span>
-                </div>
-                <div class="p-2 text-right" dir="rtl">
-                    <h3 class="font-cairo font-bold text-primary text-base mb-1">لحظات لا تُنسى</h3>
-                    <p class="font-cairo text-xs text-on-surface-variant leading-relaxed">كل ثانية في أول سنة كانت بداية لحب العمر كله.</p>
-                </div>
-            </div>
-
-            <!-- 2023: Memory 1 -->
-            <div class="gallery-card rounded-3xl overflow-hidden p-3 shadow-md flex flex-col group cursor-pointer" data-year="2023" onclick="openPhotoModal(3)">
-                <div class="aspect-4/3 rounded-2xl overflow-hidden relative mb-3 bg-white/40">
-                    <img src="assets/2023/2023_memory_1.jpg" alt="Memory 2023" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"/>
-                    <span class="absolute top-3 right-3 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold text-secondary shadow-sm font-cairo">🌸 خروجات 2023</span>
-                </div>
-                <div class="p-2 text-right" dir="rtl">
-                    <h3 class="font-cairo font-bold text-primary text-base mb-1">ضحكات من القلب</h3>
-                    <p class="font-cairo text-xs text-on-surface-variant leading-relaxed">سنة مليانة سفر وضحك ومغامرات سوا 🌸</p>
-                </div>
-            </div>
-
-            <!-- 2023: Memory 2 -->
-            <div class="gallery-card rounded-3xl overflow-hidden p-3 shadow-md flex flex-col group cursor-pointer" data-year="2023" onclick="openPhotoModal(4)">
-                <div class="aspect-4/3 rounded-2xl overflow-hidden relative mb-3 bg-white/40">
-                    <img src="assets/2023/2023_memory_2.jpg" alt="Memory 2023" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"/>
-                    <span class="absolute top-3 right-3 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold text-secondary shadow-sm font-cairo">✨ 2023</span>
-                </div>
-                <div class="p-2 text-right" dir="rtl">
-                    <h3 class="font-cairo font-bold text-primary text-base mb-1">تفاصيل وحكايات</h3>
-                    <p class="font-cairo text-xs text-on-surface-variant leading-relaxed">كل مكان زرناه بقى فيه جزء من روحنا.</p>
-                </div>
-            </div>
-
-            <!-- 2024: Medicine -->
-            <div class="gallery-card rounded-3xl overflow-hidden p-3 shadow-md flex flex-col group cursor-pointer" data-year="2024" onclick="openPhotoModal(5)">
-                <div class="aspect-4/3 rounded-2xl overflow-hidden relative mb-3 bg-white/40">
-                    <img src="assets/2024/2024_medicine.jpg" alt="Medicine 2024" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"/>
-                    <span class="absolute top-3 right-3 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold text-secondary shadow-sm font-cairo">🩺 دكتورة سوسو • 2024</span>
-                </div>
-                <div class="p-2 text-right" dir="rtl">
-                    <h3 class="font-cairo font-bold text-primary text-base mb-1">فخر كلية الطب</h3>
-                    <p class="font-cairo text-xs text-on-surface-variant leading-relaxed">أشطر وأجمل دكتورة في الدنيا كلها 💖</p>
-                </div>
-            </div>
-
-            <!-- 2024: Memory 1 -->
-            <div class="gallery-card rounded-3xl overflow-hidden p-3 shadow-md flex flex-col group cursor-pointer" data-year="2024" onclick="openPhotoModal(6)">
-                <div class="aspect-4/3 rounded-2xl overflow-hidden relative mb-3 bg-white/40">
-                    <img src="assets/2024/2024_memory_1.jpg" alt="Memory 2024" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"/>
-                    <span class="absolute top-3 right-3 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold text-secondary shadow-sm font-cairo">🩺 2024</span>
-                </div>
-                <div class="p-2 text-right" dir="rtl">
-                    <h3 class="font-cairo font-bold text-primary text-base mb-1">لحظات النجاح</h3>
-                    <p class="font-cairo text-xs text-on-surface-variant leading-relaxed">تعبك ووقفتك ونجاحك اللي بيرفع راسي دايماً.</p>
-                </div>
-            </div>
-
-            <!-- 2024: Memory 2 -->
-            <div class="gallery-card rounded-3xl overflow-hidden p-3 shadow-md flex flex-col group cursor-pointer" data-year="2024" onclick="openPhotoModal(7)">
-                <div class="aspect-4/3 rounded-2xl overflow-hidden relative mb-3 bg-white/40">
-                    <img src="assets/2024/2024_memory_2.jpg" alt="Memory 2024" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"/>
-                    <span class="absolute top-3 right-3 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold text-secondary shadow-sm font-cairo">💖 2024</span>
-                </div>
-                <div class="p-2 text-right" dir="rtl">
-                    <h3 class="font-cairo font-bold text-primary text-base mb-1">ضحكة دكتورتنا</h3>
-                    <p class="font-cairo text-xs text-on-surface-variant leading-relaxed">الضحكة اللي بتنور أي مكان وأي يوم صعب.</p>
-                </div>
-            </div>
-
-            <!-- 2025: Nile 1 -->
-            <div class="gallery-card rounded-3xl overflow-hidden p-3 shadow-md flex flex-col group cursor-pointer" data-year="2025" onclick="openPhotoModal(8)">
-                <div class="aspect-4/3 rounded-2xl overflow-hidden relative mb-3 bg-white/40">
-                    <img src="assets/2025/2025_memory_1.jpg" alt="Nile 2025" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"/>
-                    <span class="absolute top-3 right-3 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold text-secondary shadow-sm font-cairo">🌙 ليلة النيل • 2025</span>
-                </div>
-                <div class="p-2 text-right" dir="rtl">
-                    <h3 class="font-cairo font-bold text-primary text-base mb-1">سهرة النيل الساحرة</h3>
-                    <p class="font-cairo text-xs text-on-surface-variant leading-relaxed">ليلة من أحلى الليالي تحت قمر النيل والنجوم 🌹</p>
-                </div>
-            </div>
-
-            <!-- 2025: Nile 2 -->
-            <div class="gallery-card rounded-3xl overflow-hidden p-3 shadow-md flex flex-col group cursor-pointer" data-year="2025" onclick="openPhotoModal(9)">
-                <div class="aspect-4/3 rounded-2xl overflow-hidden relative mb-3 bg-white/40">
-                    <img src="assets/2025/2025_memory_2.jpg" alt="Nile 2025" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"/>
-                    <span class="absolute top-3 right-3 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold text-secondary shadow-sm font-cairo">🌹 احتفال 2025</span>
-                </div>
-                <div class="p-2 text-right" dir="rtl">
-                    <h3 class="font-cairo font-bold text-primary text-base mb-1">فرحة واحتفال</h3>
-                    <p class="font-cairo text-xs text-on-surface-variant leading-relaxed">ضحكتك اللي نورت النيل وخليت الليلة أحلى من ألف عيد.</p>
-                </div>
-            </div>
-
-            <!-- 2026: Hijab -->
-            <div class="gallery-card rounded-3xl overflow-hidden p-3 shadow-md flex flex-col group cursor-pointer" data-year="2026" onclick="openPhotoModal(10)">
-                <div class="aspect-4/3 rounded-2xl overflow-hidden relative mb-3 bg-white/40">
-                    <img src="assets/2026/2026_hijab.jpg" alt="Hijab 2026" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"/>
-                    <span class="absolute top-3 right-3 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold text-secondary shadow-sm font-cairo">🤍 خطوة الحجاب • 2026</span>
-                </div>
-                <div class="p-2 text-right" dir="rtl">
-                    <h3 class="font-cairo font-bold text-primary text-base mb-1">تاج النور • سارة القمر</h3>
-                    <p class="font-cairo text-xs text-on-surface-variant leading-relaxed">خطوة الحجاب اللي زادتك جمال ونور ووقار يا أحلى سارة في الكون ❤️</p>
-                </div>
-            </div>
-
-        </div>
-    </section>
-
-</main>
-
-<!-- Fullscreen Photo Modal / Lightbox -->
-<div id="photo-lightbox" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden items-center justify-center p-4">
-    <div class="relative max-w-4xl w-full bg-white/95 rounded-3xl overflow-hidden shadow-2xl border-2 border-[#f472b6] flex flex-col md:flex-row">
-        <!-- Close Button -->
-        <button onclick="closePhotoModal()" class="absolute top-4 left-4 z-20 w-10 h-10 rounded-full bg-primary-container text-secondary flex items-center justify-center hover:bg-secondary hover:text-white transition-colors shadow-md">
-            <span class="material-symbols-outlined">close</span>
-        </button>
-
-        <!-- Modal Image Preview -->
-        <div class="w-full md:w-3/5 h-[350px] md:h-[480px] bg-black/5 relative flex items-center justify-center">
-            <img id="modal-img" src="" alt="Memory preview" class="w-full h-full object-contain"/>
-        </div>
-
-        <!-- Modal Info Details -->
-        <div class="w-full md:w-2/5 p-6 md:p-8 flex flex-col justify-between text-right" dir="rtl">
-            <div>
-                <div class="flex items-center justify-between mb-4">
-                    <span id="modal-badge" class="bg-primary-container text-secondary font-bold text-xs px-3.5 py-1 rounded-full shadow-sm font-cairo"></span>
-                    <span id="modal-year" class="text-xs font-mono font-bold text-secondary"></span>
-                </div>
-                <h2 id="modal-title" class="font-headline-md text-2xl text-primary font-bold mb-3 font-cairo"></h2>
-                <p id="modal-desc" class="font-cairo text-sm text-on-surface-variant leading-relaxed mb-4"></p>
-            </div>
-
-            <!-- Navigation buttons -->
-            <div class="flex items-center justify-between pt-4 border-t border-[#fbcfe8]">
-                <button onclick="prevPhoto()" class="px-4 py-2 rounded-full bg-primary-container/70 text-secondary font-cairo font-bold text-xs hover:bg-primary-container">الصورة السابقة</button>
-                <button onclick="nextPhoto()" class="px-4 py-2 rounded-full bg-primary-container/70 text-secondary font-cairo font-bold text-xs hover:bg-primary-container">الصورة التالية</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Footer -->
-<footer class="bg-[#fff0f5]/70 backdrop-blur-md font-body-md text-body-md w-full py-12 border-t border-[#fbcfe8]/70 flex flex-col items-center gap-2 text-center px-gutter z-10 relative mb-20">
-    <div class="font-headline-sm text-2xl text-primary tracking-wider flex items-center gap-1.5">
-        <span>Y</span><span class="text-secondary text-2xl animate-pulse">❤️</span><span>A</span>
-    </div>
-    <div class="text-secondary font-cairo font-bold text-sm">
-        Made with endless love for Soso ♡
-    </div>
-</footer>
-
-<script>
-    // 11 Personal Photos Data
-    const PHOTOS = [
-        { src: 'assets/2022/01_first_memory_bechamel.jpg', year: '2022', badge: '🍝 أول ذكرى', title: 'صينية المكرونة بالبشاميل', desc: 'ساعتها دي أول ذكرى وأحلى ذكرى عشان إنتي اللي كنتي عاملاهاااا ❤️' },
-        { src: 'assets/2022/2022_memory_1.jpg', year: '2022', badge: '✨ البدايات', title: 'أيام البدايات الحلوة', desc: 'أول نظرة وأول ضحكة من القلب سوا ✨' },
-        { src: 'assets/2022/2022_memory_2.jpg', year: '2022', badge: '💖 2022', title: 'لحظات لا تُنسى', desc: 'كل ثانية في أول سنة كانت بداية لحب العمر كله.' },
-        { src: 'assets/2023/2023_memory_1.jpg', year: '2023', badge: '🌸 خروجات 2023', title: 'ضحكات من القلب', desc: 'سنة مليانة سفر وضحك ومغامرات سوا 🌸' },
-        { src: 'assets/2023/2023_memory_2.jpg', year: '2023', badge: '✨ 2023', title: 'تفاصيل وحكايات', desc: 'كل مكان زرناه بقى فيه جزء من روحنا.' },
-        { src: 'assets/2024/2024_medicine.jpg', year: '2024', badge: '🩺 دكتورة سوسو', title: 'فخر كلية الطب', desc: 'أشطر وأجمل دكتورة في الدنيا كلها 💖' },
-        { src: 'assets/2024/2024_memory_1.jpg', year: '2024', badge: '🩺 2024', title: 'لحظات النجاح', desc: 'تعبك ووقفتك ونجاحك اللي بيرفع راسي دايماً.' },
-        { src: 'assets/2024/2024_memory_2.jpg', year: '2024', badge: '💖 2024', title: 'ضحكة دكتورتنا', desc: 'الضحكة اللي بتنور أي مكان وأي يوم صعب.' },
-        { src: 'assets/2025/2025_memory_1.jpg', year: '2025', badge: '🌙 ليلة النيل', title: 'سهرة النيل الساحرة', desc: 'ليلة من أحلى الليالي تحت قمر النيل والنجوم 🌹' },
-        { src: 'assets/2025/2025_memory_2.jpg', year: '2025', badge: '🌹 احتفال 2025', title: 'فرحة واحتفال', desc: 'ضحكتك اللي نورت النيل وخليت الليلة أحلى من ألف عيد.' },
-        { src: 'assets/2026/2026_hijab.jpg', year: '2026', badge: '🤍 خطوة الحجاب', title: 'تاج النور • سارة القمر', desc: 'خطوة الحجاب اللي زادتك جمال ونور ووقار يا أحلى سارة في الكون ❤️' }
-    ];
-
-    // Build the 3D Image Stream Corridor cards
-    function setupImageStreamCorridor() {
-        const stage = document.getElementById('corridor-stage');
-        if (!stage) return;
-        stage.innerHTML = '';
-
-        const cardsCount = 9;
-        const speed = 18;
-
-        ['card-right', 'card-left'].forEach(railClass => {
-            for (let i = 0; i < cardsCount; i++) {
-                const photo = PHOTOS[i % PHOTOS.length];
-                const card = document.createElement('div');
-                card.className = `corridor-card ${railClass}`;
-                card.style.animationDelay = `${-(i * speed) / cardsCount}s`;
-                
-                const img = document.createElement('img');
-                img.src = photo.src;
-                img.alt = photo.title;
-                img.loading = 'lazy';
-                img.draggable = false;
-                
-                card.appendChild(img);
-                stage.appendChild(card);
+                    particleContainer.appendChild(particle);
+                }
             }
-        });
-    }
 
-    // Filter Gallery
-    function filterGallery(year) {
-        document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
-        const activeBtn = document.getElementById(`filter-${year}`);
-        if (activeBtn) activeBtn.classList.add('active');
+            // Parallax effect on mouse move
+            document.addEventListener('mousemove', (e) => {
+                const x = (e.clientX / window.innerWidth - 0.5) * 20;
+                const y = (e.clientY / window.innerHeight - 0.5) * 20;
 
-        const cards = document.querySelectorAll('.gallery-card');
-        cards.forEach(card => {
-            if (year === 'all' || card.dataset.year === year) {
-                card.style.display = 'flex';
-            } else {
-                card.style.display = 'none';
-            }
-        });
-    }
+                const cards = document.querySelectorAll('.glass-card:not(.modal-content .glass-card)');
+                cards.forEach(card => {
+                    const img = card.querySelector('img');
+                    if (img && !card.matches(':hover')) {
+                        img.style.transform = `translate(${x * -0.5}px, ${y * -0.5}px) scale(1.02)`;
+                    }
+                });
+            });
 
-    // Modal Lightbox
-    let currentPhotoIdx = 0;
-    function openPhotoModal(idx) {
-        currentPhotoIdx = idx;
-        const p = PHOTOS[idx];
-        if (!p) return;
+            document.querySelectorAll('.glass-card').forEach(card => {
+                card.addEventListener('mouseleave', function () {
+                    const img = this.querySelector('img');
+                    if (img) img.style.transform = '';
+                });
+            });
 
-        document.getElementById('modal-img').src = p.src;
-        document.getElementById('modal-badge').textContent = p.badge;
-        document.getElementById('modal-year').textContent = p.year;
-        document.getElementById('modal-title').textContent = p.title;
-        document.getElementById('modal-desc').textContent = p.desc;
+            // Intersection Observer for Scroll Animations
+            const observer = new IntersectionObserver((entries, obs) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        obs.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
 
-        const lightbox = document.getElementById('photo-lightbox');
-        lightbox.classList.remove('hidden');
-        lightbox.classList.add('flex');
-    }
+            document.querySelectorAll('.reveal-on-scroll').forEach(el => {
+                observer.observe(el);
+            });
+        };
 
-    function closePhotoModal() {
-        const lightbox = document.getElementById('photo-lightbox');
-        lightbox.classList.add('hidden');
-        lightbox.classList.remove('flex');
-    }
-
-    function nextPhoto() {
-        currentPhotoIdx = (currentPhotoIdx + 1) % PHOTOS.length;
-        openPhotoModal(currentPhotoIdx);
-    }
-
-    function prevPhoto() {
-        currentPhotoIdx = (currentPhotoIdx - 1 + PHOTOS.length) % PHOTOS.length;
-        openPhotoModal(currentPhotoIdx);
-    }
-
-    window.initGalleryPage = function() {
-        setupImageStreamCorridor();
-        if (typeof initFloatingHearts === 'function') initFloatingHearts();
-    };
-
-    document.addEventListener('DOMContentLoaded', () => {
         window.initGalleryPage();
-    });
-</script>
-<script src="shared.js"></script>
+    </script>
+    <script src="shared.js"></script>
 </body>
+
 </html>
