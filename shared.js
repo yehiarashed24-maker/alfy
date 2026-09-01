@@ -108,63 +108,62 @@
         }
     }
 
-    // Global Letter Modal System (Appended directly to document.body with z-[200])
+    // Global Letter Modal System (Appended directly to document.body with z-[999999] & inline styling)
     function initLoveModal() {
         let modal = document.getElementById('love-modal');
         if (!modal) {
             modal = document.createElement('div');
             modal.id = 'love-modal';
-            modal.className = 'fixed inset-0 z-[200] bg-inverse-surface/60 backdrop-blur-md hidden items-center justify-center p-4';
-            modal.innerHTML = `
-                <div class="bg-surface-container-lowest modal-fade-in rounded-3xl p-6 md:p-10 max-w-lg w-full relative text-center border border-secondary/30 shadow-2xl my-auto">
-                    <button onclick="closeLetterModal()" class="absolute top-4 left-4 w-9 h-9 rounded-full bg-surface-container hover:bg-secondary hover:text-white flex items-center justify-center transition-colors text-primary shadow-sm" title="إغلاق">
-                        <span class="material-symbols-outlined text-base">close</span>
-                    </button>
-                    <div class="w-14 h-14 rounded-full bg-primary-container/40 flex items-center justify-center mx-auto mb-3 border border-secondary/30">
-                        <span class="material-symbols-outlined text-3xl text-secondary animate-pulse">favorite</span>
-                    </div>
-                    <div class="text-secondary font-label-md text-sm mb-3 tracking-wider font-cairo font-bold">رسالة حب خاصة لسارة ❤️</div>
-                    <div class="my-4 p-5 rounded-2xl bg-surface-container-low border border-outline-variant/30 shadow-inner">
-                        <p id="modal-letter-text" class="text-primary font-headline-sm text-base sm:text-xl md:text-2xl leading-relaxed font-semibold font-cairo" dir="rtl">
-                            "${SARA_MESSAGES[0]}"
-                        </p>
-                    </div>
-                    <div class="w-20 h-[2px] bg-gradient-to-r from-transparent via-secondary to-transparent mx-auto mb-5"></div>
-                    <div class="flex items-center justify-center gap-3 flex-wrap">
-                        <button onclick="openNextLetter(event)" class="px-5 py-2.5 rounded-full bg-secondary-container hover:bg-secondary text-on-secondary-container hover:text-white font-label-md transition-all transform active:scale-95 hover:scale-105 shadow-sm flex items-center gap-2 font-cairo font-bold">
-                            <span>رسالة تانية لسارة</span>
-                            <span class="material-symbols-outlined text-sm">arrow_forward</span>
-                        </button>
-                        <button onclick="closeLetterModal()" class="px-5 py-2.5 rounded-full bg-surface-container-high hover:bg-surface-container-highest text-primary font-label-md transition-all border border-outline-variant/40 font-cairo">
-                            إغلاق
-                        </button>
-                    </div>
-                </div>
-            `;
             document.body.appendChild(modal);
-
-            modal.addEventListener('click', (e) => {
-                if (e.target.id === 'love-modal') {
-                    window.closeLetterModal();
-                }
-            });
-        } else {
-            if (modal.parentElement !== document.body) {
-                document.body.appendChild(modal);
-            }
-            modal.className = 'fixed inset-0 z-[200] bg-inverse-surface/60 backdrop-blur-md hidden items-center justify-center p-4';
         }
+        modal.style.cssText = 'position:fixed; inset:0; z-index:999999; background:rgba(15, 23, 42, 0.65); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); display:none; align-items:center; justify-content:center; padding:1rem;';
+        modal.innerHTML = `
+            <div style="background:#ffffff; border:1px solid #fbcfe8; border-radius:1.5rem; max-width:32rem; width:100%; padding:2rem 1.5rem; text-align:center; position:relative; box-shadow:0 25px 50px -12px rgba(164, 48, 115, 0.35); margin:auto;">
+                <button id="modal-close-btn-x" style="position:absolute; top:1rem; left:1rem; width:2.25rem; height:2.25rem; border-radius:9999px; background:#f1f5f9; border:none; display:flex; align-items:center; justify-content:center; cursor:pointer; color:#765469; box-shadow:0 1px 3px rgba(0,0,0,0.1);" title="إغلاق">
+                    <span class="material-symbols-outlined" style="font-size:1.25rem;">close</span>
+                </button>
+                <div style="width:3.5rem; height:3.5rem; border-radius:9999px; background:#fbcfe8; border:1px solid #f472b6; display:flex; align-items:center; justify-content:center; margin:0 auto 0.75rem auto;">
+                    <span class="material-symbols-outlined animate-pulse" style="font-size:2rem; color:#a43073;">favorite</span>
+                </div>
+                <div style="color:#a43073; font-weight:700; font-size:1rem; margin-bottom:0.75rem; letter-spacing:0.05em; font-family:'Inter', sans-serif;">رسالة حب خاصة لسارة ❤️</div>
+                <div style="background:#fff0f5; border:1px solid #fbcfe8; border-radius:1rem; padding:1.25rem; margin:1rem 0; box-shadow:inset 0 2px 4px rgba(0,0,0,0.03);">
+                    <p id="modal-letter-text" style="color:#4a044e; font-size:1.15rem; line-height:1.8; font-weight:600; margin:0; direction:rtl; text-align:center;" dir="rtl">
+                        "${SARA_MESSAGES[0]}"
+                    </p>
+                </div>
+                <div style="width:5rem; height:2px; background:linear-gradient(to right, transparent, #a43073, transparent); margin:1rem auto;"></div>
+                <div style="display:flex; align-items:center; justify-content:center; gap:0.75rem; flex-wrap:wrap;">
+                    <button id="modal-next-btn" style="padding:0.7rem 1.5rem; border-radius:9999px; background:#fc79bd; color:#ffffff; font-weight:700; font-size:0.95rem; border:none; cursor:pointer; display:flex; align-items:center; gap:0.5rem; box-shadow:0 4px 14px rgba(252, 121, 189, 0.4); transition:all 0.2s;">
+                        <span>رسالة تانية لسارة</span>
+                        <span class="material-symbols-outlined" style="font-size:1rem;">arrow_forward</span>
+                    </button>
+                    <button id="modal-close-btn" style="padding:0.7rem 1.5rem; border-radius:9999px; background:#f1f5f9; color:#475569; font-weight:600; font-size:0.95rem; border:1px solid #cbd5e1; cursor:pointer; transition:all 0.2s;">
+                        إغلاق
+                    </button>
+                </div>
+            </div>
+        `;
+
+        const btnX = document.getElementById('modal-close-btn-x');
+        if (btnX) btnX.onclick = window.closeLetterModal;
+        const btnClose = document.getElementById('modal-close-btn');
+        if (btnClose) btnClose.onclick = window.closeLetterModal;
+        const btnNext = document.getElementById('modal-next-btn');
+        if (btnNext) btnNext.onclick = (e) => window.openNextLetter(e);
+        modal.onclick = (e) => {
+            if (e.target.id === 'love-modal') window.closeLetterModal();
+        };
+
+        return modal;
     }
 
     window.openLetter = function(idx, e) {
-        initLoveModal();
+        const modal = initLoveModal();
         currentLetterIdx = (typeof idx === 'number' ? idx : 0) % SARA_MESSAGES.length;
         const textEl = document.getElementById('modal-letter-text');
-        const modal = document.getElementById('love-modal');
         if (textEl) textEl.textContent = SARA_MESSAGES[currentLetterIdx];
         if (modal) {
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
+            modal.style.display = 'flex';
             document.body.style.overflow = 'hidden';
         }
         const x = (e && e.clientX) ? e.clientX : (window.innerWidth / 2);
@@ -173,13 +172,11 @@
     };
 
     window.openRandomLetter = function(e) {
-        initLoveModal();
         const rand = Math.floor(Math.random() * SARA_MESSAGES.length);
         window.openLetter(rand, e);
     };
 
     window.openNextLetter = function(e) {
-        initLoveModal();
         currentLetterIdx = (currentLetterIdx + 1) % SARA_MESSAGES.length;
         const textEl = document.getElementById('modal-letter-text');
         if (textEl) textEl.textContent = SARA_MESSAGES[currentLetterIdx];
@@ -189,8 +186,7 @@
     window.closeLetterModal = function() {
         const modal = document.getElementById('love-modal');
         if (modal) {
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
+            modal.style.display = 'none';
             document.body.style.overflow = '';
         }
     };
