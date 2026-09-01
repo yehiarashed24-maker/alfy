@@ -9,7 +9,7 @@
     <meta name="theme-color" content="#fff0f5"/>
     <title>Y ❤️ A - Letters</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;family=Playfair+Display:wght@500;600;700&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;family=Playfair+Display:wght@500;600;700&amp;family=Cairo:wght@400;600;700;800&amp;display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
     <script id="tailwind-config">
         tailwind.config = {
@@ -20,15 +20,15 @@
                       "on-tertiary-container": "#765d00",
                       "on-tertiary": "#ffffff",
                       "inverse-primary": "#e5bad3",
-                      "surface-variant": "#d5e3fd",
+                      "surface-variant": "#ffd8e7",
                       "on-primary-container": "#78566b",
                       "secondary-fixed-dim": "#ffafd3",
                       "tertiary-fixed-dim": "#e9c349",
                       "surface-container-lowest": "#ffffff",
                       "on-error": "#ffffff",
                       "tertiary-container": "#ffd861",
-                      "background": "#f8f9ff",
-                      "surface-dim": "#ccdbf4",
+                      "background": "#fff0f5",
+                      "surface-dim": "#fce7f3",
                       "on-tertiary-fixed-variant": "#574500",
                       "secondary-fixed": "#ffd8e7",
                       "inverse-surface": "#233144",
@@ -44,25 +44,25 @@
                       "secondary-container": "#fc79bd",
                       "tertiary": "#735c00",
                       "on-primary-fixed-variant": "#5c3d51",
-                      "surface-container-high": "#dde9ff",
+                      "surface-container-high": "#ffd8e7",
                       "primary-container": "#fbcfe8",
-                      "surface-bright": "#f8f9ff",
-                      "surface-container-low": "#eff4ff",
+                      "surface-bright": "#ffffff",
+                      "surface-container-low": "#fff5f8",
                       "inverse-on-surface": "#ebf1ff",
                       "error-container": "#ffdad6",
                       "primary-fixed": "#ffd8ed",
                       "on-secondary": "#ffffff",
                       "surface-tint": "#765469",
-                      "surface-container-highest": "#d5e3fd",
-                      "on-surface": "#0d1c2f",
+                      "surface-container-highest": "#fbcfe8",
+                      "on-surface": "#2c1325",
                       "on-secondary-fixed": "#3d0026",
                       "on-tertiary-fixed": "#241a00",
-                      "outline-variant": "#d1c3c9",
-                      "on-background": "#0d1c2f",
-                      "surface": "#f8f9ff",
+                      "outline-variant": "#fbcfe8",
+                      "on-background": "#2c1325",
+                      "surface": "#fff0f5",
                       "on-secondary-container": "#76014e",
                       "outline": "#807479",
-                      "surface-container": "#e6eeff",
+                      "surface-container": "#ffd8e7",
                       "primary-fixed-dim": "#e5bad3"
               },
               "borderRadius": {
@@ -82,14 +82,15 @@
                       "gutter": "24px"
               },
               "fontFamily": {
-                      "body-lg": ["Inter"],
-                      "headline-lg": ["Playfair Display"],
-                      "headline-lg-mobile": ["Playfair Display"],
-                      "headline-md": ["Playfair Display"],
-                      "display-lg": ["Playfair Display"],
-                      "label-md": ["Inter"],
-                      "body-md": ["Inter"],
-                      "headline-sm": ["Playfair Display"]
+                      "body-lg": ["Inter", "Cairo", "sans-serif"],
+                      "headline-lg": ["Playfair Display", "Cairo", "serif"],
+                      "headline-lg-mobile": ["Playfair Display", "Cairo", "serif"],
+                      "headline-md": ["Playfair Display", "Cairo", "serif"],
+                      "display-lg": ["Playfair Display", "Cairo", "serif"],
+                      "label-md": ["Inter", "Cairo", "sans-serif"],
+                      "body-md": ["Inter", "Cairo", "sans-serif"],
+                      "headline-sm": ["Playfair Display", "Cairo", "serif"],
+                      "cairo": ["Cairo", "sans-serif"]
               },
               "fontSize": {
                       "body-lg": ["1.125rem", {"lineHeight": "1.7", "fontWeight": "400"}],
@@ -106,6 +107,11 @@
         }
     </script>
     <style>
+        body {
+            background: radial-gradient(circle at 50% 30%, #ffd8e7 0%, #fff0f5 45%, #fce7f3 100%) !important;
+            min-height: 100vh;
+        }
+
         .floating-heart {
             position: absolute;
             animation: float 15s infinite linear;
@@ -122,53 +128,38 @@
         }
 
         .envelope-3d-card {
+            background: rgba(255, 255, 255, 0.45);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(251, 207, 232, 0.8);
+            box-shadow: 0 10px 30px rgba(164, 48, 115, 0.08);
             transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
             perspective: 1000px;
         }
         .envelope-3d-card:hover {
-            transform: translateY(-10px) scale(1.04);
-            box-shadow: 0 20px 40px rgba(164, 48, 115, 0.2);
-        }
-        
-        .modal-fade-in {
-            animation: modalFade 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-        @keyframes modalFade {
-            0% { opacity: 0; transform: scale(0.9) translateY(15px); }
-            100% { opacity: 1; transform: scale(1) translateY(0); }
-        }
-
-        .burst-heart {
-            position: fixed;
-            pointer-events: none;
-            z-index: 100;
-            animation: burstAnim 2.5s ease-out forwards;
-        }
-        @keyframes burstAnim {
-            0% { transform: translateY(0) scale(0.5); opacity: 1; }
-            100% { transform: translateY(-200px) scale(1.3); opacity: 0; }
+            transform: translateY(-8px) scale(1.03);
+            border-color: rgba(244, 114, 182, 0.9);
+            box-shadow: 0 20px 40px rgba(164, 48, 115, 0.18);
         }
     </style>
 </head>
-<body class="bg-background text-on-background font-body-lg overflow-x-hidden relative min-h-screen flex flex-col">
-<!-- Ambient Background Layer -->
-<div class="fixed inset-0 bg-gradient-to-br from-surface to-primary-container/20 z-[-2]"></div>
+<body class="text-on-background font-body-lg overflow-x-hidden relative min-h-screen flex flex-col">
 <!-- Floating Hearts Container -->
 <div class="fixed inset-0 overflow-hidden z-[-1] pointer-events-none" id="hearts-container"></div>
 
-<!-- TopNavBar (Identical to Timeline) -->
-<header class="bg-surface/70 dark:bg-surface-dim/70 backdrop-blur-md font-headline-sm text-headline-sm fixed top-0 w-full z-50 border-b border-outline-variant/30 dark:border-outline/20 shadow-sm shadow-secondary/10">
+<!-- TopNavBar -->
+<header class="bg-[#fff0f5]/80 backdrop-blur-md font-headline-sm text-headline-sm fixed top-0 w-full z-50 border-b border-[#fbcfe8]/70 shadow-sm shadow-secondary/10">
     <div class="max-w-container-max mx-auto px-gutter h-20 flex justify-between items-center">
-        <a href="index.html" class="font-headline-md text-2xl md:text-3xl text-primary dark:text-primary-fixed-dim font-bold tracking-wider hover:opacity-90 transition-opacity flex items-center gap-1.5">
+        <a href="index.html" class="font-headline-md text-2xl md:text-3xl text-primary font-bold tracking-wider hover:opacity-90 transition-opacity flex items-center gap-1.5">
             <span>Y</span><span class="text-secondary text-2xl md:text-3xl animate-pulse inline-block">❤️</span><span>A</span>
         </a>
         <nav class="hidden md:flex items-center gap-md">
             <a class="text-on-surface-variant hover:text-primary transition-colors hover:bg-primary-container/20 rounded-full px-4 py-2" href="index.html">Home</a>
             <a class="text-on-surface-variant hover:text-primary transition-colors hover:bg-primary-container/20 rounded-full px-4 py-2" href="timeline.html">Timeline</a>
             <a class="text-on-surface-variant hover:text-primary transition-colors hover:bg-primary-container/20 rounded-full px-4 py-2" href="gallery.html">Gallery</a>
-            <a class="text-secondary dark:text-secondary-fixed border-b-2 border-secondary dark:border-secondary-fixed pb-1 hover:bg-primary-container/20 rounded-full px-4 py-2 font-bold" href="letter.html">رسالة</a>
+            <a class="text-secondary border-b-2 border-secondary pb-1 hover:bg-primary-container/20 rounded-full px-4 py-2 font-bold font-cairo" href="letter.html">رسالة</a>
         </nav>
-        <a href="timeline.html" class="text-primary dark:text-primary-fixed-dim font-label-md text-label-md hover:bg-primary-container/20 rounded-full px-6 py-2 border border-outline-variant/50 hidden md:inline-block transition-transform duration-300 active:scale-95">
+        <a href="timeline.html" class="text-primary font-label-md text-label-md hover:bg-primary-container/20 rounded-full px-6 py-2 border border-secondary/30 hidden md:inline-block transition-transform duration-300 active:scale-95">
             Our Story
         </a>
         <!-- Mobile Menu Toggle -->
@@ -177,11 +168,11 @@
         </button>
     </div>
     <!-- Mobile Menu dropdown -->
-    <div id="mobile-menu" class="hidden md:hidden bg-surface/95 backdrop-blur-md border-b border-outline-variant/30 px-gutter py-4 flex flex-col gap-2">
+    <div id="mobile-menu" class="hidden md:hidden bg-[#fff0f5]/95 backdrop-blur-md border-b border-[#fbcfe8]/70 px-gutter py-4 flex flex-col gap-2">
         <a class="text-on-surface-variant hover:text-primary px-4 py-2 rounded-lg" href="index.html">Home</a>
         <a class="text-on-surface-variant hover:text-primary px-4 py-2 rounded-lg" href="timeline.html">Timeline</a>
         <a class="text-on-surface-variant hover:text-primary px-4 py-2 rounded-lg" href="gallery.html">Gallery</a>
-        <a class="text-secondary font-bold px-4 py-2 rounded-lg bg-primary-container/20" href="letter.html">رسالة</a>
+        <a class="text-secondary font-bold px-4 py-2 rounded-lg bg-primary-container/20 font-cairo" href="letter.html">رسالة</a>
     </div>
 </header>
 
@@ -190,8 +181,8 @@
     
     <!-- Title Section -->
     <div class="mb-12">
-        <h1 class="font-display-lg text-display-lg text-primary mb-3">رسائل من القلب لسارة ♡</h1>
-        <p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto flex items-center justify-center gap-2">
+        <h1 class="font-display-lg text-display-lg text-primary mb-3 font-cairo">رسائل من القلب لسارة ♡</h1>
+        <p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto flex items-center justify-center gap-2 font-cairo">
             <span class="material-symbols-outlined text-secondary text-base">favorite</span>
             <span>اضغطي على أي رسالة لفتح كلام حب وخواطر خاصة بسارة</span>
             <span class="material-symbols-outlined text-secondary text-base">favorite</span>
@@ -202,83 +193,83 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 w-full max-w-5xl mb-12">
         
         <!-- Card 1 -->
-        <div onclick="openLetter(0, event)" class="envelope-3d-card bg-surface-container-lowest rounded-2xl p-6 border border-secondary/30 shadow-md cursor-pointer flex flex-col items-center justify-between h-48 group">
-            <div class="w-12 h-12 rounded-full bg-primary-container/30 flex items-center justify-center group-hover:scale-110 transition-transform">
+        <div onclick="openLetter(0, event)" class="envelope-3d-card rounded-2xl p-6 cursor-pointer flex flex-col items-center justify-between h-48 group">
+            <div class="w-12 h-12 rounded-full bg-primary-container/60 flex items-center justify-center group-hover:scale-110 transition-transform shadow-sm">
                 <span class="material-symbols-outlined text-secondary text-2xl">mail</span>
             </div>
-            <div class="font-headline-sm text-primary font-bold">الرسالة الأولى</div>
-            <span class="text-xs bg-primary-container text-on-primary-container px-3 py-1 rounded-full font-label-md">افتح الرسالة ♡</span>
+            <div class="font-headline-sm text-primary font-bold font-cairo">الرسالة الأولى</div>
+            <span class="text-xs bg-primary-container text-on-primary-container px-3.5 py-1 rounded-full font-label-md font-cairo">افتح الرسالة ♡</span>
         </div>
 
         <!-- Card 2 -->
-        <div onclick="openLetter(1, event)" class="envelope-3d-card bg-surface-container-lowest rounded-2xl p-6 border border-secondary/30 shadow-md cursor-pointer flex flex-col items-center justify-between h-48 group">
-            <div class="w-12 h-12 rounded-full bg-primary-container/30 flex items-center justify-center group-hover:scale-110 transition-transform">
+        <div onclick="openLetter(1, event)" class="envelope-3d-card rounded-2xl p-6 cursor-pointer flex flex-col items-center justify-between h-48 group">
+            <div class="w-12 h-12 rounded-full bg-primary-container/60 flex items-center justify-center group-hover:scale-110 transition-transform shadow-sm">
                 <span class="material-symbols-outlined text-secondary text-2xl">favorite</span>
             </div>
-            <div class="font-headline-sm text-primary font-bold">الرسالة الثانية</div>
-            <span class="text-xs bg-primary-container text-on-primary-container px-3 py-1 rounded-full font-label-md">افتح الرسالة ♡</span>
+            <div class="font-headline-sm text-primary font-bold font-cairo">الرسالة الثانية</div>
+            <span class="text-xs bg-primary-container text-on-primary-container px-3.5 py-1 rounded-full font-label-md font-cairo">افتح الرسالة ♡</span>
         </div>
 
         <!-- Card 3 -->
-        <div onclick="openLetter(2, event)" class="envelope-3d-card bg-surface-container-lowest rounded-2xl p-6 border border-secondary/30 shadow-md cursor-pointer flex flex-col items-center justify-between h-48 group">
-            <div class="w-12 h-12 rounded-full bg-primary-container/30 flex items-center justify-center group-hover:scale-110 transition-transform">
+        <div onclick="openLetter(2, event)" class="envelope-3d-card rounded-2xl p-6 cursor-pointer flex flex-col items-center justify-between h-48 group">
+            <div class="w-12 h-12 rounded-full bg-primary-container/60 flex items-center justify-center group-hover:scale-110 transition-transform shadow-sm">
                 <span class="material-symbols-outlined text-secondary text-2xl">local_florist</span>
             </div>
-            <div class="font-headline-sm text-primary font-bold">الرسالة الثالثة</div>
-            <span class="text-xs bg-primary-container text-on-primary-container px-3 py-1 rounded-full font-label-md">افتح الرسالة ♡</span>
+            <div class="font-headline-sm text-primary font-bold font-cairo">الرسالة الثالثة</div>
+            <span class="text-xs bg-primary-container text-on-primary-container px-3.5 py-1 rounded-full font-label-md font-cairo">افتح الرسالة ♡</span>
         </div>
 
         <!-- Card 4 -->
-        <div onclick="openLetter(3, event)" class="envelope-3d-card bg-surface-container-lowest rounded-2xl p-6 border border-secondary/30 shadow-md cursor-pointer flex flex-col items-center justify-between h-48 group">
-            <div class="w-12 h-12 rounded-full bg-primary-container/30 flex items-center justify-center group-hover:scale-110 transition-transform">
+        <div onclick="openLetter(3, event)" class="envelope-3d-card rounded-2xl p-6 cursor-pointer flex flex-col items-center justify-between h-48 group">
+            <div class="w-12 h-12 rounded-full bg-primary-container/60 flex items-center justify-center group-hover:scale-110 transition-transform shadow-sm">
                 <span class="material-symbols-outlined text-secondary text-2xl">diamond</span>
             </div>
-            <div class="font-headline-sm text-primary font-bold">الرسالة الرابعة</div>
-            <span class="text-xs bg-primary-container text-on-primary-container px-3 py-1 rounded-full font-label-md">افتح الرسالة ♡</span>
+            <div class="font-headline-sm text-primary font-bold font-cairo">الرسالة الرابعة</div>
+            <span class="text-xs bg-primary-container text-on-primary-container px-3.5 py-1 rounded-full font-label-md font-cairo">افتح الرسالة ♡</span>
         </div>
 
         <!-- Card 5 -->
-        <div onclick="openLetter(4, event)" class="envelope-3d-card bg-surface-container-lowest rounded-2xl p-6 border border-secondary/30 shadow-md cursor-pointer flex flex-col items-center justify-between h-48 group">
-            <div class="w-12 h-12 rounded-full bg-primary-container/30 flex items-center justify-center group-hover:scale-110 transition-transform">
+        <div onclick="openLetter(4, event)" class="envelope-3d-card rounded-2xl p-6 cursor-pointer flex flex-col items-center justify-between h-48 group">
+            <div class="w-12 h-12 rounded-full bg-primary-container/60 flex items-center justify-center group-hover:scale-110 transition-transform shadow-sm">
                 <span class="material-symbols-outlined text-secondary text-2xl">sentiment_very_satisfied</span>
             </div>
-            <div class="font-headline-sm text-primary font-bold">الرسالة الخامسة</div>
-            <span class="text-xs bg-primary-container text-on-primary-container px-3 py-1 rounded-full font-label-md">افتح الرسالة ♡</span>
+            <div class="font-headline-sm text-primary font-bold font-cairo">الرسالة الخامسة</div>
+            <span class="text-xs bg-primary-container text-on-primary-container px-3.5 py-1 rounded-full font-label-md font-cairo">افتح الرسالة ♡</span>
         </div>
 
         <!-- Card 6 -->
-        <div onclick="openLetter(5, event)" class="envelope-3d-card bg-surface-container-lowest rounded-2xl p-6 border border-secondary/30 shadow-md cursor-pointer flex flex-col items-center justify-between h-48 group">
-            <div class="w-12 h-12 rounded-full bg-primary-container/30 flex items-center justify-center group-hover:scale-110 transition-transform">
+        <div onclick="openLetter(5, event)" class="envelope-3d-card rounded-2xl p-6 cursor-pointer flex flex-col items-center justify-between h-48 group">
+            <div class="w-12 h-12 rounded-full bg-primary-container/60 flex items-center justify-center group-hover:scale-110 transition-transform shadow-sm">
                 <span class="material-symbols-outlined text-secondary text-2xl">auto_awesome</span>
             </div>
-            <div class="font-headline-sm text-primary font-bold">الرسالة السادسة</div>
-            <span class="text-xs bg-primary-container text-on-primary-container px-3 py-1 rounded-full font-label-md">افتح الرسالة ♡</span>
+            <div class="font-headline-sm text-primary font-bold font-cairo">الرسالة السادسة</div>
+            <span class="text-xs bg-primary-container text-on-primary-container px-3.5 py-1 rounded-full font-label-md font-cairo">افتح الرسالة ♡</span>
         </div>
 
         <!-- Card 7 -->
-        <div onclick="openLetter(6, event)" class="envelope-3d-card bg-surface-container-lowest rounded-2xl p-6 border border-secondary/30 shadow-md cursor-pointer flex flex-col items-center justify-between h-48 group col-span-1 sm:col-span-2 md:col-span-1 lg:col-span-2">
-            <div class="w-12 h-12 rounded-full bg-primary-container/30 flex items-center justify-center group-hover:scale-110 transition-transform">
+        <div onclick="openLetter(6, event)" class="envelope-3d-card rounded-2xl p-6 cursor-pointer flex flex-col items-center justify-between h-48 group col-span-1 sm:col-span-2 md:col-span-1 lg:col-span-2">
+            <div class="w-12 h-12 rounded-full bg-primary-container/60 flex items-center justify-center group-hover:scale-110 transition-transform shadow-sm">
                 <span class="material-symbols-outlined text-secondary text-2xl">stars</span>
             </div>
-            <div class="font-headline-sm text-primary font-bold">الرسالة السابعة</div>
-            <span class="text-xs bg-primary-container text-on-primary-container px-3 py-1 rounded-full font-label-md">افتح الرسالة ♡</span>
+            <div class="font-headline-sm text-primary font-bold font-cairo">الرسالة السابعة</div>
+            <span class="text-xs bg-primary-container text-on-primary-container px-3.5 py-1 rounded-full font-label-md font-cairo">افتح الرسالة ♡</span>
         </div>
 
     </div>
 
     <!-- Random Quote Action -->
-    <button onclick="openRandomLetter(event)" class="bg-secondary-container hover:bg-secondary text-on-secondary-container hover:text-white font-label-md text-label-md px-8 py-3.5 rounded-full transition-all duration-300 shadow-[0_4px_15px_rgb(164,48,115,0.15)] flex items-center gap-2 hover:-translate-y-1 active:scale-95 font-cairo font-bold">
+    <button onclick="openRandomLetter(event)" class="bg-secondary text-white hover:bg-secondary/90 font-label-md text-base px-8 py-3.5 rounded-full transition-all duration-300 shadow-lg shadow-secondary/25 flex items-center gap-2 hover:scale-105 active:scale-95 font-cairo font-bold">
         <span class="material-symbols-outlined text-sm">favorite</span>
         <span>رسالة عشوائية لسارة ♡</span>
     </button>
 </main>
 
-<!-- Footer (Identical to Timeline) -->
-<footer class="bg-surface-container-low dark:bg-surface-container-lowest font-body-md text-body-md w-full py-xl border-t border-outline-variant/50 flex flex-col items-center gap-md text-center px-gutter z-10 relative mt-auto mb-20">
-    <div class="font-headline-sm text-2xl text-primary dark:text-primary-fixed-dim tracking-wider flex items-center gap-1.5">
+<!-- Footer -->
+<footer class="bg-[#fff0f5]/70 backdrop-blur-md font-body-md text-body-md w-full py-xl border-t border-[#fbcfe8]/70 flex flex-col items-center gap-md text-center px-gutter z-10 relative mt-auto mb-20">
+    <div class="font-headline-sm text-2xl text-primary tracking-wider flex items-center gap-1.5">
         <span>Y</span><span class="text-secondary text-2xl">❤️</span><span>A</span>
     </div>
-    <div class="text-secondary dark:text-secondary-fixed-dim mt-2 font-cairo">
+    <div class="text-secondary mt-2 font-cairo">
         Made with love for Soso ♡
     </div>
 </footer>

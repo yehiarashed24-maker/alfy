@@ -116,16 +116,16 @@
             modal.id = 'love-modal';
             document.body.appendChild(modal);
         }
-        modal.style.cssText = 'position:fixed; inset:0; z-index:999999; background:rgba(15, 23, 42, 0.7); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); display:none; align-items:center; justify-content:center; padding:1rem;';
+        modal.style.cssText = 'position:fixed; inset:0; z-index:999999; background:rgba(74, 4, 78, 0.45); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); display:none; align-items:center; justify-content:center; padding:1rem;';
         modal.innerHTML = `
-            <div style="background:#ffffff; border:1px solid #fbcfe8; border-radius:1.5rem; max-width:32rem; width:100%; padding:2rem 1.5rem; text-align:center; position:relative; box-shadow:0 25px 50px -12px rgba(164, 48, 115, 0.35); margin:auto;">
-                <button type="button" onclick="closeLetterModal()" style="position:absolute; top:1rem; left:1rem; width:2.25rem; height:2.25rem; border-radius:9999px; background:#f1f5f9; border:none; display:flex; align-items:center; justify-content:center; cursor:pointer; color:#765469; box-shadow:0 1px 3px rgba(0,0,0,0.1);" title="إغلاق">
+            <div style="background:rgba(255, 245, 248, 0.98); border:1.5px solid #fbcfe8; border-radius:1.5rem; max-width:32rem; width:100%; padding:2rem 1.5rem; text-align:center; position:relative; box-shadow:0 25px 50px -12px rgba(164, 48, 115, 0.3); margin:auto;">
+                <button type="button" onclick="closeLetterModal()" style="position:absolute; top:1rem; left:1rem; width:2.25rem; height:2.25rem; border-radius:9999px; background:#ffe4e6; border:none; display:flex; align-items:center; justify-content:center; cursor:pointer; color:#a43073; box-shadow:0 1px 3px rgba(0,0,0,0.1);" title="إغلاق">
                     <span class="material-symbols-outlined" style="font-size:1.25rem;">close</span>
                 </button>
                 <div style="width:3.5rem; height:3.5rem; border-radius:9999px; background:#fbcfe8; border:1px solid #f472b6; display:flex; align-items:center; justify-content:center; margin:0 auto 0.75rem auto;">
                     <span class="material-symbols-outlined animate-pulse" style="font-size:2rem; color:#a43073;">favorite</span>
                 </div>
-                <div style="color:#a43073; font-weight:700; font-size:1rem; margin-bottom:0.75rem; letter-spacing:0.05em; font-family:'Cairo', sans-serif;">رسالة حب خاصة لسارة ❤️</div>
+                <div style="color:#a43073; font-weight:700; font-size:1.05rem; margin-bottom:0.75rem; letter-spacing:0.05em; font-family:'Cairo', sans-serif;">رسالة حب خاصة لسارة ❤️</div>
                 <div style="background:#fff0f5; border:1px solid #fbcfe8; border-radius:1rem; padding:1.25rem; margin:1rem 0; box-shadow:inset 0 2px 4px rgba(0,0,0,0.03);">
                     <p id="modal-letter-text" style="color:#4a044e; font-size:1.15rem; line-height:1.8; font-weight:600; margin:0; direction:rtl; text-align:center; font-family:'Cairo', sans-serif;" dir="rtl">
                         "${SARA_MESSAGES[0]}"
@@ -137,7 +137,7 @@
                         <span>رسالة تانية لسارة</span>
                         <span class="material-symbols-outlined" style="font-size:1rem;">arrow_forward</span>
                     </button>
-                    <button type="button" onclick="closeLetterModal()" style="padding:0.7rem 1.5rem; border-radius:9999px; background:#f1f5f9; color:#475569; font-weight:600; font-size:0.95rem; border:1px solid #cbd5e1; cursor:pointer; font-family:'Cairo', sans-serif; transition:all 0.2s;">
+                    <button type="button" onclick="closeLetterModal()" style="padding:0.7rem 1.5rem; border-radius:9999px; background:#ffe4e6; color:#a43073; font-weight:700; font-size:0.95rem; border:1px solid #fbcfe8; cursor:pointer; font-family:'Cairo', sans-serif; transition:all 0.2s;">
                         إغلاق
                     </button>
                 </div>
@@ -380,17 +380,17 @@
 
         const lockOverlay = document.createElement('div');
         lockOverlay.id = 'global-lock-screen';
-        lockOverlay.className = 'fixed inset-0 z-[100] bg-surface-container-lowest/90 backdrop-blur-2xl flex items-center justify-center p-4';
+        lockOverlay.className = 'fixed inset-0 z-[100] bg-[#fff0f5]/95 backdrop-blur-2xl flex items-center justify-center p-4';
         lockOverlay.innerHTML = `
-            <div class="bg-surface-container-lowest/95 border border-secondary/30 shadow-2xl rounded-3xl p-8 md:p-12 max-w-md w-full text-center relative">
+            <div class="bg-white/80 backdrop-blur-xl border border-[#fbcfe8] shadow-2xl rounded-3xl p-8 md:p-12 max-w-md w-full text-center relative">
                 <div class="w-20 h-20 rounded-full bg-primary-container/40 flex items-center justify-center mx-auto mb-6 shadow-inner border border-secondary/30">
                     <span class="material-symbols-outlined text-4xl text-secondary animate-pulse">lock</span>
                 </div>
                 <h2 class="font-headline-md text-2xl md:text-3xl text-primary font-bold mb-2">Y ❤️ A</h2>
                 <p class="text-on-surface-variant font-body-md text-sm mb-6">بعض الحكايات معمولة مخصوص لينا إحنا وبس...</p>
                 <div class="space-y-4">
-                    <input id="story-pass-input" type="password" placeholder="Enter password..." class="w-full px-5 py-3.5 rounded-full border border-outline-variant/60 focus:border-secondary focus:ring-2 focus:ring-secondary/20 outline-none text-center font-body-md bg-surface-container-low transition-all" autocomplete="off"/>
-                    <button id="story-unlock-btn" class="w-full py-3.5 rounded-full bg-secondary text-white font-bold hover:bg-secondary/90 shadow-lg shadow-secondary/20 transition-all transform hover:-translate-y-0.5 active:scale-95">
+                    <input id="story-pass-input" type="password" placeholder="Enter password..." class="w-full px-5 py-3.5 rounded-full border border-secondary/30 focus:border-secondary focus:ring-2 focus:ring-secondary/20 outline-none text-center font-body-md bg-[#fff5f8] transition-all" autocomplete="off"/>
+                    <button id="story-unlock-btn" class="w-full py-3.5 rounded-full bg-secondary text-white font-bold hover:bg-secondary/90 shadow-lg shadow-secondary/25 transition-all transform hover:-translate-y-0.5 active:scale-95">
                         Open Our Story ❤️
                     </button>
                     <p id="story-pass-error" class="text-error text-xs h-4 font-semibold"></p>
@@ -460,29 +460,29 @@
 
         const playerDiv = document.createElement('div');
         playerDiv.id = 'floating-music-player';
-        playerDiv.className = 'fixed bottom-[calc(4.5rem+env(safe-area-inset-bottom))] left-3 right-3 md:bottom-6 md:left-auto md:right-6 md:w-96 z-50 bg-surface-container-lowest/90 backdrop-blur-xl border border-secondary/25 rounded-2xl p-2.5 md:p-3 shadow-2xl flex flex-col gap-1.5 md:gap-2 transition-all duration-300';
+        playerDiv.className = 'fixed bottom-[calc(4.5rem+env(safe-area-inset-bottom))] left-3 right-3 md:bottom-6 md:left-auto md:right-6 md:w-96 z-50 bg-[#fff0f5]/92 backdrop-blur-2xl border border-[#fbcfe8] rounded-2xl p-2.5 md:p-3 shadow-2xl shadow-secondary/15 flex flex-col gap-1.5 md:gap-2 transition-all duration-300';
         playerDiv.innerHTML = `
             <div class="flex items-center gap-2.5 md:gap-3">
-                <img id="player-track-img" src="${currentTrack.img}" alt="Album cover" class="w-10 h-10 md:w-12 md:h-12 rounded-xl object-cover border border-outline-variant/40 shadow-sm flex-shrink-0"/>
+                <img id="player-track-img" src="${currentTrack.img}" alt="Album cover" class="w-10 h-10 md:w-12 md:h-12 rounded-xl object-cover border border-secondary/30 shadow-sm flex-shrink-0"/>
                 <div class="flex-grow min-w-0">
                     <div id="player-track-title" class="text-primary font-bold text-xs md:text-sm truncate">${currentTrack.title}</div>
-                    <div id="player-track-artist" class="text-secondary text-[10px] md:text-xs truncate">${currentTrack.artist}</div>
+                    <div id="player-track-artist" class="text-secondary text-[10px] md:text-xs truncate font-cairo">${currentTrack.artist}</div>
                 </div>
                 <div class="flex items-center gap-0.5 md:gap-1 flex-shrink-0">
-                    <button id="global-music-prev" class="w-7 h-7 md:w-8 md:h-8 rounded-full hover:bg-surface-container-high text-primary flex items-center justify-center transition-all ios-touch" title="Previous song">
+                    <button id="global-music-prev" class="w-7 h-7 md:w-8 md:h-8 rounded-full hover:bg-primary-container/30 text-primary flex items-center justify-center transition-all ios-touch" title="Previous song">
                         <span class="material-symbols-outlined text-sm md:text-base">skip_previous</span>
                     </button>
-                    <button id="global-music-play" class="w-9 h-9 md:w-10 md:h-10 rounded-full bg-secondary-container hover:bg-secondary text-on-secondary-container hover:text-white flex items-center justify-center transition-all shadow-sm ios-touch">
+                    <button id="global-music-play" class="w-9 h-9 md:w-10 md:h-10 rounded-full bg-secondary-container hover:bg-secondary text-white flex items-center justify-center transition-all shadow-sm ios-touch">
                         <span class="material-symbols-outlined text-base md:text-lg" id="play-icon">play_arrow</span>
                     </button>
-                    <button id="global-music-next" class="w-7 h-7 md:w-8 md:h-8 rounded-full hover:bg-surface-container-high text-primary flex items-center justify-center transition-all ios-touch" title="Next song">
+                    <button id="global-music-next" class="w-7 h-7 md:w-8 md:h-8 rounded-full hover:bg-primary-container/30 text-primary flex items-center justify-center transition-all ios-touch" title="Next song">
                         <span class="material-symbols-outlined text-sm md:text-base">skip_next</span>
                     </button>
                 </div>
             </div>
             <div class="flex items-center gap-2 text-[9px] md:text-[10px] text-on-surface-variant px-1 font-mono">
                 <span id="player-cur-time">0:00</span>
-                <div id="player-progress-bar" class="flex-grow h-1.5 bg-surface-container-high rounded-full overflow-hidden cursor-pointer relative">
+                <div id="player-progress-bar" class="flex-grow h-1.5 bg-[#ffd8e7] rounded-full overflow-hidden cursor-pointer relative">
                     <div id="player-progress-fill" class="h-full bg-secondary w-0 rounded-full"></div>
                 </div>
                 <span id="player-dur-time">0:00</span>
@@ -614,7 +614,7 @@
 
         const tabBar = document.createElement('nav');
         tabBar.id = 'ios-bottom-tabbar';
-        tabBar.className = 'fixed bottom-0 left-0 right-0 z-40 bg-surface-container-lowest/85 backdrop-blur-2xl border-t border-outline-variant/30 flex justify-around items-center pt-2 pb-[max(0.6rem,env(safe-area-inset-bottom))] md:hidden shadow-[0_-4px_20px_rgba(0,0,0,0.06)]';
+        tabBar.className = 'fixed bottom-0 left-0 right-0 z-40 bg-[#fff0f5]/90 backdrop-blur-2xl border-t border-[#fbcfe8] flex justify-around items-center pt-2 pb-[max(0.6rem,env(safe-area-inset-bottom))] md:hidden shadow-[0_-4px_20px_rgba(164,48,115,0.08)]';
         tabBar.innerHTML = `
             <a href="index.html" data-tab="index.html" class="flex flex-col items-center gap-0.5 text-on-surface-variant py-1 px-3 rounded-xl ios-touch transition-all">
                 <span class="material-symbols-outlined text-2xl">home</span>

@@ -33,15 +33,15 @@
                         "on-tertiary-container": "#765d00",
                         "on-tertiary": "#ffffff",
                         "inverse-primary": "#e5bad3",
-                        "surface-variant": "#d5e3fd",
+                        "surface-variant": "#ffd8e7",
                         "on-primary-container": "#78566b",
                         "secondary-fixed-dim": "#ffafd3",
                         "tertiary-fixed-dim": "#e9c349",
                         "surface-container-lowest": "#ffffff",
                         "on-error": "#ffffff",
                         "tertiary-container": "#ffd861",
-                        "background": "#f8f9ff",
-                        "surface-dim": "#ccdbf4",
+                        "background": "#fff0f5",
+                        "surface-dim": "#fce7f3",
                         "on-tertiary-fixed-variant": "#574500",
                         "secondary-fixed": "#ffd8e7",
                         "inverse-surface": "#233144",
@@ -57,25 +57,25 @@
                         "secondary-container": "#fc79bd",
                         "tertiary": "#735c00",
                         "on-primary-fixed-variant": "#5c3d51",
-                        "surface-container-high": "#dde9ff",
+                        "surface-container-high": "#ffd8e7",
                         "primary-container": "#fbcfe8",
-                        "surface-bright": "#f8f9ff",
-                        "surface-container-low": "#eff4ff",
+                        "surface-bright": "#ffffff",
+                        "surface-container-low": "#fff5f8",
                         "inverse-on-surface": "#ebf1ff",
                         "error-container": "#ffdad6",
                         "primary-fixed": "#ffd8ed",
                         "on-secondary": "#ffffff",
                         "surface-tint": "#765469",
-                        "surface-container-highest": "#d5e3fd",
-                        "on-surface": "#0d1c2f",
+                        "surface-container-highest": "#fbcfe8",
+                        "on-surface": "#2c1325",
                         "on-secondary-fixed": "#3d0026",
                         "on-tertiary-fixed": "#241a00",
-                        "outline-variant": "#d1c3c9",
-                        "on-background": "#0d1c2f",
-                        "surface": "#f8f9ff",
+                        "outline-variant": "#fbcfe8",
+                        "on-background": "#2c1325",
+                        "surface": "#fff0f5",
                         "on-secondary-container": "#76014e",
                         "outline": "#807479",
-                        "surface-container": "#e6eeff",
+                        "surface-container": "#ffd8e7",
                         "primary-fixed-dim": "#e5bad3"
                     },
                     "borderRadius": {
@@ -341,25 +341,25 @@ void main() {
     </script>
     <!-- TopNavBar -->
     <header
-        class="bg-surface/70 dark:bg-surface-dim/70 backdrop-blur-md font-headline-sm text-headline-sm fixed top-0 w-full z-50 border-b border-outline-variant/30 dark:border-outline/20 shadow-sm shadow-secondary/10">
+        class="bg-[#fff0f5]/80 backdrop-blur-md font-headline-sm text-headline-sm fixed top-0 w-full z-50 border-b border-[#fbcfe8]/70 shadow-sm shadow-secondary/10">
         <div class="max-w-container-max mx-auto px-gutter h-20 flex justify-between items-center">
             <a href="index.html"
-                class="font-headline-md text-2xl md:text-3xl text-primary dark:text-primary-fixed-dim font-bold tracking-wider hover:opacity-90 transition-opacity flex items-center gap-1.5">
+                class="font-headline-md text-2xl md:text-3xl text-primary font-bold tracking-wider hover:opacity-90 transition-opacity flex items-center gap-1.5">
                 <span>Y</span><span
                     class="text-secondary text-2xl md:text-3xl animate-pulse inline-block">❤️</span><span>A</span>
             </a>
             <nav class="hidden md:flex items-center gap-md">
-                <a class="text-secondary dark:text-secondary-fixed border-b-2 border-secondary dark:border-secondary-fixed pb-1 hover:bg-primary-container/20 rounded-full px-4 py-2"
+                <a class="text-secondary border-b-2 border-secondary pb-1 hover:bg-primary-container/20 rounded-full px-4 py-2"
                     href="index.html">Home</a>
                 <a class="text-on-surface-variant hover:text-primary transition-colors hover:bg-primary-container/20 rounded-full px-4 py-2"
                     href="timeline.html">Timeline</a>
                 <a class="text-on-surface-variant hover:text-primary transition-colors hover:bg-primary-container/20 rounded-full px-4 py-2"
                     href="gallery.html">Gallery</a>
-                <a class="text-on-surface-variant hover:text-primary transition-colors hover:bg-primary-container/20 rounded-full px-4 py-2"
+                <a class="text-on-surface-variant hover:text-primary transition-colors hover:bg-primary-container/20 rounded-full px-4 py-2 font-cairo"
                     href="letter.html">رسالة</a>
             </nav>
             <a href="timeline.html"
-                class="text-primary dark:text-primary-fixed-dim font-label-md text-label-md hover:bg-primary-container/20 rounded-full px-6 py-2 border border-outline-variant/50 hidden md:inline-block transition-transform duration-300 active:scale-95">
+                class="text-primary font-label-md text-label-md hover:bg-primary-container/20 rounded-full px-6 py-2 border border-secondary/30 hidden md:inline-block transition-transform duration-300 active:scale-95">
                 Our Story
             </a>
             <!-- Mobile Menu Toggle -->
@@ -370,11 +370,11 @@ void main() {
         </div>
         <!-- Mobile Menu dropdown -->
         <div id="mobile-menu"
-            class="hidden md:hidden bg-surface/95 backdrop-blur-md border-b border-outline-variant/30 px-gutter py-4 flex flex-col gap-2">
+            class="hidden md:hidden bg-[#fff0f5]/95 backdrop-blur-md border-b border-[#fbcfe8]/70 px-gutter py-4 flex flex-col gap-2">
             <a class="text-secondary font-bold px-4 py-2 rounded-lg bg-primary-container/20" href="index.html">Home</a>
             <a class="text-on-surface-variant hover:text-primary px-4 py-2 rounded-lg" href="timeline.html">Timeline</a>
             <a class="text-on-surface-variant hover:text-primary px-4 py-2 rounded-lg" href="gallery.html">Gallery</a>
-            <a class="text-on-surface-variant hover:text-primary px-4 py-2 rounded-lg" href="letter.html">رسالة</a>
+            <a class="text-on-surface-variant hover:text-primary px-4 py-2 rounded-lg font-cairo" href="letter.html">رسالة</a>
         </div>
     </header>
     <!-- Main Content -->
@@ -541,7 +541,7 @@ void main() {
 
             <!-- Real-time Love Counter Widget (Mobile Responsive) -->
             <div
-                class="mb-8 md:mb-10 w-full max-w-md md:max-w-lg bg-surface-container-lowest/85 backdrop-blur-md rounded-2xl p-3.5 sm:p-5 md:p-6 border border-secondary/20 shadow-lg">
+                class="mb-8 md:mb-10 w-full max-w-md md:max-w-lg bg-white/40 backdrop-blur-md rounded-2xl p-3.5 sm:p-5 md:p-6 border border-[#fbcfe8] shadow-lg shadow-secondary/10">
                 <h3
                     class="text-xs sm:text-sm uppercase tracking-widest text-secondary font-bold mb-3 sm:mb-4 font-cairo flex items-center justify-center gap-1.5">
                     <span>⏳</span>
@@ -549,56 +549,55 @@ void main() {
                 </h3>
                 <div class="grid grid-cols-4 gap-1.5 sm:gap-3 text-center">
                     <div
-                        class="bg-surface-container-low rounded-xl py-2 px-1 sm:p-3 border border-outline-variant/30 flex flex-col justify-center items-center min-w-0 shadow-sm">
+                        class="bg-[#fff0f5]/80 rounded-xl py-2 px-1 sm:p-3 border border-[#fbcfe8] flex flex-col justify-center items-center min-w-0 shadow-sm">
                         <span id="love-days"
                             class="block font-headline-md text-base sm:text-2xl md:text-3xl text-secondary font-bold tracking-tight whitespace-nowrap tabular-nums">00</span>
                         <span
-                            class="text-[11px] sm:text-xs text-on-surface-variant font-medium mt-0.5 sm:mt-1">يوم</span>
+                            class="text-[11px] sm:text-xs text-on-surface-variant font-medium mt-0.5 sm:mt-1 font-cairo">يوم</span>
                     </div>
                     <div
-                        class="bg-surface-container-low rounded-xl py-2 px-1 sm:p-3 border border-outline-variant/30 flex flex-col justify-center items-center min-w-0 shadow-sm">
+                        class="bg-[#fff0f5]/80 rounded-xl py-2 px-1 sm:p-3 border border-[#fbcfe8] flex flex-col justify-center items-center min-w-0 shadow-sm">
                         <span id="love-hours"
                             class="block font-headline-md text-base sm:text-2xl md:text-3xl text-secondary font-bold tracking-tight whitespace-nowrap tabular-nums">00</span>
                         <span
-                            class="text-[11px] sm:text-xs text-on-surface-variant font-medium mt-0.5 sm:mt-1">ساعة</span>
+                            class="text-[11px] sm:text-xs text-on-surface-variant font-medium mt-0.5 sm:mt-1 font-cairo">ساعة</span>
                     </div>
                     <div
-                        class="bg-surface-container-low rounded-xl py-2 px-1 sm:p-3 border border-outline-variant/30 flex flex-col justify-center items-center min-w-0 shadow-sm">
+                        class="bg-[#fff0f5]/80 rounded-xl py-2 px-1 sm:p-3 border border-[#fbcfe8] flex flex-col justify-center items-center min-w-0 shadow-sm">
                         <span id="love-mins"
                             class="block font-headline-md text-base sm:text-2xl md:text-3xl text-secondary font-bold tracking-tight whitespace-nowrap tabular-nums">00</span>
                         <span
-                            class="text-[11px] sm:text-xs text-on-surface-variant font-medium mt-0.5 sm:mt-1">دقيقة</span>
+                            class="text-[11px] sm:text-xs text-on-surface-variant font-medium mt-0.5 sm:mt-1 font-cairo">دقيقة</span>
                     </div>
                     <div
-                        class="bg-surface-container-low rounded-xl py-2 px-1 sm:p-3 border border-outline-variant/30 flex flex-col justify-center items-center min-w-0 shadow-sm">
+                        class="bg-[#fff0f5]/80 rounded-xl py-2 px-1 sm:p-3 border border-[#fbcfe8] flex flex-col justify-center items-center min-w-0 shadow-sm">
                         <span id="love-secs"
                             class="block font-headline-md text-base sm:text-2xl md:text-3xl text-secondary font-bold tracking-tight whitespace-nowrap tabular-nums">00</span>
                         <span
-                            class="text-[11px] sm:text-xs text-on-surface-variant font-medium mt-0.5 sm:mt-1">ثانية</span>
+                            class="text-[11px] sm:text-xs text-on-surface-variant font-medium mt-0.5 sm:mt-1 font-cairo">ثانية</span>
                     </div>
                 </div>
             </div>
 
             <a href="timeline.html"
-                class="bg-secondary text-white font-label-md text-base md:text-lg px-12 py-4 rounded-full hover:bg-secondary/90 hover:scale-105 transition-all duration-300 shadow-xl shadow-secondary/25 tracking-wider uppercase inline-block">
+                class="bg-secondary text-white font-label-md text-base md:text-lg px-12 py-4 rounded-full hover:bg-secondary/90 hover:scale-105 transition-all duration-300 shadow-xl shadow-secondary/25 tracking-wider uppercase inline-block font-bold">
                 Begin Our Journey
             </a>
         </div>
     </main>
     <!-- Footer -->
     <footer
-        class="relative z-10 glass-effect w-full py-16 flex flex-col items-center gap-8 text-center px-gutter mt-24 mb-20">
+        class="relative z-10 bg-[#fff0f5]/70 backdrop-blur-md border-t border-[#fbcfe8]/70 w-full py-16 flex flex-col items-center gap-8 text-center px-gutter mt-24 mb-20">
         <div
             class="font-headline-sm text-2xl md:text-3xl text-primary tracking-widest uppercase flex items-center gap-2">
             <span>Y</span><span class="text-secondary text-2xl">❤️</span><span>A</span>
         </div>
         <div class="flex gap-12 font-body-md text-on-surface-variant">
         </div>
-        <div class="font-body-md text-primary mt-8 opacity-70 tracking-widest">
+        <div class="font-body-md text-primary mt-8 opacity-70 tracking-widest font-cairo">
             Made with love for Soso ♡
         </div>
     </footer>
     <script src="shared.js"></script>
 </body>
-
 </html>

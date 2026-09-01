@@ -15,7 +15,7 @@
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
         rel="stylesheet" />
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;family=Playfair+Display:wght@500;600;700&amp;display=swap"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;family=Playfair+Display:wght@500;600;700&amp;family=Cairo:wght@400;600;700;800&amp;display=swap"
         rel="stylesheet" />
     <script id="tailwind-config">
         tailwind.config = {
@@ -23,26 +23,26 @@
             theme: {
                 extend: {
                     "colors": {
-                        "background": "#f8f9ff",
+                        "background": "#fff0f5",
                         "on-error-container": "#93000a",
-                        "on-background": "#0d1c2f",
+                        "on-background": "#2c1325",
                         "error-container": "#ffdad6",
                         "tertiary-fixed": "#ffe088",
                         "primary-fixed": "#ffd8ed",
-                        "on-surface": "#0d1c2f",
+                        "on-surface": "#2c1325",
                         "secondary-fixed": "#ffd8e7",
-                        "surface-dim": "#ccdbf4",
+                        "surface-dim": "#fce7f3",
                         "primary": "#765469",
                         "on-primary-fixed": "#2c1325",
                         "inverse-primary": "#e5bad3",
-                        "surface-container-high": "#dde9ff",
-                        "surface-bright": "#f8f9ff",
+                        "surface-container-high": "#ffd8e7",
+                        "surface-bright": "#ffffff",
                         "inverse-on-surface": "#ebf1ff",
                         "inverse-surface": "#233144",
                         "error": "#ba1a1a",
                         "on-secondary-fixed-variant": "#85145a",
                         "on-tertiary": "#ffffff",
-                        "surface-container-highest": "#d5e3fd",
+                        "surface-container-highest": "#fbcfe8",
                         "surface-tint": "#765469",
                         "secondary-fixed-dim": "#ffafd3",
                         "tertiary-fixed-dim": "#e9c349",
@@ -51,7 +51,7 @@
                         "on-primary-container": "#78566b",
                         "on-secondary-container": "#76014e",
                         "tertiary": "#735c00",
-                        "surface": "#f8f9ff",
+                        "surface": "#fff0f5",
                         "on-secondary-fixed": "#3d0026",
                         "surface-container-lowest": "#ffffff",
                         "on-primary-fixed-variant": "#5c3d51",
@@ -59,16 +59,16 @@
                         "tertiary-container": "#ffd861",
                         "on-error": "#ffffff",
                         "on-tertiary-fixed": "#241a00",
-                        "outline-variant": "#d1c3c9",
-                        "surface-variant": "#d5e3fd",
+                        "outline-variant": "#fbcfe8",
+                        "surface-variant": "#ffd8e7",
                         "on-primary": "#ffffff",
                         "outline": "#807479",
-                        "surface-container": "#e6eeff",
+                        "surface-container": "#ffd8e7",
                         "primary-fixed-dim": "#e5bad3",
                         "on-surface-variant": "#4e4449",
                         "on-secondary": "#ffffff",
                         "on-tertiary-fixed-variant": "#574500",
-                        "surface-container-low": "#eff4ff",
+                        "surface-container-low": "#fff5f8",
                         "secondary-container": "#fc79bd"
                     },
                     "borderRadius": {
@@ -88,14 +88,15 @@
                         "xl": "80px"
                     },
                     "fontFamily": {
-                        "body-lg": ["Inter"],
-                        "display-lg": ["Playfair Display"],
-                        "headline-lg-mobile": ["Playfair Display"],
-                        "label-md": ["Inter"],
-                        "headline-lg": ["Playfair Display"],
-                        "body-md": ["Inter"],
-                        "headline-sm": ["Playfair Display"],
-                        "headline-md": ["Playfair Display"]
+                        "body-lg": ["Inter", "Cairo", "sans-serif"],
+                        "display-lg": ["Playfair Display", "Cairo", "serif"],
+                        "headline-lg-mobile": ["Playfair Display", "Cairo", "serif"],
+                        "label-md": ["Inter", "Cairo", "sans-serif"],
+                        "headline-lg": ["Playfair Display", "Cairo", "serif"],
+                        "body-md": ["Inter", "Cairo", "sans-serif"],
+                        "headline-sm": ["Playfair Display", "Cairo", "serif"],
+                        "headline-md": ["Playfair Display", "Cairo", "serif"],
+                        "cairo": ["Cairo", "sans-serif"]
                     },
                     "fontSize": {
                         "body-lg": ["1.125rem", { "lineHeight": "1.7", "fontWeight": "400" }],
@@ -112,23 +113,24 @@
         }
     </script>
     <style>
+        body,
+        .particles-bg {
+            background: radial-gradient(circle at 50% 30%, #ffd8e7 0%, #fff0f5 45%, #fce7f3 100%) !important;
+        }
+
         .glass-card {
-            background: rgba(255, 216, 237, 0.15);
+            background: rgba(255, 255, 255, 0.45);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(252, 121, 189, 0.2);
-            box-shadow: 0 4px 24px -4px rgba(164, 48, 115, 0.1);
+            border: 1px solid rgba(251, 207, 232, 0.8);
+            box-shadow: 0 10px 30px rgba(164, 48, 115, 0.08);
             transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .glass-card:hover {
             transform: translateY(-8px) scale(1.02);
-            border-color: rgba(252, 121, 189, 0.6);
+            border-color: rgba(252, 121, 189, 0.9);
             box-shadow: 0 20px 40px -10px rgba(164, 48, 115, 0.25), 0 0 20px rgba(252, 121, 189, 0.2);
-        }
-
-        .ambient-shadow {
-            box-shadow: 0 10px 30px -5px rgba(164, 48, 115, 0.15);
         }
 
         .fade-in-up {
@@ -140,32 +142,6 @@
         .fade-in-up.is-visible {
             opacity: 1;
             transform: translateY(0);
-        }
-
-        .modal-overlay {
-            background: rgba(248, 249, 255, 0.85);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .modal-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .modal-content {
-            transform: scale(0.95) translateY(20px);
-            opacity: 0;
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            transition-delay: 0.1s;
-        }
-
-        .modal-overlay.active .modal-content {
-            transform: scale(1) translateY(0);
-            opacity: 1;
         }
 
         .delay-100 {
@@ -187,14 +163,13 @@
             width: 100%;
             height: 100%;
             z-index: -1;
-            background: radial-gradient(circle at 50% 50%, #f8f9ff 0%, #eff4ff 100%);
             overflow: hidden;
             pointer-events: none;
         }
 
         .particle {
             position: absolute;
-            background: rgba(251, 207, 232, 0.5);
+            background: rgba(251, 207, 232, 0.6);
             border-radius: 50%;
             pointer-events: none;
         }
@@ -222,17 +197,17 @@
 </head>
 
 <body
-    class="bg-background text-on-background font-body-md min-h-screen flex flex-col antialiased selection:bg-secondary-container selection:text-on-secondary-container relative">
+    class="text-on-background font-body-md min-h-screen flex flex-col antialiased selection:bg-secondary-container selection:text-on-secondary-container relative">
     <!-- Particle Background -->
     <div class="particles-bg" id="particles"></div>
 
     <!-- TopNavBar -->
     <header
-        class="bg-surface/70 dark:bg-surface-dim/70 backdrop-blur-md font-headline-sm text-headline-sm fixed top-0 w-full z-50 border-b border-outline-variant/30 dark:border-outline/20 shadow-sm shadow-secondary/10">
+        class="bg-[#fff0f5]/80 backdrop-blur-md font-headline-sm text-headline-sm fixed top-0 w-full z-50 border-b border-[#fbcfe8]/70 shadow-sm shadow-secondary/10">
         <div class="max-w-container-max mx-auto px-gutter h-20 flex justify-between items-center">
             <!-- Brand -->
             <a href="index.html"
-                class="font-headline-md text-2xl md:text-3xl text-primary dark:text-primary-fixed-dim font-bold tracking-wider hover:opacity-90 transition-opacity flex items-center gap-1.5">
+                class="font-headline-md text-2xl md:text-3xl text-primary font-bold tracking-wider hover:opacity-90 transition-opacity flex items-center gap-1.5">
                 <span>Y</span><span
                     class="text-secondary text-2xl md:text-3xl animate-pulse inline-block">❤️</span><span>A</span>
             </a>
@@ -242,14 +217,14 @@
                     href="index.html">Home</a>
                 <a class="text-on-surface-variant hover:text-primary transition-colors hover:bg-primary-container/20 rounded-full px-4 py-2"
                     href="timeline.html">Timeline</a>
-                <a class="text-secondary dark:text-secondary-fixed border-b-2 border-secondary dark:border-secondary-fixed pb-1 hover:bg-primary-container/20 rounded-full px-4 py-2"
+                <a class="text-secondary border-b-2 border-secondary pb-1 hover:bg-primary-container/20 rounded-full px-4 py-2"
                     href="gallery.html">Gallery</a>
-                <a class="text-on-surface-variant hover:text-primary transition-colors hover:bg-primary-container/20 rounded-full px-4 py-2"
+                <a class="text-on-surface-variant hover:text-primary transition-colors hover:bg-primary-container/20 rounded-full px-4 py-2 font-cairo"
                     href="letter.html">رسالة</a>
             </nav>
             <!-- Trailing Action -->
             <a href="timeline.html"
-                class="text-primary dark:text-primary-fixed-dim font-label-md text-label-md hover:bg-primary-container/20 rounded-full px-6 py-2 border border-outline-variant/50 hidden md:inline-block transition-transform duration-300 active:scale-95">
+                class="text-primary font-label-md text-label-md hover:bg-primary-container/20 rounded-full px-6 py-2 border border-secondary/30 hidden md:inline-block transition-transform duration-300 active:scale-95">
                 Our Story
             </a>
             <!-- Mobile Menu Toggle -->
@@ -260,12 +235,12 @@
         </div>
         <!-- Mobile Menu dropdown -->
         <div id="mobile-menu"
-            class="hidden md:hidden bg-surface/95 backdrop-blur-md border-b border-outline-variant/30 px-gutter py-4 flex flex-col gap-2">
+            class="hidden md:hidden bg-[#fff0f5]/95 backdrop-blur-md border-b border-[#fbcfe8]/70 px-gutter py-4 flex flex-col gap-2">
             <a class="text-on-surface-variant hover:text-primary px-4 py-2 rounded-lg" href="index.html">Home</a>
             <a class="text-on-surface-variant hover:text-primary px-4 py-2 rounded-lg" href="timeline.html">Timeline</a>
             <a class="text-secondary font-bold px-4 py-2 rounded-lg bg-primary-container/20"
                 href="gallery.html">Gallery</a>
-            <a class="text-on-surface-variant hover:text-primary px-4 py-2 rounded-lg" href="letter.html">رسالة</a>
+            <a class="text-on-surface-variant hover:text-primary px-4 py-2 rounded-lg font-cairo" href="letter.html">رسالة</a>
         </div>
     </header>
 
@@ -274,16 +249,16 @@
         <!-- Header Section -->
         <section class="text-center mb-xl fade-in-up is-visible">
             <h1
-                class="font-display-lg text-display-lg md:font-display-lg md:text-display-lg font-headline-lg-mobile text-headline-lg-mobile text-on-background mb-4 text-balance">
+                class="font-display-lg text-display-lg md:font-display-lg md:text-display-lg font-headline-lg-mobile text-headline-lg-mobile text-primary mb-4 text-balance">
                 Years of Love</h1>
             <p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto italic">"Every year, a new
                 chapter of us."</p>
             <!-- Decorative Divider -->
             <div class="flex items-center justify-center gap-4 mt-8">
-                <div class="h-px w-16 bg-outline-variant/50"></div>
+                <div class="h-px w-16 bg-secondary/30"></div>
                 <span class="material-symbols-outlined text-secondary/60 text-sm animate-pulse"
                     style="font-variation-settings: 'FILL' 1;">favorite</span>
-                <div class="h-px w-16 bg-outline-variant/50"></div>
+                <div class="h-px w-16 bg-secondary/30"></div>
             </div>
         </section>
         <!-- Bento Grid of Years -->
@@ -291,27 +266,27 @@
             <!-- 2026 Album (Large Feature - The Hijab) -->
             <article class="md:col-span-8 group cursor-pointer fade-in-up delay-100 reveal-on-scroll"
                 onclick="openModal('2026')">
-                <div class="glass-card rounded-xl overflow-hidden relative h-[400px] w-full">
+                <div class="glass-card rounded-2xl overflow-hidden relative h-[400px] w-full">
                     <img class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 z-0"
                         src="assets/2026/2026_hijab.jpg" alt="2026 The Hijab" />
                     <div
-                        class="absolute inset-0 bg-gradient-to-t from-inverse-surface/80 via-inverse-surface/30 to-transparent z-10 transition-opacity duration-500 group-hover:opacity-90">
+                        class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent z-10 transition-opacity duration-500 group-hover:opacity-90">
                     </div>
                     <div class="absolute bottom-0 left-0 p-lg z-20 w-full">
                         <div class="flex justify-between items-end">
                             <div>
                                 <span
-                                    class="bg-primary-container text-on-primary-container font-label-md text-label-md px-3 py-1 rounded-full mb-3 inline-block shadow-sm">New
+                                    class="bg-primary-container text-on-primary-container font-label-md text-label-md px-3.5 py-1 rounded-full mb-3 inline-block shadow-sm font-cairo">New
                                     Chapter</span>
                                 <h2
                                     class="font-headline-lg text-headline-lg text-white mb-2 transition-transform duration-500 origin-left group-hover:scale-105">
                                     2026</h2>
                                 <p
-                                    class="font-body-md text-body-md text-surface-container opacity-90 group-hover:opacity-100 transition-opacity">
+                                    class="font-body-md text-body-md text-pink-100 opacity-90 group-hover:opacity-100 transition-opacity font-cairo">
                                     خطوة الحجاب وسارة القمر • فخور بيكي دايماً ❤️</p>
                             </div>
                             <div
-                                class="bg-white/20 backdrop-blur-md rounded-full p-4 text-white transition-all duration-500 group-hover:translate-x-2 group-hover:bg-primary/80 group-hover:shadow-lg">
+                                class="bg-white/20 backdrop-blur-md rounded-full p-4 text-white transition-all duration-500 group-hover:translate-x-2 group-hover:bg-secondary group-hover:shadow-lg">
                                 <span class="material-symbols-outlined">fullscreen</span>
                             </div>
                         </div>
@@ -322,18 +297,18 @@
             <!-- 2025 Album (Tall Feature) -->
             <article class="md:col-span-4 group cursor-pointer fade-in-up delay-200 reveal-on-scroll"
                 onclick="openModal('2025')">
-                <div class="glass-card rounded-xl overflow-hidden relative h-[400px] w-full">
+                <div class="glass-card rounded-2xl overflow-hidden relative h-[400px] w-full">
                     <img class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 z-0"
                         src="assets/2025/2025_memory_2.jpg" alt="2025 Celebration" />
                     <div
-                        class="absolute inset-0 bg-gradient-to-t from-inverse-surface/80 via-inverse-surface/30 to-transparent z-10 transition-opacity duration-500 group-hover:opacity-90">
+                        class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent z-10 transition-opacity duration-500 group-hover:opacity-90">
                     </div>
                     <div class="absolute bottom-0 left-0 p-md z-20 w-full flex justify-between items-end">
                         <div>
                             <h2
                                 class="font-headline-md text-headline-md text-white mb-2 transition-transform duration-500 origin-left group-hover:scale-105">
                                 2025</h2>
-                            <p class="font-body-md text-body-md text-surface-container opacity-90">ليلة النيل والاحتفال
+                            <p class="font-body-md text-body-md text-pink-100 opacity-90 font-cairo">ليلة النيل والاحتفال
                                 الجميل ❤️</p>
                         </div>
                         <div
@@ -347,18 +322,18 @@
             <!-- 2024 Album -->
             <article class="md:col-span-4 group cursor-pointer fade-in-up delay-100 reveal-on-scroll"
                 onclick="openModal('2024')">
-                <div class="glass-card rounded-xl overflow-hidden relative h-[300px] w-full">
+                <div class="glass-card rounded-2xl overflow-hidden relative h-[300px] w-full">
                     <img class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 z-0"
                         src="assets/2024/2024_memory_2.jpg" alt="2024 Moments" />
                     <div
-                        class="absolute inset-0 bg-gradient-to-t from-inverse-surface/80 via-inverse-surface/30 to-transparent z-10 transition-opacity duration-500 group-hover:opacity-90">
+                        class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent z-10 transition-opacity duration-500 group-hover:opacity-90">
                     </div>
                     <div class="absolute bottom-0 left-0 p-md z-20 w-full flex justify-between items-end">
                         <div>
                             <h2
                                 class="font-headline-md text-headline-md text-white mb-2 transition-transform duration-500 origin-left group-hover:scale-105">
                                 2024</h2>
-                            <p class="font-body-md text-body-md text-surface-container opacity-90">حب بيكبر ومحطات أجمل
+                            <p class="font-body-md text-body-md text-pink-100 opacity-90 font-cairo">حب بيكبر ومحطات أجمل
                                 سوا ❤️</p>
                         </div>
                         <div
@@ -372,18 +347,18 @@
             <!-- 2023 Album -->
             <article class="md:col-span-4 group cursor-pointer fade-in-up delay-200 reveal-on-scroll"
                 onclick="openModal('2023')">
-                <div class="glass-card rounded-xl overflow-hidden relative h-[300px] w-full">
+                <div class="glass-card rounded-2xl overflow-hidden relative h-[300px] w-full">
                     <img class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 z-0"
                         src="assets/2023/2023_memory_2.jpg" alt="2023 Adventures" />
                     <div
-                        class="absolute inset-0 bg-gradient-to-t from-inverse-surface/80 via-inverse-surface/30 to-transparent z-10 transition-opacity duration-500 group-hover:opacity-90">
+                        class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent z-10 transition-opacity duration-500 group-hover:opacity-90">
                     </div>
                     <div class="absolute bottom-0 left-0 p-md z-20 w-full flex justify-between items-end">
                         <div>
                             <h2
                                 class="font-headline-md text-headline-md text-white mb-2 transition-transform duration-500 origin-left group-hover:scale-105">
                                 2023</h2>
-                            <p class="font-body-md text-body-md text-surface-container opacity-90">سنة الذكريات واللحظات
+                            <p class="font-body-md text-body-md text-pink-100 opacity-90 font-cairo">سنة الذكريات واللحظات
                                 الحلوة ❤️</p>
                         </div>
                         <div
@@ -397,18 +372,18 @@
             <!-- 2022 Album (First Memory Only) -->
             <article class="md:col-span-4 group cursor-pointer fade-in-up delay-300 reveal-on-scroll"
                 onclick="openModal('2022')">
-                <div class="glass-card rounded-xl overflow-hidden relative h-[300px] w-full">
+                <div class="glass-card rounded-2xl overflow-hidden relative h-[300px] w-full">
                     <img class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 z-0"
                         src="assets/2022/01_first_memory_bechamel.jpg" alt="2022 First Memory" />
                     <div
-                        class="absolute inset-0 bg-gradient-to-t from-inverse-surface/80 via-inverse-surface/30 to-transparent z-10 transition-opacity duration-500 group-hover:opacity-90">
+                        class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent z-10 transition-opacity duration-500 group-hover:opacity-90">
                     </div>
                     <div class="absolute bottom-0 left-0 p-md z-20 w-full flex justify-between items-end">
                         <div>
                             <h2
                                 class="font-headline-md text-headline-md text-white mb-2 transition-transform duration-500 origin-left group-hover:scale-105">
                                 2022</h2>
-                            <p class="font-body-md text-body-md text-surface-container opacity-90 font-cairo">🍝 أول ذكرى (المكرونة
+                            <p class="font-body-md text-body-md text-pink-100 opacity-90 font-cairo">🍝 أول ذكرى (المكرونة
                                 بالبشاميل واشطا)</p>
                         </div>
                         <div
@@ -422,7 +397,7 @@
     </main>
     <!-- Footer -->
     <footer
-        class="w-full py-xl bg-surface-container-low border-t border-outline-variant/50 flex flex-col items-center gap-md text-center px-gutter relative z-10 mt-auto mb-20 transition-all">
+        class="w-full py-xl bg-[#fff0f5]/70 backdrop-blur-md border-t border-[#fbcfe8]/70 flex flex-col items-center gap-md text-center px-gutter relative z-10 mt-auto mb-20 transition-all">
         <a class="font-headline-sm text-2xl text-primary hover:opacity-80 transition-opacity flex items-center gap-1.5"
             href="index.html">
             <span>Y</span><span class="text-secondary text-2xl">❤️</span><span>A</span>
