@@ -843,15 +843,204 @@
         heroHeartRenderer.render(heroHeartScene, heroHeartCamera);
     }
 
-    function pauseHeroHeart() {
-        heroHeartRunning = false;
-        if (heroHeartAnimId) cancelAnimationFrame(heroHeartAnimId);
+    // --- 3D Cosmic Timeline Engine (Three.js Spline Flythrough & Galaxy Ribbon) ---
+    let timelineRenderer = null;
+    let timelineScene = null;
+    let timelineCamera = null;
+    let timelineCurve = null;
+    let timelineParticles = null;
+    let timelineNodes = [];
+    let timelineAnimId = null;
+    let timelineRunning = false;
+    let targetCameraT = 0;
+    let currentCameraT = 0;
+    let timelineMouseX = 0, timelineMouseY = 0;
+
+    function setupCosmicTimeline3D() {
+        const canvas = document.getElementById('timeline-3d-canvas');
+        if (!canvas) return;
+
+        if (timelineRenderer && timelineScene) {
+            if (!timelineRunning) {
+                timelineRunning = true;
+                animateCosmicTimeline();
+            }
+            return;
+        }
+
+        if (typeof THREE === 'undefined') {
+            const script = document.createElement('script');
+            script.src = 'https://ajax.googleapis.com/ajax/libs/threejs/r125/three.min.js';
+            script.onload = () => {
+                setupCosmicTimeline3D();
+            };
+            document.head.appendChild(script);
+            return;
+        }
+
+        try {
+            const width = window.innerWidth;
+            const height = window.innerHeight;
+
+            timelineScene = new THREE.Scene();
+            timelineCamera = new THREE.PerspectiveCamera(60, width / height, 0.1, 2000);
+
+            timelineRenderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+            timelineRenderer.setSize(width, height);
+            timelineRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+            // 1. Ambient & Point Lighting
+            const ambient = new THREE.AmbientLight(0xfff0f5, 0.9);
+            timelineScene.add(ambient);
+
+            const pLight1 = new THREE.PointLight(0xfc79bd, 1.5, 100);
+            pLight1.position.set(0, 10, 20);
+            timelineScene.add(pLight1);
+
+            const pLight2 = new THREE.PointLight(0xa43073, 1.2, 100);
+            pLight2.position.set(0, -10, -20);
+            timelineScene.add(pLight2);
+
+            // 2. 3D Spline Path (Galaxy Ribbon)
+            const points = [
+                new THREE.Vector3(0, 15, 40),
+                new THREE.Vector3(-10, 5, 20),
+                new THREE.Vector3(10, -5, 0),
+                new THREE.Vector3(-10, -15, -20),
+                new THREE.Vector3(10, -25, -40),
+                new THREE.Vector3(0, -35, -60)
+            ];
+            timelineCurve = new THREE.CatmullRomCurve3(points);
+
+            const tubeGeo = new THREE.TubeGeometry(timelineCurve, 100, 0.35, 8, false);
+            const tubeMat = new THREE.MeshPhongMaterial({
+                color: 0xfc79bd,
+                emissive: 0xa43073,
+                emissiveIntensity: 0.45,
+                transparent: true,
+                opacity: 0.7,
+                wireframe: true
+            });
+            const tubeMesh = new THREE.Mesh(tubeGeo, tubeMat);
+            timelineScene.add(tubeMesh);
+
+            // 3. Floating Crystal Checkpoints
+            timelineNodes = [];
+            const nodeGeometries = [
+                new THREE.IcosahedronGeometry(1.4, 0),
+                new THREE.OctahedronGeometry(1.6, 0),
+                new THREE.DodecahedronGeometry(1.5, 0),
+                new THREE.IcosahedronGeometry(1.6, 1),
+                new THREE.TorusGeometry(1.3, 0.3, 8, 24),
+                new THREE.OctahedronGeometry(1.8, 0)
+            ];
+
+            for (let i = 0; i < points.length; i++) {
+                const p = points[i];
+                const geo = nodeGeometries[i % nodeGeometries.length];
+                const mat = new THREE.MeshPhongMaterial({
+                    color: 0xffffff,
+                    emissive: 0xf472b6,
+                    emissiveIntensity: 0.5,
+                    shininess: 120,
+                    wireframe: (i % 2 === 1)
+                });
+                const mesh = new THREE.Mesh(geo, mat);
+                mesh.position.copy(p);
+                timelineScene.add(mesh);
+
+                // Orbiting Ring
+                const ringGeo = new THREE.RingGeometry(2.0, 2.15, 32);
+                const ringMat = new THREE.MeshBasicMaterial({ color: 0xfc79bd, side: THREE.DoubleSide, transparent: true, opacity: 0.6 });
+                const ring = new THREE.Mesh(ringGeo, ringMat);
+                ring.position.copy(p);
+                ring.rotation.x = Math.PI / 3;
+                timelineScene.add(ring);
+
+                timelineNodes.push({ mesh, ring });
+            }
+
+            // 4. Stardust Particles (600 Floating Stars)
+            const starGeo = new THREE.BufferGeometry();
+            const starCount = 600;
+            const starPos = new Float32Array(starCount * 3);
+            for (let i = 0; i < starCount * 3; i += 3) {
+                starPos[i] = (Math.random() - 0.5) * 80;
+                starPos[i + 1] = (Math.random() - 0.5) * 80;
+                starPos[i + 2] = (Math.random() - 0.5) * 100;
+            }
+            starGeo.setAttribute('position', new THREE.BufferAttribute(starPos, 3));
+            const starMat = new THREE.PointsMaterial({
+                color: 0xfc79bd,
+                size: 0.45,
+                transparent: true,
+                opacity: 0.75
+            });
+            timelineParticles = new THREE.Points(starGeo, starMat);
+            timelineScene.add(timelineParticles);
+
+            window.addEventListener('mousemove', (e) => {
+                timelineMouseX = (e.clientX / window.innerWidth - 0.5) * 2;
+                timelineMouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+            }, { passive: true });
+
+            window.addEventListener('resize', () => {
+                if (!timelineRenderer || !timelineCamera) return;
+                timelineCamera.aspect = window.innerWidth / window.innerHeight;
+                timelineCamera.updateProjectionMatrix();
+                timelineRenderer.setSize(window.innerWidth, window.innerHeight);
+            }, { passive: true });
+
+            timelineRunning = true;
+            animateCosmicTimeline();
+
+        } catch (e) {
+            console.warn('3D Cosmic Timeline Init Error:', e);
+        }
     }
 
-    window.initHeroHeart = setupHeroHeart;
+    function animateCosmicTimeline() {
+        if (!timelineRunning || !timelineRenderer || !timelineScene || !timelineCamera || !timelineCurve) return;
+        timelineAnimId = requestAnimationFrame(animateCosmicTimeline);
+
+        // Smooth camera lerp along curve
+        currentCameraT += (targetCameraT - currentCameraT) * 0.08;
+        const clampedT = Math.max(0.001, Math.min(0.999, currentCameraT));
+
+        const camPos = timelineCurve.getPointAt(clampedT);
+        const lookPos = timelineCurve.getPointAt(Math.min(1, clampedT + 0.05));
+
+        timelineCamera.position.set(
+            camPos.x + (timelineMouseX * 1.5),
+            camPos.y + 2 - (timelineMouseY * 1.5),
+            camPos.z + 8
+        );
+        timelineCamera.lookAt(lookPos);
+
+        // Rotate nodes & rings
+        timelineNodes.forEach((node, idx) => {
+            node.mesh.rotation.y += 0.015 * (idx % 2 === 0 ? 1 : -1);
+            node.mesh.rotation.x += 0.01;
+            node.ring.rotation.z += 0.02;
+        });
+
+        // Rotate stardust
+        if (timelineParticles) {
+            timelineParticles.rotation.y += 0.001;
+        }
+
+        timelineRenderer.render(timelineScene, timelineCamera);
+    }
+
+    function pauseCosmicTimeline() {
+        timelineRunning = false;
+        if (timelineAnimId) cancelAnimationFrame(timelineAnimId);
+    }
 
     // Timeline Initializer
     window.initTimelinePage = function() {
+        setupCosmicTimeline3D();
+
         const scrollElements = document.querySelectorAll('.scroll-reveal');
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -869,10 +1058,7 @@
             }
         });
 
-        const desktopLine = document.getElementById('timeline-progress-line');
-        const mobileLine = document.getElementById('mobile-timeline-progress-line');
         const timelineContainer = document.getElementById('timeline-container');
-        
         if (timelineContainer) {
             const onScrollTimeline = () => {
                 const rect = timelineContainer.getBoundingClientRect();
@@ -886,9 +1072,23 @@
                 }
                 scrollProgress = Math.max(0, Math.min(1, scrollProgress));
                 
-                const pct = (scrollProgress * 100) + '%';
-                if (desktopLine) desktopLine.style.height = pct;
-                if (mobileLine) mobileLine.style.height = pct;
+                // Update 3D Camera target progress
+                targetCameraT = scrollProgress;
+
+                // Update year dock buttons active state
+                const yearDocks = document.querySelectorAll('.year-dock-btn');
+                const years = ['year-2022', 'year-2023', 'year-2024', 'year-2025', 'year-2026'];
+                years.forEach((yId, idx) => {
+                    const el = document.getElementById(yId);
+                    if (el && yearDocks[idx]) {
+                        const r = el.getBoundingClientRect();
+                        if (r.top <= windowHeight * 0.5 && r.bottom >= windowHeight * 0.2) {
+                            yearDocks[idx].classList.add('active');
+                        } else {
+                            yearDocks[idx].classList.remove('active');
+                        }
+                    }
+                });
             };
 
             window.removeEventListener('scroll', window._timelineScrollHandler);
@@ -1015,12 +1215,15 @@
 
             const targetPage = (url.split('/').pop().split('?')[0] || 'index.html');
             if (targetPage === 'index.html' || targetPage === '') {
+                pauseCosmicTimeline();
                 setupHeroHeart();
+            } else if (targetPage === 'timeline.html') {
+                pauseHeroHeart();
+                window.initTimelinePage();
             } else {
                 pauseHeroHeart();
-                if (targetPage === 'timeline.html') {
-                    window.initTimelinePage();
-                } else if (targetPage === 'gallery.html') {
+                pauseCosmicTimeline();
+                if (targetPage === 'gallery.html') {
                     window.initGalleryPage();
                 } else if (targetPage === 'letter.html') {
                     window.initLetterPage();
