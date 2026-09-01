@@ -8,6 +8,7 @@
     <meta name="apple-mobile-web-app-title" content="Y ❤️ A"/>
     <meta name="theme-color" content="#fff0f5"/>
     <title>Y ❤️ A - Timeline</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/threejs/r125/three.min.js"></script>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;family=Playfair+Display:wght@500;600;700&amp;family=Cairo:wght@400;600;700;800&amp;display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
@@ -245,29 +246,21 @@
 </header>
 
 <!-- Main Content -->
-<main class="pt-32 pb-xl min-h-screen relative z-10">
+<main class="pt-36 pb-xl min-h-screen relative z-10">
 <div class="max-w-container-max mx-auto px-gutter">
-<div class="text-center mb-xl">
+<div class="text-center mb-16">
 <h1 class="font-display-lg text-display-lg text-primary mb-4 hero-title">Our Journey</h1>
-<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto hero-subtitle">Every step led us here. A winding path of beautiful moments.</p>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto hero-subtitle font-cairo">Every step led us here. A winding path of beautiful moments.</p>
 </div>
 <!-- Timeline Container -->
-<div class="relative py-xl" id="timeline-container">
-<!-- Center Line / Path -->
-<div class="path-line hidden md:block z-0 scroll-reveal">
-<svg height="100%" preserveaspectratio="none" style="position:absolute; top:0; left:0; width:100%; height:100%;" viewbox="0 0 1200 1200" width="100%">
-<defs>
-<mask id="pathMask">
-<path class="draw-path" d="M 600,0 C 800,200 400,400 600,600 C 800,800 400,1000 600,1200" fill="none" stroke="white" stroke-width="6"></path>
-</mask>
-</defs>
-<path d="M 600,0 C 800,200 400,400 600,600 C 800,800 400,1000 600,1200" fill="none" opacity="0.25" stroke="#fc79bd" stroke-dasharray="10 10" stroke-width="2"></path>
-<path d="M 600,0 C 800,200 400,400 600,600 C 800,800 400,1000 600,1200" fill="none" mask="url(#pathMask)" stroke="#a43073" stroke-dasharray="10 10" stroke-width="2.5"></path>
-</svg>
+<div class="relative py-8" id="timeline-container">
+<!-- Center Connecting Lines -->
+<div class="absolute top-16 bottom-16 left-1/2 -translate-x-1/2 w-[2px] border-l-2 border-dashed border-[#fc79bd]/40 hidden md:block z-0 pointer-events-none">
+    <div id="timeline-progress-line" class="w-[3px] bg-gradient-to-b from-secondary via-pink-400 to-secondary absolute top-0 -left-[2px] rounded-full transition-all duration-100 shadow-[0_0_12px_rgba(252,121,189,0.9)]" style="height: 0%;"></div>
 </div>
-<div class="path-line md:hidden !bg-transparent border-l-2 border-dashed border-secondary/30 scroll-reveal">
-<div class="mobile-draw-line bg-secondary w-[2px] absolute top-0 -left-[2px]" style="height: 0%;"></div>
-</div> <!-- Simple line for mobile -->
+<div class="absolute top-16 bottom-16 right-5 w-[2px] border-r-2 border-dashed border-[#fc79bd]/40 md:hidden z-0 pointer-events-none">
+    <div id="mobile-timeline-progress-line" class="w-[3px] bg-gradient-to-b from-secondary via-pink-400 to-secondary absolute top-0 -right-[2px] rounded-full transition-all duration-100 shadow-[0_0_12px_rgba(252,121,189,0.9)]" style="height: 0%;"></div>
+</div>
 <div class="flex flex-col gap-xl md:gap-32">
 <!-- Entry 1: 2022 First Memory -->
 <div class="scroll-reveal flex flex-col md:flex-row items-center justify-between w-full relative z-10 group">

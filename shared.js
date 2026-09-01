@@ -749,6 +749,12 @@
         }
 
         if (typeof THREE === 'undefined') {
+            const script = document.createElement('script');
+            script.src = 'https://ajax.googleapis.com/ajax/libs/threejs/r125/three.min.js';
+            script.onload = () => {
+                setupHeroHeart();
+            };
+            document.head.appendChild(script);
             container.innerHTML = '<span class="css-heart-fallback">💖</span>';
             return;
         }
@@ -783,7 +789,7 @@
                 shininess: 100,
                 specular: 0xffffff,
                 emissive: 0xdb2777,
-                emissiveIntensity: 0.2
+                emissiveIntensity: 0.25
             });
             heroHeartMesh = new THREE.Mesh(geometry, material);
             heroHeartMesh.scale.set(3.0, 3.0, 3.0);
@@ -863,15 +869,11 @@
             }
         });
 
-        const drawPath = document.querySelector('.draw-path');
-        const mobileDrawLine = document.querySelector('.mobile-draw-line');
+        const desktopLine = document.getElementById('timeline-progress-line');
+        const mobileLine = document.getElementById('mobile-timeline-progress-line');
         const timelineContainer = document.getElementById('timeline-container');
         
-        if (drawPath && timelineContainer) {
-            const length = drawPath.getTotalLength();
-            drawPath.style.strokeDasharray = length;
-            drawPath.style.strokeDashoffset = length;
-
+        if (timelineContainer) {
             const onScrollTimeline = () => {
                 const rect = timelineContainer.getBoundingClientRect();
                 const containerTop = rect.top;
@@ -880,16 +882,13 @@
                 
                 let scrollProgress = 0;
                 if (containerTop < windowHeight) {
-                    scrollProgress = (windowHeight - containerTop) / (containerHeight + windowHeight * 0.3);
+                    scrollProgress = (windowHeight - containerTop) / (containerHeight + windowHeight * 0.2);
                 }
                 scrollProgress = Math.max(0, Math.min(1, scrollProgress));
                 
-                const draw = length * scrollProgress;
-                drawPath.style.strokeDashoffset = length - draw;
-                
-                if (mobileDrawLine) {
-                    mobileDrawLine.style.height = `${scrollProgress * 100}%`;
-                }
+                const pct = (scrollProgress * 100) + '%';
+                if (desktopLine) desktopLine.style.height = pct;
+                if (mobileLine) mobileLine.style.height = pct;
             };
 
             window.removeEventListener('scroll', window._timelineScrollHandler);
