@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+
+<html dir="ltr" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="apple-mobile-web-app-title" content="Y ❤️ A"/>
+<meta name="theme-color" content="#fff0f5"/>
+<title>Y ❤️ A - Our Story</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/threejs/r125/three.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;family=Playfair+Display:wght@500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-tertiary-container": "#765d00",
+                    "on-tertiary": "#ffffff",
+                    "inverse-primary": "#e5bad3",
+                    "surface-variant": "#d5e3fd",
+                    "on-primary-container": "#78566b",
+                    "secondary-fixed-dim": "#ffafd3",
+                    "tertiary-fixed-dim": "#e9c349",
+                    "surface-container-lowest": "#ffffff",
+                    "on-error": "#ffffff",
+                    "tertiary-container": "#ffd861",
+                    "background": "#f8f9ff",
+                    "surface-dim": "#ccdbf4",
+                    "on-tertiary-fixed-variant": "#574500",
+                    "secondary-fixed": "#ffd8e7",
+                    "inverse-surface": "#233144",
+                    "on-primary": "#ffffff",
+                    "on-primary-fixed": "#2c1325",
+                    "on-error-container": "#93000a",
+                    "error": "#ba1a1a",
+                    "secondary": "#a43073",
+                    "tertiary-fixed": "#ffe088",
+                    "on-surface-variant": "#4e4449",
+                    "primary": "#765469",
+                    "on-secondary-fixed-variant": "#85145a",
+                    "secondary-container": "#fc79bd",
+                    "tertiary": "#735c00",
+                    "on-primary-fixed-variant": "#5c3d51",
+                    "surface-container-high": "#dde9ff",
+                    "primary-container": "#fbcfe8",
+                    "surface-bright": "#f8f9ff",
+                    "surface-container-low": "#eff4ff",
+                    "inverse-on-surface": "#ebf1ff",
+                    "error-container": "#ffdad6",
+                    "primary-fixed": "#ffd8ed",
+                    "on-secondary": "#ffffff",
+                    "surface-tint": "#765469",
+                    "surface-container-highest": "#d5e3fd",
+                    "on-surface": "#0d1c2f",
+                    "on-secondary-fixed": "#3d0026",
+                    "on-tertiary-fixed": "#241a00",
+                    "outline-variant": "#d1c3c9",
+                    "on-background": "#0d1c2f",
+                    "surface": "#f8f9ff",
+                    "on-secondary-container": "#76014e",
+                    "outline": "#807479",
+                    "surface-container": "#e6eeff",
+                    "primary-fixed-dim": "#e5bad3"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "xs": "4px",
+                    "md": "24px",
+                    "xl": "80px",
+                    "lg": "48px",
+                    "container-max": "1200px",
+                    "sm": "12px",
+                    "base": "8px",
+                    "gutter": "24px"
+            },
+            "fontFamily": {
+                    "body-lg": ["Inter"],
+                    "headline-lg": ["Playfair Display"],
+                    "headline-lg-mobile": ["Playfair Display"],
+                    "headline-md": ["Playfair Display"],
+                    "display-lg": ["Playfair Display"],
+                    "label-md": ["Inter"],
+                    "body-md": ["Inter"],
+                    "headline-sm": ["Playfair Display"]
+            },
+            "fontSize": {
+                    "body-lg": ["1.125rem", {"lineHeight": "1.7", "fontWeight": "400"}],
+                    "headline-lg": ["3rem", {"lineHeight": "1.2", "fontWeight": "600"}],
+                    "headline-lg-mobile": ["2.25rem", {"lineHeight": "1.2", "fontWeight": "600"}],
+                    "headline-md": ["2rem", {"lineHeight": "1.3", "fontWeight": "500"}],
+                    "display-lg": ["4.5rem", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "label-md": ["0.875rem", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "body-md": ["1rem", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "headline-sm": ["1.5rem", {"lineHeight": "1.4", "fontWeight": "500"}]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+        .love-particle {
+            position: fixed;
+            pointer-events: none;
+            z-index: 10;
+            opacity: 0;
+            animation: float-up 10s ease-in-out infinite;
+        }
+        @keyframes float-up {
+            0% { transform: translateY(100vh) scale(0.5); opacity: 0; }
+            20% { opacity: 0.8; }
+            80% { opacity: 0.8; }
+            100% { transform: translateY(-20vh) scale(1.2); opacity: 0; }
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background relative min-h-screen overflow-x-hidden font-body-lg">
+<!-- WebGL Background Shader -->
+<div class="fixed inset-0 z-0 pointer-events-none w-full h-full" id="shader-background"></div>
+<script>
+    (function() {
+        const canvas = document.createElement('canvas');
+        document.getElementById('shader-background').appendChild(canvas);
+        const gl = canvas.getContext('webgl');
+        if (!gl) return;
+
+        const vsSource = `
+            attribute vec2 position;
+            varying vec2 v_texCoord;
+            void main() {
+                gl_Position = vec4(position, 0.0, 1.0);
+                v_texCoord = position * 0.5 + 0.5;
+            }
+        `;
+        
+        const fsSource = `
+precision highp float;
+varying vec2 v_texCoord;
+uniform float u_time;
+uniform vec2 u_resolution;
+
+// Perlin-like noise function
+float noise(vec2 p) {
+    return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453);
+}
+
+float smoothNoise(vec2 p) {
+    vec2 i = floor(p);
+    vec2 f = fract(p);
+    f = f * f * (3.0 - 2.0 * f);
+    float a = noise(i);
+    float b = noise(i + vec2(1.0, 0.0));
+    float c = noise(i + vec2(0.0, 1.0));
+    float d = noise(i + vec2(1.0, 1.0));
+    return mix(mix(a, b, f.x), mix(c, d, f.x), f.y);
+}
+
+void main() {
+    vec2 uv = v_texCoord;
+    
+    // Create multi-layered organic movement
+    float n1 = smoothNoise(uv * 3.0 + u_time * 0.2);
+    float n2 = smoothNoise(uv * 5.0 - u_time * 0.15);
+    float movement = (n1 + n2) * 0.5;
+    
+    // Luxurious Pink & Rose Palette
+    vec3 baseColor = vec3(0.98, 0.94, 0.96); // Soft Cream Pink
+    vec3 accent1 = vec3(1.0, 0.85, 0.9);   // Rose Quartz
+    vec3 accent2 = vec3(0.95, 0.8, 0.85);  // Dusty Rose
+    
+    // Dynamic mixing based on noise and position
+    float mix1 = smoothstep(0.2, 0.8, uv.y + movement * 0.2);
+    float mix2 = smoothstep(0.0, 1.0, uv.x + movement * 0.3);
+    
+    vec3 color = mix(baseColor, accent1, mix1);
+    color = mix(color, accent2, mix2 * 0.4);
+    
+    // Add a subtle pearlescent shimmer
+    float shimmer = pow(movement, 4.0) * 0.05;
+    color += shimmer;
+    
+    // Soft Vignette for focus
+    float dist = distance(uv, vec2(0.5));
+    color *= 1.0 - dist * 0.15;
+    
+    gl_FragColor = vec4(color, 1.0);
+}
+`;
+
+        function compileShader(gl, source, type) {
+            const shader = gl.createShader(type);
+            gl.shaderSource(shader, source);
+            gl.compileShader(shader);
+            return shader;
+        }
+
+        const program = gl.createProgram();
+        gl.attachShader(program, compileShader(gl, vsSource, gl.VERTEX_SHADER));
+        gl.attachShader(program, compileShader(gl, fsSource, gl.FRAGMENT_SHADER));
+        gl.linkProgram(program);
+        gl.useProgram(program);
+
+        const positionBuffer = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([
+            -1.0, -1.0,  1.0, -1.0, -1.0,  1.0,
+            -1.0,  1.0,  1.0, -1.0,  1.0,  1.0
+        ]), gl.STATIC_DRAW);
+
+        const positionLocation = gl.getAttribLocation(program, 'position');
+        gl.enableVertexAttribArray(positionLocation);
+        gl.vertexAttribPointer(positionLocation, 2, gl.FLOAT, false, 0, 0);
+
+        const timeLocation = gl.getUniformLocation(program, 'u_time');
+        const resolutionLocation = gl.getUniformLocation(program, 'u_resolution');
+
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            gl.viewport(0, 0, canvas.width, canvas.height);
+            gl.uniform2f(resolutionLocation, canvas.width, canvas.height);
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        function render(time) {
+            gl.uniform1f(timeLocation, time * 0.001);
+            gl.drawArrays(gl.TRIANGLES, 0, 6);
+            requestAnimationFrame(render);
+        }
+        requestAnimationFrame(render);
+    })();
+</script>
+<!-- Love Particles -->
+<div id="particles-container"></div>
+<script>
+    (function() {
+        const container = document.getElementById('particles-container');
+        const symbols = ['✧', '✦', '♡', '♥'];
+        
+        for(let i=0; i<15; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'love-particle text-primary/40 font-headline-md';
+            particle.innerText = symbols[Math.floor(Math.random() * symbols.length)];
+            particle.style.left = Math.random() * 100 + 'vw';
+            particle.style.animationDelay = Math.random() * 10 + 's';
+            particle.style.animationDuration = 10 + Math.random() * 10 + 's';
+            particle.style.fontSize = (0.5 + Math.random() * 1.5) + 'rem';
+            container.appendChild(particle);
+        }
+    })();
+</script>
+<!-- TopNavBar -->
+<header class="bg-surface/70 dark:bg-surface-dim/70 backdrop-blur-md font-headline-sm text-headline-sm fixed top-0 w-full z-50 border-b border-outline-variant/30 dark:border-outline/20 shadow-sm shadow-secondary/10">
+    <div class="max-w-container-max mx-auto px-gutter h-20 flex justify-between items-center">
+        <a href="index.html" class="font-headline-md text-2xl md:text-3xl text-primary dark:text-primary-fixed-dim font-bold tracking-wider hover:opacity-90 transition-opacity flex items-center gap-1.5">
+            <span>Y</span><span class="text-secondary text-2xl md:text-3xl animate-pulse inline-block">❤️</span><span>A</span>
+        </a>
+        <nav class="hidden md:flex items-center gap-md">
+            <a class="text-secondary dark:text-secondary-fixed border-b-2 border-secondary dark:border-secondary-fixed pb-1 hover:bg-primary-container/20 rounded-full px-4 py-2" href="index.html">Home</a>
+            <a class="text-on-surface-variant hover:text-primary transition-colors hover:bg-primary-container/20 rounded-full px-4 py-2" href="timeline.html">Timeline</a>
+            <a class="text-on-surface-variant hover:text-primary transition-colors hover:bg-primary-container/20 rounded-full px-4 py-2" href="gallery.html">Gallery</a>
+            <a class="text-on-surface-variant hover:text-primary transition-colors hover:bg-primary-container/20 rounded-full px-4 py-2" href="letter.html">رسالة</a>
+        </nav>
+        <a href="timeline.html" class="text-primary dark:text-primary-fixed-dim font-label-md text-label-md hover:bg-primary-container/20 rounded-full px-6 py-2 border border-outline-variant/50 hidden md:inline-block transition-transform duration-300 active:scale-95">
+            Our Story
+        </a>
+        <!-- Mobile Menu Toggle -->
+        <button class="md:hidden text-primary p-2" onclick="document.getElementById('mobile-menu').classList.toggle('hidden')">
+            <span class="material-symbols-outlined">menu</span>
+        </button>
+    </div>
+    <!-- Mobile Menu dropdown -->
+    <div id="mobile-menu" class="hidden md:hidden bg-surface/95 backdrop-blur-md border-b border-outline-variant/30 px-gutter py-4 flex flex-col gap-2">
+        <a class="text-secondary font-bold px-4 py-2 rounded-lg bg-primary-container/20" href="index.html">Home</a>
+        <a class="text-on-surface-variant hover:text-primary px-4 py-2 rounded-lg" href="timeline.html">Timeline</a>
+        <a class="text-on-surface-variant hover:text-primary px-4 py-2 rounded-lg" href="gallery.html">Gallery</a>
+        <a class="text-on-surface-variant hover:text-primary px-4 py-2 rounded-lg" href="letter.html">رسالة</a>
+    </div>
+</header>
+<!-- Main Content -->
+<main class="relative z-10 flex flex-col items-center justify-center min-h-screen pt-24 px-gutter text-center">
+<!-- 3D Heart Container (Balanced & Centered) -->
+<div class="absolute inset-0 z-0 pointer-events-none flex items-center justify-center opacity-75" id="threejs-hero-heart"></div>
+<script>
+    (function() {
+      const container = document.getElementById('threejs-hero-heart');
+      const scene = new THREE.Scene();
+      const containerWidth = window.innerWidth;
+      const containerHeight = window.innerHeight;
+      const camera = new THREE.PerspectiveCamera(75, containerWidth / containerHeight, 0.1, 1000);
+      const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+      renderer.setSize(containerWidth, containerHeight);
+      container.appendChild(renderer.domElement);
+
+      // Create Heart Shape
+      const heartShape = new THREE.Shape();
+      heartShape.moveTo(0, 0);
+      heartShape.bezierCurveTo(0, -0.3, -0.6, -0.3, -0.6, 0);
+      heartShape.bezierCurveTo(-0.6, 0.3, 0, 0.6, 0, 1);
+      heartShape.bezierCurveTo(0, 0.6, 0.6, 0.3, 0.6, 0);
+      heartShape.bezierCurveTo(0.6, -0.3, 0, -0.3, 0, 0);
+
+      const extrudeSettings = { depth: 0.4, bevelEnabled: true, bevelSegments: 10, steps: 2, bevelSize: 0.1, bevelThickness: 0.1 };
+      const geometry = new THREE.ExtrudeGeometry(heartShape, extrudeSettings);
+      geometry.rotateX(Math.PI);
+      geometry.translate(0, 0.4, 0);
+
+      // Romantic Aesthetic Material
+      const material = new THREE.MeshPhongMaterial({ 
+          color: 0xF472B6, 
+          shininess: 100,
+          specular: 0xffffff,
+          emissive: 0xdb2777,
+          emissiveIntensity: 0.15
+      });
+      const heartMesh = new THREE.Mesh(geometry, material);
+      // Balanced scale centered in the middle
+      heartMesh.scale.set(3.0, 3.0, 3.0);
+      scene.add(heartMesh);
+
+      // Lights
+      const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
+      scene.add(ambientLight);
+      const pointLight1 = new THREE.PointLight(0xffffff, 1.2);
+      pointLight1.position.set(2, 3, 5);
+      scene.add(pointLight1);
+      const pointLight2 = new THREE.PointLight(0xf472b6, 0.6);
+      pointLight2.position.set(-2, -2, 4);
+      scene.add(pointLight2);
+
+      camera.position.z = 8;
+      
+      // Mouse Interaction
+      let mouseX = 0;
+      let mouseY = 0;
+      let targetX = 0;
+      let targetY = 0;
+
+      document.addEventListener('mousemove', (event) => {
+          mouseX = (event.clientX / window.innerWidth) * 2 - 1;
+          mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
+      });
+
+      // Animation Loop
+      function animate() {
+          requestAnimationFrame(animate);
+          
+          targetX = mouseX * 0.4;
+          targetY = mouseY * 0.4;
+          
+          // Floating and Rotating smoothly in the center
+          heartMesh.rotation.y += 0.01;
+          heartMesh.position.y = Math.sin(Date.now() * 0.002) * 0.25 + (targetY * 0.3);
+          heartMesh.position.x += (targetX - heartMesh.position.x) * 0.05;
+          
+          // Subtle gentle heartbeat pulsing
+          const scale = 3.0 + Math.sin(Date.now() * 0.004) * 0.15;
+          heartMesh.scale.set(scale, scale, scale);
+          
+          renderer.render(scene, camera);
+      }
+      animate();
+
+      window.addEventListener('resize', () => {
+          const width = window.innerWidth;
+          const height = window.innerHeight;
+          camera.aspect = width / height;
+          camera.updateProjectionMatrix();
+          renderer.setSize(width, height);
+      });
+    })();
+</script>
+<div class="relative z-20 flex flex-col items-center py-16 px-6 mt-8 bg-white/30 backdrop-blur-[3px] rounded-3xl border border-white/40 shadow-2xl max-w-4xl w-full text-center">
+    <span class="inline-block bg-primary-container text-on-primary-container font-label-md text-xs md:text-sm px-4 py-1.5 rounded-full mb-4 shadow-sm">
+        بدأت الحكاية يوم 6 نوفمبر 2022 ❤️
+    </span>
+    <h1 class="font-display-lg text-display-lg text-primary mb-4 max-w-3xl drop-shadow-sm tracking-wide leading-tight flex items-center justify-center gap-2 flex-wrap">
+        <span>Soso</span>
+        <span class="text-secondary animate-pulse inline-block">❤️</span>
+        <span>Lofa</span>
+        <span class="block w-full mt-2 text-2xl md:text-3xl font-headline-md opacity-90 text-secondary">The Most Beautiful Story</span>
+    </h1>
+    <p class="font-body-lg text-lg md:text-xl text-on-surface-variant max-w-2xl mb-8 opacity-95 leading-relaxed">
+        Four years. Countless memories. One story that is ours. كل ثانية عدّت علينا بقت أجمل جزء من حكايتنا.
+    </p>
+
+    <!-- Real-time Love Counter Widget -->
+    <div class="mb-10 w-full max-w-lg bg-surface-container-lowest/80 backdrop-blur-sm rounded-2xl p-6 border border-secondary/20 shadow-md">
+        <h3 class="text-xs uppercase tracking-widest text-secondary font-bold mb-4 font-cairo">⏳ من يومها لحد دلوقتي</h3>
+        <div class="grid grid-cols-4 gap-3 text-center">
+            <div class="bg-surface-container-low rounded-xl p-3 border border-outline-variant/30">
+                <span id="love-days" class="block font-headline-md text-2xl md:text-3xl text-secondary font-bold">00</span>
+                <span class="text-xs text-on-surface-variant">يوم</span>
+            </div>
+            <div class="bg-surface-container-low rounded-xl p-3 border border-outline-variant/30">
+                <span id="love-hours" class="block font-headline-md text-2xl md:text-3xl text-secondary font-bold">00</span>
+                <span class="text-xs text-on-surface-variant">ساعة</span>
+            </div>
+            <div class="bg-surface-container-low rounded-xl p-3 border border-outline-variant/30">
+                <span id="love-mins" class="block font-headline-md text-2xl md:text-3xl text-secondary font-bold">00</span>
+                <span class="text-xs text-on-surface-variant">دقيقة</span>
+            </div>
+            <div class="bg-surface-container-low rounded-xl p-3 border border-outline-variant/30">
+                <span id="love-secs" class="block font-headline-md text-2xl md:text-3xl text-secondary font-bold">00</span>
+                <span class="text-xs text-on-surface-variant">ثانية</span>
+            </div>
+        </div>
+    </div>
+
+    <a href="timeline.html" class="bg-secondary text-white font-label-md text-base md:text-lg px-12 py-4 rounded-full hover:bg-secondary/90 hover:scale-105 transition-all duration-300 shadow-xl shadow-secondary/25 tracking-wider uppercase inline-block">
+        Begin Our Journey
+    </a>
+</div>
+</main>
+<!-- Footer -->
+<footer class="relative z-10 glass-effect w-full py-16 flex flex-col items-center gap-8 text-center px-gutter mt-24 mb-20">
+<div class="font-headline-sm text-2xl md:text-3xl text-primary tracking-widest uppercase flex items-center gap-2">
+    <span>Y</span><span class="text-secondary text-2xl">❤️</span><span>A</span>
+</div>
+<div class="flex gap-12 font-body-md text-on-surface-variant">
+</div>
+<div class="font-body-md text-primary mt-8 opacity-70 tracking-widest">
+    Made with love for Soso ♡ 
+</div>
+</footer>
+<script src="shared.js"></script>
+</body></html>

@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html class="scroll-smooth" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+    <meta name="apple-mobile-web-app-title" content="Y ❤️ A"/>
+    <meta name="theme-color" content="#fff0f5"/>
+    <title>Y ❤️ A - Letters</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;family=Playfair+Display:wght@500;600;700&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-tertiary-container": "#765d00",
+                      "on-tertiary": "#ffffff",
+                      "inverse-primary": "#e5bad3",
+                      "surface-variant": "#d5e3fd",
+                      "on-primary-container": "#78566b",
+                      "secondary-fixed-dim": "#ffafd3",
+                      "tertiary-fixed-dim": "#e9c349",
+                      "surface-container-lowest": "#ffffff",
+                      "on-error": "#ffffff",
+                      "tertiary-container": "#ffd861",
+                      "background": "#f8f9ff",
+                      "surface-dim": "#ccdbf4",
+                      "on-tertiary-fixed-variant": "#574500",
+                      "secondary-fixed": "#ffd8e7",
+                      "inverse-surface": "#233144",
+                      "on-primary": "#ffffff",
+                      "on-primary-fixed": "#2c1325",
+                      "on-error-container": "#93000a",
+                      "error": "#ba1a1a",
+                      "secondary": "#a43073",
+                      "tertiary-fixed": "#ffe088",
+                      "on-surface-variant": "#4e4449",
+                      "primary": "#765469",
+                      "on-secondary-fixed-variant": "#85145a",
+                      "secondary-container": "#fc79bd",
+                      "tertiary": "#735c00",
+                      "on-primary-fixed-variant": "#5c3d51",
+                      "surface-container-high": "#dde9ff",
+                      "primary-container": "#fbcfe8",
+                      "surface-bright": "#f8f9ff",
+                      "surface-container-low": "#eff4ff",
+                      "inverse-on-surface": "#ebf1ff",
+                      "error-container": "#ffdad6",
+                      "primary-fixed": "#ffd8ed",
+                      "on-secondary": "#ffffff",
+                      "surface-tint": "#765469",
+                      "surface-container-highest": "#d5e3fd",
+                      "on-surface": "#0d1c2f",
+                      "on-secondary-fixed": "#3d0026",
+                      "on-tertiary-fixed": "#241a00",
+                      "outline-variant": "#d1c3c9",
+                      "on-background": "#0d1c2f",
+                      "surface": "#f8f9ff",
+                      "on-secondary-container": "#76014e",
+                      "outline": "#807479",
+                      "surface-container": "#e6eeff",
+                      "primary-fixed-dim": "#e5bad3"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "xs": "4px",
+                      "md": "24px",
+                      "xl": "80px",
+                      "lg": "48px",
+                      "container-max": "1200px",
+                      "sm": "12px",
+                      "base": "8px",
+                      "gutter": "24px"
+              },
+              "fontFamily": {
+                      "body-lg": ["Inter"],
+                      "headline-lg": ["Playfair Display"],
+                      "headline-lg-mobile": ["Playfair Display"],
+                      "headline-md": ["Playfair Display"],
+                      "display-lg": ["Playfair Display"],
+                      "label-md": ["Inter"],
+                      "body-md": ["Inter"],
+                      "headline-sm": ["Playfair Display"]
+              },
+              "fontSize": {
+                      "body-lg": ["1.125rem", {"lineHeight": "1.7", "fontWeight": "400"}],
+                      "headline-lg": ["3rem", {"lineHeight": "1.2", "fontWeight": "600"}],
+                      "headline-lg-mobile": ["2.25rem", {"lineHeight": "1.2", "fontWeight": "600"}],
+                      "headline-md": ["2rem", {"lineHeight": "1.3", "fontWeight": "500"}],
+                      "display-lg": ["4.5rem", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "label-md": ["0.875rem", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                      "body-md": ["1rem", {"lineHeight": "1.6", "fontWeight": "400"}],
+                      "headline-sm": ["1.5rem", {"lineHeight": "1.4", "fontWeight": "500"}]
+              }
+            }
+          }
+        }
+    </script>
+    <style>
+        .floating-heart {
+            position: absolute;
+            animation: float 15s infinite linear;
+            opacity: 0;
+            pointer-events: none;
+            color: #fc79bd;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(100vh) scale(0.5); opacity: 0; }
+            10% { opacity: 0.4; }
+            90% { opacity: 0.4; }
+            100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+        }
+
+        .envelope-3d-card {
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            perspective: 1000px;
+        }
+        .envelope-3d-card:hover {
+            transform: translateY(-10px) scale(1.04);
+            box-shadow: 0 20px 40px rgba(164, 48, 115, 0.2);
+        }
+        
+        .modal-fade-in {
+            animation: modalFade 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        @keyframes modalFade {
+            0% { opacity: 0; transform: scale(0.9) translateY(15px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .burst-heart {
+            position: fixed;
+            pointer-events: none;
+            z-index: 100;
+            animation: burstAnim 2.5s ease-out forwards;
+        }
+        @keyframes burstAnim {
+            0% { transform: translateY(0) scale(0.5); opacity: 1; }
+            100% { transform: translateY(-200px) scale(1.3); opacity: 0; }
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-lg overflow-x-hidden relative min-h-screen flex flex-col">
+<!-- Ambient Background Layer -->
+<div class="fixed inset-0 bg-gradient-to-br from-surface to-primary-container/20 z-[-2]"></div>
+<!-- Floating Hearts Container -->
+<div class="fixed inset-0 overflow-hidden z-[-1] pointer-events-none" id="hearts-container"></div>
+
+<!-- TopNavBar (Identical to Timeline) -->
+<header class="bg-surface/70 dark:bg-surface-dim/70 backdrop-blur-md font-headline-sm text-headline-sm fixed top-0 w-full z-50 border-b border-outline-variant/30 dark:border-outline/20 shadow-sm shadow-secondary/10">
+    <div class="max-w-container-max mx-auto px-gutter h-20 flex justify-between items-center">
+        <a href="index.html" class="font-headline-md text-2xl md:text-3xl text-primary dark:text-primary-fixed-dim font-bold tracking-wider hover:opacity-90 transition-opacity flex items-center gap-1.5">
+            <span>Y</span><span class="text-secondary text-2xl md:text-3xl animate-pulse inline-block">❤️</span><span>A</span>
+        </a>
+        <nav class="hidden md:flex items-center gap-md">
+            <a class="text-on-surface-variant hover:text-primary transition-colors hover:bg-primary-container/20 rounded-full px-4 py-2" href="index.html">Home</a>
+            <a class="text-on-surface-variant hover:text-primary transition-colors hover:bg-primary-container/20 rounded-full px-4 py-2" href="timeline.html">Timeline</a>
+            <a class="text-on-surface-variant hover:text-primary transition-colors hover:bg-primary-container/20 rounded-full px-4 py-2" href="gallery.html">Gallery</a>
+            <a class="text-secondary dark:text-secondary-fixed border-b-2 border-secondary dark:border-secondary-fixed pb-1 hover:bg-primary-container/20 rounded-full px-4 py-2 font-bold" href="letter.html">رسالة</a>
+        </nav>
+        <a href="timeline.html" class="text-primary dark:text-primary-fixed-dim font-label-md text-label-md hover:bg-primary-container/20 rounded-full px-6 py-2 border border-outline-variant/50 hidden md:inline-block transition-transform duration-300 active:scale-95">
+            Our Story
+        </a>
+        <!-- Mobile Menu Toggle -->
+        <button class="md:hidden text-primary p-2" onclick="document.getElementById('mobile-menu').classList.toggle('hidden')">
+            <span class="material-symbols-outlined">menu</span>
+        </button>
+    </div>
+    <!-- Mobile Menu dropdown -->
+    <div id="mobile-menu" class="hidden md:hidden bg-surface/95 backdrop-blur-md border-b border-outline-variant/30 px-gutter py-4 flex flex-col gap-2">
+        <a class="text-on-surface-variant hover:text-primary px-4 py-2 rounded-lg" href="index.html">Home</a>
+        <a class="text-on-surface-variant hover:text-primary px-4 py-2 rounded-lg" href="timeline.html">Timeline</a>
+        <a class="text-on-surface-variant hover:text-primary px-4 py-2 rounded-lg" href="gallery.html">Gallery</a>
+        <a class="text-secondary font-bold px-4 py-2 rounded-lg bg-primary-container/20" href="letter.html">رسالة</a>
+    </div>
+</header>
+
+<!-- Main Content Area -->
+<main class="pt-32 pb-xl px-gutter max-w-container-max mx-auto w-full flex-grow relative z-10 flex flex-col items-center justify-center text-center">
+    
+    <!-- Title Section -->
+    <div class="mb-12">
+        <h1 class="font-display-lg text-display-lg text-primary mb-3">رسائل من القلب لسارة ♡</h1>
+        <p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto flex items-center justify-center gap-2">
+            <span class="material-symbols-outlined text-secondary text-base">favorite</span>
+            <span>اضغطي على أي رسالة لفتح كلام حب وخواطر خاصة بسارة</span>
+            <span class="material-symbols-outlined text-secondary text-base">favorite</span>
+        </p>
+    </div>
+
+    <!-- 7 Romantic Envelopes Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 w-full max-w-5xl mb-12">
+        
+        <!-- Card 1 -->
+        <div onclick="openLetter(0, event)" class="envelope-3d-card bg-surface-container-lowest rounded-2xl p-6 border border-secondary/30 shadow-md cursor-pointer flex flex-col items-center justify-between h-48 group">
+            <div class="w-12 h-12 rounded-full bg-primary-container/30 flex items-center justify-center group-hover:scale-110 transition-transform">
+                <span class="material-symbols-outlined text-secondary text-2xl">mail</span>
+            </div>
+            <div class="font-headline-sm text-primary font-bold">الرسالة الأولى</div>
+            <span class="text-xs bg-primary-container text-on-primary-container px-3 py-1 rounded-full font-label-md">افتح الرسالة ♡</span>
+        </div>
+
+        <!-- Card 2 -->
+        <div onclick="openLetter(1, event)" class="envelope-3d-card bg-surface-container-lowest rounded-2xl p-6 border border-secondary/30 shadow-md cursor-pointer flex flex-col items-center justify-between h-48 group">
+            <div class="w-12 h-12 rounded-full bg-primary-container/30 flex items-center justify-center group-hover:scale-110 transition-transform">
+                <span class="material-symbols-outlined text-secondary text-2xl">favorite</span>
+            </div>
+            <div class="font-headline-sm text-primary font-bold">الرسالة الثانية</div>
+            <span class="text-xs bg-primary-container text-on-primary-container px-3 py-1 rounded-full font-label-md">افتح الرسالة ♡</span>
+        </div>
+
+        <!-- Card 3 -->
+        <div onclick="openLetter(2, event)" class="envelope-3d-card bg-surface-container-lowest rounded-2xl p-6 border border-secondary/30 shadow-md cursor-pointer flex flex-col items-center justify-between h-48 group">
+            <div class="w-12 h-12 rounded-full bg-primary-container/30 flex items-center justify-center group-hover:scale-110 transition-transform">
+                <span class="material-symbols-outlined text-secondary text-2xl">local_florist</span>
+            </div>
+            <div class="font-headline-sm text-primary font-bold">الرسالة الثالثة</div>
+            <span class="text-xs bg-primary-container text-on-primary-container px-3 py-1 rounded-full font-label-md">افتح الرسالة ♡</span>
+        </div>
+
+        <!-- Card 4 -->
+        <div onclick="openLetter(3, event)" class="envelope-3d-card bg-surface-container-lowest rounded-2xl p-6 border border-secondary/30 shadow-md cursor-pointer flex flex-col items-center justify-between h-48 group">
+            <div class="w-12 h-12 rounded-full bg-primary-container/30 flex items-center justify-center group-hover:scale-110 transition-transform">
+                <span class="material-symbols-outlined text-secondary text-2xl">diamond</span>
+            </div>
+            <div class="font-headline-sm text-primary font-bold">الرسالة الرابعة</div>
+            <span class="text-xs bg-primary-container text-on-primary-container px-3 py-1 rounded-full font-label-md">افتح الرسالة ♡</span>
+        </div>
+
+        <!-- Card 5 -->
+        <div onclick="openLetter(4, event)" class="envelope-3d-card bg-surface-container-lowest rounded-2xl p-6 border border-secondary/30 shadow-md cursor-pointer flex flex-col items-center justify-between h-48 group">
+            <div class="w-12 h-12 rounded-full bg-primary-container/30 flex items-center justify-center group-hover:scale-110 transition-transform">
+                <span class="material-symbols-outlined text-secondary text-2xl">sentiment_very_satisfied</span>
+            </div>
+            <div class="font-headline-sm text-primary font-bold">الرسالة الخامسة</div>
+            <span class="text-xs bg-primary-container text-on-primary-container px-3 py-1 rounded-full font-label-md">افتح الرسالة ♡</span>
+        </div>
+
+        <!-- Card 6 -->
+        <div onclick="openLetter(5, event)" class="envelope-3d-card bg-surface-container-lowest rounded-2xl p-6 border border-secondary/30 shadow-md cursor-pointer flex flex-col items-center justify-between h-48 group">
+            <div class="w-12 h-12 rounded-full bg-primary-container/30 flex items-center justify-center group-hover:scale-110 transition-transform">
+                <span class="material-symbols-outlined text-secondary text-2xl">auto_awesome</span>
+            </div>
+            <div class="font-headline-sm text-primary font-bold">الرسالة السادسة</div>
+            <span class="text-xs bg-primary-container text-on-primary-container px-3 py-1 rounded-full font-label-md">افتح الرسالة ♡</span>
+        </div>
+
+        <!-- Card 7 -->
+        <div onclick="openLetter(6, event)" class="envelope-3d-card bg-surface-container-lowest rounded-2xl p-6 border border-secondary/30 shadow-md cursor-pointer flex flex-col items-center justify-between h-48 group col-span-1 sm:col-span-2 md:col-span-1 lg:col-span-2">
+            <div class="w-12 h-12 rounded-full bg-primary-container/30 flex items-center justify-center group-hover:scale-110 transition-transform">
+                <span class="material-symbols-outlined text-secondary text-2xl">stars</span>
+            </div>
+            <div class="font-headline-sm text-primary font-bold">الرسالة السابعة</div>
+            <span class="text-xs bg-primary-container text-on-primary-container px-3 py-1 rounded-full font-label-md">افتح الرسالة ♡</span>
+        </div>
+
+    </div>
+
+    <!-- Random Quote Action -->
+    <button onclick="openRandomLetter(event)" class="bg-secondary-container hover:bg-secondary text-on-secondary-container hover:text-on-secondary font-label-md text-label-md px-8 py-3.5 rounded-full transition-all duration-300 shadow-[0_4px_15px_rgb(164,48,115,0.15)] flex items-center gap-2 hover:-translate-y-1">
+        <span class="material-symbols-outlined text-sm">favorite</span>
+        <span>رسالة عشوائية لسارة ♡</span>
+    </button>
+</main>
+
+<!-- Love Letter Modal Popup -->
+<div id="love-modal" class="fixed inset-0 z-50 bg-inverse-surface/40 backdrop-blur-md hidden items-center justify-center p-4">
+    <div class="bg-surface-container-lowest modal-fade-in rounded-3xl p-8 md:p-12 max-w-xl w-full relative text-center border border-secondary/30 shadow-2xl">
+        
+        <!-- Close Button -->
+        <button onclick="closeLetterModal()" class="absolute top-4 left-4 w-9 h-9 rounded-full bg-surface-container hover:bg-secondary hover:text-white flex items-center justify-center transition-colors text-primary shadow-sm">
+            <span class="material-symbols-outlined text-base">close</span>
+        </button>
+
+        <!-- Romantic Header Inside Modal -->
+        <div class="w-16 h-16 rounded-full bg-primary-container/40 flex items-center justify-center mx-auto mb-4 border border-secondary/30">
+            <span class="material-symbols-outlined text-3xl text-secondary animate-pulse">favorite</span>
+        </div>
+        
+        <div class="text-secondary font-label-md text-sm mb-4 tracking-wider">رسالة حب خاصة لسارة ❤️</div>
+
+        <!-- The Love Message -->
+        <div class="my-6 p-6 rounded-2xl bg-surface-container-low border border-outline-variant/30 shadow-inner">
+            <p id="modal-letter-text" class="text-primary font-headline-sm text-xl md:text-2xl leading-relaxed font-semibold" dir="rtl">
+                "يا سارة، أنتِ أجمل صدفة نوّرت حياتي وحوّلتها لأحلى قصة حب. بحبك من كل قلبي ❤️"
+            </p>
+        </div>
+
+        <div class="w-20 h-[2px] bg-gradient-to-r from-transparent via-secondary to-transparent mx-auto mb-6"></div>
+
+        <!-- Action Buttons -->
+        <div class="flex items-center justify-center gap-4">
+            <button onclick="openNextLetter(event)" class="px-6 py-3 rounded-full bg-secondary-container hover:bg-secondary text-on-secondary-container hover:text-on-secondary font-label-md transition-all transform hover:scale-105 shadow-sm flex items-center gap-2">
+                <span>رسالة تانية لسارة</span>
+                <span class="material-symbols-outlined text-sm">arrow_forward</span>
+            </button>
+            <button onclick="closeLetterModal()" class="px-6 py-3 rounded-full bg-surface-container-high hover:bg-surface-container-highest text-primary font-label-md transition-all border border-outline-variant/40">
+                إغلاق
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Footer (Identical to Timeline) -->
+<footer class="bg-surface-container-low dark:bg-surface-container-lowest font-body-md text-body-md w-full py-xl border-t border-outline-variant/50 flex flex-col items-center gap-md text-center px-gutter z-10 relative mt-auto mb-20">
+    <div class="font-headline-sm text-2xl text-primary dark:text-primary-fixed-dim tracking-wider flex items-center gap-1.5">
+        <span>Y</span><span class="text-secondary text-2xl">❤️</span><span>A</span>
+    </div>
+    <div class="text-secondary dark:text-secondary-fixed-dim mt-2">
+        Made with love for Soso ♡
+    </div>
+</footer>
+
+<script>
+    // Sara Love Messages
+    const saraMessages = [
+        "\"يا سارة، أنتِ أجمل صدفة نوّرت حياتي وحوّلتها لأحلى قصة حب. بحبك من كل قلبي ❤️\"",
+        "\"سارة.. في عيونك لقيت أماني، وفي ابتسامتك لقيت كل سعادة الدنيا ✨\"",
+        "\"كل يوم بيمر وأنتِ معايا بحس إنه هدية غالية من ربنا.. مفيش في قلبي غيرك يا سارة 🌸\"",
+        "\"سارة.. أنتِ مش بس حبيبتي، أنتِ راحتي وبيتي ونبض قلبي للأبد 💖\"",
+        "\"لو اتعاد عمري ألف مرة، هختارك أنتِ يا سارة في كل مرة وبنفس الحب والعشق 💍\"",
+        "\"ضحكتك يا سارة كفيلة تخلّي الدنيا كلها تنوّر وتضحك في عيوني.. بحبك يا أغلى ما عندي 🌹\"",
+        "\"يا سارة، حبك هو النور والأمان اللي مالي طريقي، ومعاكِ بس عرفت معنى السعادة الحقيقية ♡\""
+    ];
+
+    let currentLetterIdx = 0;
+
+    function burstHearts(x, y) {
+        for(let i = 0; i < 6; i++) {
+            const h = document.createElement('span');
+            h.className = 'material-symbols-outlined burst-heart text-secondary';
+            h.textContent = 'favorite';
+            h.style.left = (x + (Math.random() - 0.5) * 50) + 'px';
+            h.style.top = (y + (Math.random() - 0.5) * 50) + 'px';
+            h.style.fontSize = (18 + Math.random() * 20) + 'px';
+            document.body.appendChild(h);
+            setTimeout(() => h.remove(), 2500);
+        }
+    }
+
+    window.openLetter = function(idx, e) {
+        currentLetterIdx = idx % saraMessages.length;
+        const textEl = document.getElementById('modal-letter-text');
+        const modal = document.getElementById('love-modal');
+        if (textEl) textEl.textContent = saraMessages[currentLetterIdx];
+        if (modal) {
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        const x = e ? e.clientX : window.innerWidth / 2;
+        const y = e ? e.clientY : window.innerHeight / 2;
+        burstHearts(x, y);
+    };
+
+    window.openRandomLetter = function(e) {
+        const rand = Math.floor(Math.random() * saraMessages.length);
+        window.openLetter(rand, e);
+    };
+
+    window.openNextLetter = function(e) {
+        currentLetterIdx = (currentLetterIdx + 1) % saraMessages.length;
+        const textEl = document.getElementById('modal-letter-text');
+        if (textEl) textEl.textContent = saraMessages[currentLetterIdx];
+        burstHearts(window.innerWidth / 2, window.innerHeight / 2);
+    };
+
+    window.closeLetterModal = function() {
+        const modal = document.getElementById('love-modal');
+        if (modal) {
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+    };
+
+    document.addEventListener('keydown', (e) => {
+        if(e.key === 'Escape') window.closeLetterModal();
+    });
+    const loveModalEl = document.getElementById('love-modal');
+    if (loveModalEl) {
+        loveModalEl.addEventListener('click', (e) => {
+            if(e.target.id === 'love-modal') window.closeLetterModal();
+        });
+    }
+
+    // Floating Ambient Hearts (Identical to Timeline)
+    document.addEventListener("DOMContentLoaded", function() {
+        const container = document.getElementById('hearts-container');
+        const heartCount = 15;
+        for(let i = 0; i < heartCount; i++) {
+            const heart = document.createElement('span');
+            heart.className = 'material-symbols-outlined floating-heart';
+            heart.textContent = 'favorite';
+            const leftPos = Math.random() * 100;
+            const size = 16 + Math.random() * 24;
+            const animDuration = 10 + Math.random() * 15;
+            const animDelay = Math.random() * 10;
+            heart.style.left = `${leftPos}%`;
+            heart.style.fontSize = `${size}px`;
+            heart.style.animationDuration = `${animDuration}s`;
+            heart.style.animationDelay = `${animDelay}s`;
+            const colors = ['#fc79bd', '#e5bad3', '#ffafd3'];
+            heart.style.color = colors[Math.floor(Math.random() * colors.length)];
+            container.appendChild(heart);
+        }
+    });
+</script>
+<script src="shared.js"></script>
+</body>
+</html>
