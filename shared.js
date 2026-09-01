@@ -1117,20 +1117,51 @@
         initFloatingHearts();
     };
 
-    // Gallery Initializer
-    window.initGalleryPage = function () {
-        const observer = new IntersectionObserver((entries, obs) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('is-visible');
-                    obs.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.1 });
+    // Gallery Initializer & 3D ImageStreamHero Corridor
+    const GALLERY_STREAM_PHOTOS = [
+        { src: 'assets/2022/01_first_memory_bechamel.jpg', title: 'صينية المكرونة بالبشاميل 2022' },
+        { src: 'assets/2022/2022_memory_1.jpg', title: 'البدايات الحلوة 2022' },
+        { src: 'assets/2022/2022_memory_2.jpg', title: 'ذكريات 2022' },
+        { src: 'assets/2023/2023_memory_1.jpg', title: 'خروجات وسفريات 2023' },
+        { src: 'assets/2023/2023_memory_2.jpg', title: 'سحر 2023' },
+        { src: 'assets/2024/2024_medicine.jpg', title: 'دكتورة سوسو في كلية الطب 2024' },
+        { src: 'assets/2024/2024_memory_1.jpg', title: 'نجاح وفخر 2024' },
+        { src: 'assets/2024/2024_memory_2.jpg', title: 'ضحكة دكتورتنا 2024' },
+        { src: 'assets/2025/2025_memory_1.jpg', title: 'سهرة النيل 2025' },
+        { src: 'assets/2025/2025_memory_2.jpg', title: 'احتفال النيل 2025' },
+        { src: 'assets/2026/2026_hijab.jpg', title: 'خطوة الحجاب ونور العيون 2026' }
+    ];
 
-        document.querySelectorAll('.reveal-on-scroll').forEach(el => {
-            observer.observe(el);
+    window.setupImageStreamCorridor = function () {
+        const stage = document.getElementById('corridor-stage');
+        if (!stage) return;
+        stage.innerHTML = '';
+
+        const cardsCount = 9;
+        const speed = 18;
+
+        ['card-ish-r', 'card-ish-l'].forEach(railClass => {
+            for (let i = 0; i < cardsCount; i++) {
+                const photo = GALLERY_STREAM_PHOTOS[i % GALLERY_STREAM_PHOTOS.length];
+                const card = document.createElement('div');
+                card.className = `corridor-card ${railClass}`;
+                card.style.animationDelay = `${-(i * speed) / cardsCount}s`;
+
+                const img = document.createElement('img');
+                img.src = photo.src;
+                img.alt = photo.title;
+                img.loading = 'lazy';
+                img.draggable = false;
+
+                card.appendChild(img);
+                stage.appendChild(card);
+            }
         });
+    };
+
+    window.initGalleryPage = function () {
+        window.setupImageStreamCorridor();
+        initFloatingHearts();
     };
 
     function initFloatingHearts() {
