@@ -19,7 +19,7 @@
     <link href="https://fonts.googleapis.com" rel="preconnect" />
     <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;family=Playfair+Display:wght@500;600;700&amp;display=swap"
+        href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Inter:wght@400;600&family=Playfair+Display:wght@500;600;700&family=Tajawal:wght@500;700;800&display=swap"
         rel="stylesheet" />
     <link
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
@@ -94,14 +94,16 @@
                         "gutter": "24px"
                     },
                     "fontFamily": {
-                        "body-lg": ["Inter"],
-                        "headline-lg": ["Playfair Display"],
-                        "headline-lg-mobile": ["Playfair Display"],
-                        "headline-md": ["Playfair Display"],
-                        "display-lg": ["Playfair Display"],
-                        "label-md": ["Inter"],
-                        "body-md": ["Inter"],
-                        "headline-sm": ["Playfair Display"]
+                        "body-lg": ["Inter", "Cairo", "sans-serif"],
+                        "headline-lg": ["Playfair Display", "Cairo", "serif"],
+                        "headline-lg-mobile": ["Playfair Display", "Cairo", "serif"],
+                        "headline-md": ["Playfair Display", "Cairo", "serif"],
+                        "display-lg": ["Playfair Display", "Cairo", "serif"],
+                        "label-md": ["Inter", "Cairo", "sans-serif"],
+                        "body-md": ["Inter", "Cairo", "sans-serif"],
+                        "headline-sm": ["Playfair Display", "Cairo", "serif"],
+                        "cairo": ["Cairo", "sans-serif"],
+                        "tajawal": ["Tajawal", "sans-serif"]
                     },
                     "fontSize": {
                         "body-lg": ["1.125rem", { "lineHeight": "1.7", "fontWeight": "400" }],
@@ -543,9 +545,9 @@ void main() {
             <div
                 class="mb-8 md:mb-10 w-full max-w-md md:max-w-lg bg-white/40 backdrop-blur-md rounded-2xl p-3.5 sm:p-5 md:p-6 border border-[#fbcfe8] shadow-lg shadow-secondary/10">
                 <h3
-                    class="text-xs sm:text-sm uppercase tracking-widest text-secondary font-bold mb-3 sm:mb-4 font-cairo flex items-center justify-center gap-1.5">
-                    <span>⏳</span>
-                    <span>من يومها لحد دلوقتي</span>
+                    class="text-sm sm:text-base text-secondary font-bold mb-3 sm:mb-4 font-cairo flex items-center justify-center gap-2" style="letter-spacing: normal;">
+                    <span class="text-base sm:text-lg">⏳</span>
+                    <span class="font-cairo font-bold tracking-normal text-sm sm:text-base">من يومها لحد دلوقتي</span>
                 </h3>
                 <div class="grid grid-cols-4 gap-1.5 sm:gap-3 text-center">
                     <div
@@ -553,28 +555,28 @@ void main() {
                         <span id="love-days"
                             class="block font-headline-md text-base sm:text-2xl md:text-3xl text-secondary font-bold tracking-tight whitespace-nowrap tabular-nums">00</span>
                         <span
-                            class="text-[11px] sm:text-xs text-on-surface-variant font-medium mt-0.5 sm:mt-1 font-cairo">يوم</span>
+                            class="text-[11px] sm:text-xs text-on-surface-variant font-medium mt-0.5 sm:mt-1 font-cairo tracking-normal">يوم</span>
                     </div>
                     <div
                         class="bg-[#fff0f5]/80 rounded-xl py-2 px-1 sm:p-3 border border-[#fbcfe8] flex flex-col justify-center items-center min-w-0 shadow-sm">
                         <span id="love-hours"
                             class="block font-headline-md text-base sm:text-2xl md:text-3xl text-secondary font-bold tracking-tight whitespace-nowrap tabular-nums">00</span>
                         <span
-                            class="text-[11px] sm:text-xs text-on-surface-variant font-medium mt-0.5 sm:mt-1 font-cairo">ساعة</span>
+                            class="text-[11px] sm:text-xs text-on-surface-variant font-medium mt-0.5 sm:mt-1 font-cairo tracking-normal">ساعة</span>
                     </div>
                     <div
                         class="bg-[#fff0f5]/80 rounded-xl py-2 px-1 sm:p-3 border border-[#fbcfe8] flex flex-col justify-center items-center min-w-0 shadow-sm">
                         <span id="love-mins"
                             class="block font-headline-md text-base sm:text-2xl md:text-3xl text-secondary font-bold tracking-tight whitespace-nowrap tabular-nums">00</span>
                         <span
-                            class="text-[11px] sm:text-xs text-on-surface-variant font-medium mt-0.5 sm:mt-1 font-cairo">دقيقة</span>
+                            class="text-[11px] sm:text-xs text-on-surface-variant font-medium mt-0.5 sm:mt-1 font-cairo tracking-normal">دقيقة</span>
                     </div>
                     <div
                         class="bg-[#fff0f5]/80 rounded-xl py-2 px-1 sm:p-3 border border-[#fbcfe8] flex flex-col justify-center items-center min-w-0 shadow-sm">
                         <span id="love-secs"
                             class="block font-headline-md text-base sm:text-2xl md:text-3xl text-secondary font-bold tracking-tight whitespace-nowrap tabular-nums">00</span>
                         <span
-                            class="text-[11px] sm:text-xs text-on-surface-variant font-medium mt-0.5 sm:mt-1 font-cairo">ثانية</span>
+                            class="text-[11px] sm:text-xs text-on-surface-variant font-medium mt-0.5 sm:mt-1 font-cairo tracking-normal">ثانية</span>
                     </div>
                 </div>
             </div>
