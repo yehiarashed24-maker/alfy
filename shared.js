@@ -39,7 +39,7 @@
 
     let audioInstance = null;
 
-    // Global Mobile & iOS App-Like CSS Injection
+    // Global Mobile & App-Wide CSS Injection
     function injectMobileStyles() {
         if (document.getElementById('ios-mobile-styles')) return;
         const style = document.createElement('style');
@@ -50,11 +50,13 @@
                 box-sizing: border-box;
             }
             body {
+                background: radial-gradient(circle at 50% 30%, #ffd8e7 0%, #fff0f5 45%, #fce7f3 100%) !important;
+                min-height: 100vh;
                 -webkit-font-smoothing: antialiased;
                 overscroll-behavior-y: none;
                 padding-bottom: env(safe-area-inset-bottom);
             }
-            /* Prevent horizontal overflow on iPhone */
+            /* Prevent horizontal overflow */
             html, body {
                 max-width: 100vw;
                 overflow-x: hidden;
@@ -89,6 +91,77 @@
             @keyframes burstFade {
                 0% { transform: scale(0.5) translateY(0); opacity: 1; }
                 100% { transform: scale(1.6) translateY(-100px); opacity: 0; }
+            }
+
+            /* Universal 3D Envelope Cards */
+            .envelope-3d-card {
+                background: linear-gradient(145deg, rgba(255, 255, 255, 0.92) 0%, rgba(255, 240, 245, 0.88) 100%) !important;
+                backdrop-filter: blur(16px);
+                -webkit-backdrop-filter: blur(16px);
+                border: 1.5px solid rgba(244, 114, 182, 0.55) !important;
+                border-radius: 1.25rem !important;
+                box-shadow: 0 10px 25px -4px rgba(164, 48, 115, 0.14), 0 4px 10px rgba(0, 0, 0, 0.03) !important;
+                transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+                perspective: 1000px;
+                position: relative;
+            }
+            .envelope-3d-card:hover {
+                transform: translateY(-8px) scale(1.03) !important;
+                border-color: rgba(236, 72, 153, 0.95) !important;
+                box-shadow: 0 20px 40px -6px rgba(164, 48, 115, 0.28), 0 0 25px rgba(244, 114, 182, 0.25) !important;
+            }
+
+            /* Universal Timeline Glass Cards */
+            .timeline-glass-card {
+                background: linear-gradient(145deg, rgba(255, 255, 255, 0.92) 0%, rgba(255, 240, 245, 0.88) 100%) !important;
+                backdrop-filter: blur(16px);
+                -webkit-backdrop-filter: blur(16px);
+                border: 1.5px solid rgba(251, 207, 232, 0.8) !important;
+                border-radius: 1.25rem !important;
+                box-shadow: 0 10px 30px rgba(164, 48, 115, 0.1) !important;
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            }
+            .timeline-glass-card:hover {
+                transform: translateY(-4px) !important;
+                box-shadow: 0 16px 36px rgba(164, 48, 115, 0.18) !important;
+                border-color: rgba(244, 114, 182, 0.9) !important;
+            }
+
+            /* Universal Gallery Cards */
+            .glass-card {
+                background: linear-gradient(145deg, rgba(255, 255, 255, 0.92) 0%, rgba(255, 240, 245, 0.88) 100%) !important;
+                backdrop-filter: blur(16px);
+                -webkit-backdrop-filter: blur(16px);
+                border: 1.5px solid rgba(251, 207, 232, 0.8) !important;
+                border-radius: 1.25rem !important;
+                box-shadow: 0 10px 30px rgba(164, 48, 115, 0.1) !important;
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            }
+
+            /* Floating Hearts */
+            .floating-heart {
+                position: absolute;
+                animation: float 15s infinite linear;
+                opacity: 0;
+                pointer-events: none;
+                color: #fc79bd;
+            }
+            @keyframes float {
+                0% { transform: translateY(100vh) scale(0.5); opacity: 0; }
+                10% { opacity: 0.4; }
+                90% { opacity: 0.4; }
+                100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+            }
+
+            /* Scroll Reveal */
+            .scroll-reveal {
+                opacity: 0;
+                transform: translateY(30px);
+                transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+            }
+            .scroll-reveal.visible, .scroll-reveal.active {
+                opacity: 1 !important;
+                transform: translateY(0) !important;
             }
         `;
         document.head.appendChild(style);
