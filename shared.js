@@ -194,7 +194,9 @@
     // Gallery Album Data & Modal System
     const YEAR_PHOTOS = {
         '2022': [
-            { src: 'assets/2022/01_first_memory_bechamel.jpg', caption: '🍝 أول ذكرى (المكرونة بالبشاميل واشطا) ❤️' }
+            { src: 'assets/2022/01_first_memory_bechamel.jpg', caption: '🍝 أول ذكرى (المكرونة بالبشاميل واشطا) ❤️' },
+            { src: 'assets/2022/2022_memory_1.jpg', caption: 'أول أيام حبنا وبداية أحلى حكاية في 2022 ✨' },
+            { src: 'assets/2022/2022_memory_2.jpg', caption: 'لحظات وضحكات بداية مشوارنا سوا في 2022 🌸' }
         ],
         '2023': [
             { src: 'assets/2023/2023_memory_2.jpg', caption: 'سنة الذكريات واللحظات الحلوة ✨' },
