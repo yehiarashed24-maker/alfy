@@ -843,26 +843,79 @@
         heroHeartRenderer.render(heroHeartScene, heroHeartCamera);
     }
 
-    // --- 3D Blooming Rose Garden & Floating Petals Engine ---
-    let roseRenderer = null;
-    let roseScene = null;
-    let roseCamera = null;
-    let rosePetals = [];
-    let roseFlowers = [];
-    let roseAnimId = null;
-    let roseRunning = false;
-    let targetRoseCameraY = 15;
-    let currentRoseCameraY = 15;
-    let roseMouseX = 0, roseMouseY = 0;
+    // --- 3D Rose Rotunda 360° Engine (Gates of Love) ---
+    let rotundaRenderer = null;
+    let rotundaScene = null;
+    let rotundaCamera = null;
+    let rotundaGates = [];
+    let rotundaPetals = [];
+    let rotundaAnimId = null;
+    let rotundaRunning = false;
+    let currentGardenAngle = 0;
+    let targetGardenAngle = 0;
+    let isInsideGate = false;
+    let activeGateIndex = 0;
+    let isDraggingRotunda = false;
+    let lastMouseX = 0;
+    let rotundaCamTargetPos = null;
+    let rotundaCamTargetLook = null;
 
-    function setupRoseGarden3D() {
-        const canvas = document.getElementById('timeline-rose-canvas');
+    const GATE_DATA = [
+        {
+            year: '2022',
+            title: 'The Bechamel Pasta',
+            badge: '🍝 أول ذكرى وأحلى ذكرى • 2022',
+            date: '6 Nov 2022',
+            text: 'ساعتها دي أول ذكرى وأحلى ذكرى عشان إنتي اللي كنتي عاملاهاااا. إنتي متعرفيش أنا كنت مبسوط إزاي، وإنتي كنتي مكسوفة كده، وحتة «اشطااا» يوميها 😂❤️ أنا يوميها قولت: دي هتبقى أحلى وأنجح علاقة، عشان جبتيني من أحلى حاجة بحبها ❤️😂',
+            img: 'assets/2022/01_first_memory_bechamel.jpg',
+            icon: '🍝'
+        },
+        {
+            year: '2023',
+            title: 'Trips & Endless Smiles',
+            badge: '🌸 سنة الذكريات والضحك • 2023',
+            date: 'Year 2023',
+            text: 'سنة كانت مليانة خروجات وسفريات وضحكات من القلب.. كل مكان روحناه سوا بقى فيه حتة من روحنا ومن حبنا اللي بيكبر كل يوم ✨',
+            img: 'assets/2023/2023_memory_2.jpg',
+            icon: '🌸'
+        },
+        {
+            year: '2024',
+            title: 'Proud of My Doctor Soso',
+            badge: '🩺 دكتورة سوسو في كلية الطب • 2024',
+            date: 'Year 2024',
+            text: 'وقفتك وتعبك ونجاحك في كلية الطب كان أكتر حاجة بتبهرني بيكي وفخور بيها.. أحلى وأشطر دكتورة في الدنيا كلها 💖',
+            img: 'assets/2024/2024_medicine.jpg',
+            icon: '🩺'
+        },
+        {
+            year: '2025',
+            title: 'Nile Nights & Celebrations',
+            badge: '🌙 ليلة النيل والاحتفال • 2025',
+            date: 'Year 2025',
+            text: 'ليلة الاحتفال وضحكتك اللي نورت النيل.. كل تفصيلة وسهرة قضيناها سوا كانت أحلى من ألف احتفال 🌹',
+            img: 'assets/2025/2025_memory_2.jpg',
+            icon: '🌙'
+        },
+        {
+            year: '2026',
+            title: 'A Glowing Crown',
+            badge: '❤️ خطوة الحجاب ونور العيون • 2026',
+            date: 'Year 2026',
+            text: 'خطوة الحجاب اللي زادتك نور وجمال.. أحلى وأرق بنت في عيني دايماً، وشايف فيكي كل الخير والجمال اللي في الكون ❤️✨',
+            img: 'assets/2026/2026_hijab.jpg',
+            icon: '❤️'
+        }
+    ];
+
+    function setupRoseRotunda3D() {
+        const canvas = document.getElementById('timeline-rotunda-canvas');
         if (!canvas) return;
 
-        if (roseRenderer && roseScene) {
-            if (!roseRunning) {
-                roseRunning = true;
-                animateRoseGarden();
+        if (rotundaRenderer && rotundaScene) {
+            if (!rotundaRunning) {
+                rotundaRunning = true;
+                animateRoseRotunda();
             }
             return;
         }
@@ -871,7 +924,7 @@
             const script = document.createElement('script');
             script.src = 'https://ajax.googleapis.com/ajax/libs/threejs/r125/three.min.js';
             script.onload = () => {
-                setupRoseGarden3D();
+                setupRoseRotunda3D();
             };
             document.head.appendChild(script);
             return;
@@ -881,225 +934,357 @@
             const width = window.innerWidth;
             const height = window.innerHeight;
 
-            roseScene = new THREE.Scene();
-            roseCamera = new THREE.PerspectiveCamera(60, width / height, 0.1, 1000);
-            roseCamera.position.set(0, 15, 25);
+            rotundaCamTargetPos = new THREE.Vector3(0, 2.5, 0);
+            rotundaCamTargetLook = new THREE.Vector3(0, 2.5, -50);
 
-            roseRenderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
-            roseRenderer.setSize(width, height);
-            roseRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            rotundaScene = new THREE.Scene();
+            rotundaCamera = new THREE.PerspectiveCamera(65, width / height, 0.1, 1000);
+            rotundaCamera.position.set(0, 2.5, 0);
 
-            // Ambient & Soft Romantic Lights
-            const ambient = new THREE.AmbientLight(0xfff0f5, 1.1);
-            roseScene.add(ambient);
+            rotundaRenderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+            rotundaRenderer.setSize(width, height);
+            rotundaRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-            const pinkLight1 = new THREE.PointLight(0xf472b6, 1.8, 80);
-            pinkLight1.position.set(0, 10, 15);
-            roseScene.add(pinkLight1);
+            // Lighting
+            const ambient = new THREE.AmbientLight(0xfff0f5, 1.2);
+            rotundaScene.add(ambient);
 
-            const warmLight2 = new THREE.PointLight(0xffafd3, 1.4, 80);
-            warmLight2.position.set(0, -20, 15);
-            roseScene.add(warmLight2);
+            const centerLight = new THREE.PointLight(0xf472b6, 2.0, 60);
+            centerLight.position.set(0, 8, 0);
+            rotundaScene.add(centerLight);
 
-            // 1. Floating 3D Rose Petals (80 Petals with organic curved geometry)
-            rosePetals = [];
+            // Ground Garden Disk
+            const floorGeo = new THREE.CircleGeometry(32, 48);
+            floorGeo.rotateX(-Math.PI / 2);
+            const floorMat = new THREE.MeshBasicMaterial({
+                color: 0xffd8e7,
+                transparent: true,
+                opacity: 0.45
+            });
+            const floorMesh = new THREE.Mesh(floorGeo, floorMat);
+            floorMesh.position.y = -0.1;
+            rotundaScene.add(floorMesh);
+
+            // Circular Fairy Ring
+            const ringGeo = new THREE.RingGeometry(21.8, 22.2, 64);
+            ringGeo.rotateX(-Math.PI / 2);
+            const ringMat = new THREE.MeshBasicMaterial({ color: 0xf472b6, side: THREE.DoubleSide, transparent: true, opacity: 0.7 });
+            const fairyRing = new THREE.Mesh(ringGeo, ringMat);
+            fairyRing.position.y = 0.05;
+            rotundaScene.add(fairyRing);
+
+            // Build 5 3D Arched Rose Gates in a circle
+            rotundaGates = [];
+            const R = 22;
+            const gateCount = 5;
+
+            const archMaterial = new THREE.MeshPhongMaterial({
+                color: 0xffffff,
+                emissive: 0xa43073,
+                emissiveIntensity: 0.4,
+                shininess: 90
+            });
+            const roseMaterial = new THREE.MeshPhongMaterial({
+                color: 0xf472b6,
+                emissive: 0xdb2777,
+                emissiveIntensity: 0.5
+            });
+
+            for (let i = 0; i < gateCount; i++) {
+                const angle = (i / gateCount) * Math.PI * 2;
+                const gateGroup = new THREE.Group();
+
+                const gx = Math.sin(angle) * R;
+                const gz = -Math.cos(angle) * R;
+                gateGroup.position.set(gx, 0, gz);
+                gateGroup.rotation.y = -angle;
+
+                // Arch Geometry
+                const archGeo = new THREE.TorusGeometry(3.6, 0.4, 12, 32, Math.PI);
+                const archMesh = new THREE.Mesh(archGeo, archMaterial);
+                archMesh.position.y = 4.0;
+                gateGroup.add(archMesh);
+
+                // Left Pillar
+                const leftPillar = new THREE.Mesh(new THREE.CylinderGeometry(0.35, 0.45, 4.5, 16), archMaterial);
+                leftPillar.position.set(-3.6, 2.25, 0);
+                gateGroup.add(leftPillar);
+
+                // Right Pillar
+                const rightPillar = new THREE.Mesh(new THREE.CylinderGeometry(0.35, 0.45, 4.5, 16), archMaterial);
+                rightPillar.position.set(3.6, 2.25, 0);
+                gateGroup.add(rightPillar);
+
+                // Heart at Arch Apex
+                const heartShape = new THREE.Shape();
+                heartShape.moveTo(0, 0);
+                heartShape.bezierCurveTo(0, -0.3, -0.5, -0.3, -0.5, 0);
+                heartShape.bezierCurveTo(-0.5, 0.3, 0, 0.6, 0, 0.9);
+                heartShape.bezierCurveTo(0, 0.6, 0.5, 0.3, 0.5, 0);
+                heartShape.bezierCurveTo(0.5, -0.3, 0, -0.3, 0, 0);
+
+                const heartExtrude = { depth: 0.3, bevelEnabled: true, bevelSegments: 4, steps: 1, bevelSize: 0.08, bevelThickness: 0.08 };
+                const heartGeo = new THREE.ExtrudeGeometry(heartShape, heartExtrude);
+                heartGeo.rotateX(Math.PI);
+                heartGeo.translate(0, 0.4, 0);
+                const heartMesh = new THREE.Mesh(heartGeo, roseMaterial);
+                heartMesh.scale.set(1.5, 1.5, 1.5);
+                heartMesh.position.set(0, 8.0, 0);
+                gateGroup.add(heartMesh);
+
+                // Portal Floor Glowing Pad
+                const portalGeo = new THREE.CircleGeometry(3.2, 32);
+                portalGeo.rotateX(-Math.PI / 2);
+                const portalMat = new THREE.MeshBasicMaterial({ color: 0xfc79bd, transparent: true, opacity: 0.45 });
+                const portalMesh = new THREE.Mesh(portalGeo, portalMat);
+                portalMesh.position.set(0, 0.08, 0);
+                gateGroup.add(portalMesh);
+
+                gateGroup.userData = {
+                    index: i,
+                    angle: angle,
+                    targetPos: new THREE.Vector3(Math.sin(angle) * (R - 5), 2.5, -Math.cos(angle) * (R - 5)),
+                    lookPos: new THREE.Vector3(Math.sin(angle) * (R + 10), 2.5, -Math.cos(angle) * (R + 10)),
+                    heartMesh
+                };
+
+                rotundaScene.add(gateGroup);
+                rotundaGates.push(gateGroup);
+            }
+
+            // Floating Rose Petals (80 Petals)
+            rotundaPetals = [];
             const petalShape = new THREE.Shape();
             petalShape.moveTo(0, 0);
             petalShape.bezierCurveTo(0.4, 0.5, 0.8, 1.2, 0, 2.0);
             petalShape.bezierCurveTo(-0.8, 1.2, -0.4, 0.5, 0, 0);
-
             const petalGeo = new THREE.ShapeGeometry(petalShape);
             const petalMat = new THREE.MeshPhongMaterial({
                 color: 0xf472b6,
                 emissive: 0xdb2777,
-                emissiveIntensity: 0.25,
-                side: THREE.DoubleSide,
-                shininess: 90
+                emissiveIntensity: 0.3,
+                side: THREE.DoubleSide
             });
 
-            for (let i = 0; i < 75; i++) {
+            for (let p = 0; p < 80; p++) {
                 const petal = new THREE.Mesh(petalGeo, petalMat);
                 petal.position.set(
-                    (Math.random() - 0.5) * 40,
-                    (Math.random() - 0.5) * 70,
-                    (Math.random() - 0.5) * 30
+                    (Math.random() - 0.5) * 50,
+                    Math.random() * 16,
+                    (Math.random() - 0.5) * 50
                 );
-                petal.rotation.set(
-                    Math.random() * Math.PI * 2,
-                    Math.random() * Math.PI * 2,
-                    Math.random() * Math.PI * 2
-                );
-                const scale = 0.5 + Math.random() * 0.7;
+                petal.rotation.set(Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI);
+                const scale = 0.4 + Math.random() * 0.6;
                 petal.scale.set(scale, scale, scale);
-
                 petal.userData = {
-                    speedY: 0.02 + Math.random() * 0.03,
+                    speedY: 0.015 + Math.random() * 0.02,
                     rotSpeedX: (Math.random() - 0.5) * 0.02,
-                    rotSpeedY: (Math.random() - 0.5) * 0.03,
-                    wobbleSpeed: 0.002 + Math.random() * 0.003,
-                    initX: petal.position.x
+                    rotSpeedY: (Math.random() - 0.5) * 0.03
                 };
-                roseScene.add(petal);
-                rosePetals.push(petal);
+                rotundaScene.add(petal);
+                rotundaPetals.push(petal);
             }
 
-            // 2. 5 3D Blooming Rose Flower Meshes for each milestone
-            roseFlowers = [];
-            const roseYPositions = [15, 3, -9, -21, -33];
-
-            roseYPositions.forEach((yPos, idx) => {
-                const flowerGroup = new THREE.Group();
-                flowerGroup.position.set(idx % 2 === 0 ? 0 : 0, yPos, 0);
-
-                // Central Rose Bud
-                const centerGeo = new THREE.SphereGeometry(1.0, 16, 16);
-                const centerMat = new THREE.MeshPhongMaterial({
-                    color: 0xdb2777,
-                    emissive: 0xa43073,
-                    emissiveIntensity: 0.4
-                });
-                const centerMesh = new THREE.Mesh(centerGeo, centerMat);
-                flowerGroup.add(centerMesh);
-
-                // Nested Petal Layers (Blooming animation targets)
-                const petalsList = [];
-                for (let layer = 0; layer < 3; layer++) {
-                    const layerGroup = new THREE.Group();
-                    const petalCount = 5 + layer * 2;
-                    for (let p = 0; p < petalCount; p++) {
-                        const angle = (p / petalCount) * Math.PI * 2;
-                        const pMesh = new THREE.Mesh(petalGeo, petalMat);
-                        pMesh.position.set(Math.cos(angle) * (0.8 + layer * 0.5), Math.sin(angle) * (0.8 + layer * 0.5), 0);
-                        pMesh.rotation.z = angle - Math.PI / 2;
-                        pMesh.rotation.x = 0.3 + layer * 0.3;
-                        pMesh.scale.set(0.6 + layer * 0.3, 0.6 + layer * 0.3, 0.6 + layer * 0.3);
-                        layerGroup.add(pMesh);
-                    }
-                    flowerGroup.add(layerGroup);
-                    petalsList.push(layerGroup);
-                }
-
-                flowerGroup.scale.set(0.1, 0.1, 0.1); // Initial closed bud
-                flowerGroup.userData = {
-                    unlocked: idx === 0, // 2022 starts unlocked
-                    targetScale: idx === 0 ? 1.4 : 0.1,
-                    currentScale: idx === 0 ? 1.4 : 0.1,
-                    petalsList
-                };
-
-                roseScene.add(flowerGroup);
-                roseFlowers.push(flowerGroup);
-            });
-
-            window.addEventListener('mousemove', (e) => {
-                roseMouseX = (e.clientX / window.innerWidth - 0.5) * 2;
-                roseMouseY = (e.clientY / window.innerHeight - 0.5) * 2;
-            }, { passive: true });
-
-            window.addEventListener('resize', () => {
-                if (!roseRenderer || !roseCamera) return;
-                roseCamera.aspect = window.innerWidth / window.innerHeight;
-                roseCamera.updateProjectionMatrix();
-                roseRenderer.setSize(window.innerWidth, window.innerHeight);
-            }, { passive: true });
-
-            roseRunning = true;
-            animateRoseGarden();
-
-        } catch (e) {
-            console.warn('3D Rose Garden Init Error:', e);
-        }
-    }
-
-    function animateRoseGarden() {
-        if (!roseRunning || !roseRenderer || !roseScene || !roseCamera) return;
-        roseAnimId = requestAnimationFrame(animateRoseGarden);
-
-        // Smooth camera lerp
-        currentRoseCameraY += (targetRoseCameraY - currentRoseCameraY) * 0.08;
-        roseCamera.position.y = currentRoseCameraY + (-roseMouseY * 1.5);
-        roseCamera.position.x = roseMouseX * 1.5;
-        roseCamera.lookAt(0, currentRoseCameraY, 0);
-
-        // Animate floating petals
-        const time = Date.now();
-        rosePetals.forEach(petal => {
-            petal.position.y -= petal.userData.speedY;
-            petal.position.x = petal.userData.initX + Math.sin(time * petal.userData.wobbleSpeed) * 1.5;
-            petal.rotation.x += petal.userData.rotSpeedX;
-            petal.rotation.y += petal.userData.rotSpeedY;
-
-            if (petal.position.y < currentRoseCameraY - 30) {
-                petal.position.y = currentRoseCameraY + 30;
-            }
-        });
-
-        // Animate blooming rose flowers
-        roseFlowers.forEach(flower => {
-            flower.rotation.z += 0.005;
-            flower.userData.currentScale += (flower.userData.targetScale - flower.userData.currentScale) * 0.08;
-            flower.scale.set(flower.userData.currentScale, flower.userData.currentScale, flower.userData.currentScale);
-        });
-
-        roseRenderer.render(roseScene, roseCamera);
-    }
-
-    function pauseRoseGarden() {
-        roseRunning = false;
-        if (roseAnimId) cancelAnimationFrame(roseAnimId);
-    }
-
-    // Progressive Timeline Initializer
-    window.initTimelinePage = function() {
-        setupRoseGarden3D();
-
-        const timelineContainer = document.getElementById('rose-timeline-container');
-        const vineProgress = document.getElementById('rose-vine-progress');
-        const stepIds = ['step-2022', 'step-2023', 'step-2024', 'step-2025', 'step-2026'];
-        const roseYTargets = [15, 3, -9, -21, -33];
-
-        if (timelineContainer) {
-            const onScrollRoseTimeline = () => {
-                const windowHeight = window.innerHeight;
-                const rect = timelineContainer.getBoundingClientRect();
-                const progress = Math.max(0, Math.min(1, (windowHeight * 0.8 - rect.top) / rect.height));
-
-                if (vineProgress) {
-                    vineProgress.style.height = `${progress * 100}%`;
-                }
-
-                // Progressive reveal of each step
-                stepIds.forEach((sId, idx) => {
-                    const stepEl = document.getElementById(sId);
-                    if (stepEl) {
-                        const sRect = stepEl.getBoundingClientRect();
-                        // When step enters visible screen zone
-                        if (sRect.top < windowHeight * 0.75) {
-                            if (stepEl.classList.contains('rose-step-locked')) {
-                                stepEl.classList.remove('rose-step-locked');
-                                stepEl.classList.add('rose-step-unlocked');
-
-                                // Trigger 3D Rose Blossom
-                                if (roseFlowers[idx]) {
-                                    roseFlowers[idx].userData.targetScale = 1.4;
-                                }
-                            }
-
-                            // Center 3D Camera around active year
-                            if (sRect.top >= 0 && sRect.top < windowHeight * 0.6) {
-                                targetRoseCameraY = roseYTargets[idx] || 15;
-                            }
-                        }
-                    }
-                });
+            // Mouse / Touch Drag Events
+            const onDown = (clientX) => {
+                if (isInsideGate) return;
+                isDraggingRotunda = true;
+                lastMouseX = clientX;
             };
 
-            window.removeEventListener('scroll', window._roseTimelineHandler);
-            window._roseTimelineHandler = onScrollRoseTimeline;
-            window.addEventListener('scroll', onScrollRoseTimeline, { passive: true });
-            onScrollRoseTimeline();
+            const onMove = (clientX) => {
+                if (!isDraggingRotunda || isInsideGate) return;
+                const delta = clientX - lastMouseX;
+                lastMouseX = clientX;
+                targetGardenAngle -= delta * 0.005;
+            };
+
+            const onUp = () => {
+                isDraggingRotunda = false;
+            };
+
+            canvas.addEventListener('mousedown', (e) => onDown(e.clientX));
+            window.addEventListener('mousemove', (e) => onMove(e.clientX));
+            window.addEventListener('mouseup', onUp);
+
+            canvas.addEventListener('touchstart', (e) => {
+                if (e.touches.length > 0) onDown(e.touches[0].clientX);
+            }, { passive: true });
+            window.addEventListener('touchmove', (e) => {
+                if (e.touches.length > 0) onMove(e.touches[0].clientX);
+            }, { passive: true });
+            window.addEventListener('touchend', onUp);
+
+            // Raycasting on Click
+            const raycaster = new THREE.Raycaster();
+            const mouseVec = new THREE.Vector2();
+
+            canvas.addEventListener('click', (e) => {
+                if (isInsideGate) return;
+                mouseVec.x = (e.clientX / window.innerWidth) * 2 - 1;
+                mouseVec.y = -(e.clientY / window.innerHeight) * 2 + 1;
+                raycaster.setFromCamera(mouseVec, rotundaCamera);
+                const intersects = raycaster.intersectObjects(rotundaScene.children, true);
+                if (intersects.length > 0) {
+                    let obj = intersects[0].object;
+                    while (obj && obj.parent !== rotundaScene) {
+                        if (obj.userData && typeof obj.userData.index === 'number') break;
+                        obj = obj.parent;
+                    }
+                    if (obj && obj.userData && typeof obj.userData.index === 'number') {
+                        walkIntoGate(obj.userData.index);
+                    }
+                }
+            });
+
+            window.addEventListener('resize', () => {
+                if (!rotundaRenderer || !rotundaCamera) return;
+                rotundaCamera.aspect = window.innerWidth / window.innerHeight;
+                rotundaCamera.updateProjectionMatrix();
+                rotundaRenderer.setSize(window.innerWidth, window.innerHeight);
+            }, { passive: true });
+
+            rotundaRunning = true;
+            animateRoseRotunda();
+
+        } catch (e) {
+            console.warn('3D Rose Rotunda Init Error:', e);
+        }
+    }
+
+    function animateRoseRotunda() {
+        if (!rotundaRunning || !rotundaRenderer || !rotundaScene || !rotundaCamera) return;
+        rotundaAnimId = requestAnimationFrame(animateRoseRotunda);
+
+        // Interpolate Garden Rotation
+        currentGardenAngle += (targetGardenAngle - currentGardenAngle) * 0.08;
+
+        if (!isInsideGate) {
+            rotundaCamTargetPos.set(0, 2.5, 0);
+            rotundaCamTargetLook.set(
+                Math.sin(currentGardenAngle) * 100,
+                2.5,
+                -Math.cos(currentGardenAngle) * 100
+            );
         }
 
+        rotundaCamera.position.lerp(rotundaCamTargetPos, 0.08);
+        const currentLook = new THREE.Vector3();
+        rotundaCamera.getWorldDirection(currentLook);
+        const desiredLook = rotundaCamTargetLook.clone().sub(rotundaCamera.position).normalize();
+        currentLook.lerp(desiredLook, 0.08);
+        rotundaCamera.lookAt(rotundaCamera.position.clone().add(currentLook));
+
+        // Animate floating petals
+        rotundaPetals.forEach(petal => {
+            petal.position.y -= petal.userData.speedY;
+            petal.rotation.x += petal.userData.rotSpeedX;
+            petal.rotation.y += petal.userData.rotSpeedY;
+            if (petal.position.y < 0) petal.position.y = 15;
+        });
+
+        // Animate gate hearts
+        rotundaGates.forEach(g => {
+            if (g.userData && g.userData.heartMesh) {
+                g.userData.heartMesh.rotation.y += 0.02;
+            }
+        });
+
+        rotundaRenderer.render(rotundaScene, rotundaCamera);
+    }
+
+    function walkIntoGate(index) {
+        activeGateIndex = index;
+        isInsideGate = true;
+        const gate = rotundaGates[index];
+        if (gate) {
+            rotundaCamTargetPos.copy(gate.userData.targetPos);
+            rotundaCamTargetLook.copy(gate.userData.lookPos);
+        }
+
+        document.querySelectorAll('.gate-dock-btn').forEach((btn, i) => {
+            btn.classList.toggle('active', i === index);
+        });
+
+        const data = GATE_DATA[index];
+        const bodyEl = document.getElementById('overlay-memory-body');
+        const overlay = document.getElementById('gate-memory-overlay');
+
+        if (bodyEl && data) {
+            bodyEl.innerHTML = `
+                <div class="flex items-center justify-between mb-4">
+                    <span class="bg-primary-container text-secondary font-bold text-xs md:text-sm px-4 py-1.5 rounded-full shadow-sm font-cairo flex items-center gap-1.5">
+                        <span>${data.icon}</span>
+                        <span>${data.badge}</span>
+                    </span>
+                    <span class="text-xs text-secondary font-mono font-bold">${data.date}</span>
+                </div>
+                <h2 class="font-headline-md text-2xl sm:text-3xl text-primary font-bold mb-4 font-cairo">${data.title}</h2>
+                <div class="aspect-16/9 rounded-2xl overflow-hidden mb-5 border border-[#f472b6]/40 shadow-lg relative group cursor-pointer" onclick="openGalleryModal('${data.year}')">
+                    <img src="${data.img}" alt="${data.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"/>
+                    <div class="absolute bottom-3 right-3 bg-black/60 backdrop-blur-md text-white px-3 py-1 rounded-full text-xs font-cairo flex items-center gap-1.5">
+                        <span class="material-symbols-outlined text-sm">photo_library</span>
+                        <span>اضغطي لعرض صور ${data.year} ♡</span>
+                    </div>
+                </div>
+                <p class="font-body-md text-sm sm:text-base text-on-surface-variant leading-relaxed font-cairo mb-3">
+                    ${data.text}
+                </p>
+            `;
+        }
+
+        if (overlay) {
+            overlay.classList.remove('hidden-overlay');
+            overlay.classList.add('visible-overlay');
+        }
+    }
+
+    function exitGateWalk() {
+        isInsideGate = false;
+        const overlay = document.getElementById('gate-memory-overlay');
+        if (overlay) {
+            overlay.classList.remove('visible-overlay');
+            overlay.classList.add('hidden-overlay');
+        }
+    }
+
+    function selectGate(index) {
+        const angle = (index / 5) * Math.PI * 2;
+        targetGardenAngle = angle;
+        setTimeout(() => {
+            walkIntoGate(index);
+        }, 300);
+    }
+
+    function rotateGardenBy(delta) {
+        targetGardenAngle += delta;
+    }
+
+    function stepToNextGate() {
+        const next = (activeGateIndex + 1) % 5;
+        selectGate(next);
+    }
+
+    function stepToPrevGate() {
+        const prev = (activeGateIndex - 1 + 5) % 5;
+        selectGate(prev);
+    }
+
+    function pauseRoseRotunda() {
+        rotundaRunning = false;
+        if (rotundaAnimId) cancelAnimationFrame(rotundaAnimId);
+    }
+
+    window.walkIntoGate = walkIntoGate;
+    window.exitGateWalk = exitGateWalk;
+    window.selectGate = selectGate;
+    window.rotateGardenBy = rotateGardenBy;
+    window.stepToNextGate = stepToNextGate;
+    window.stepToPrevGate = stepToPrevGate;
+
+    // Timeline Initializer
+    window.initTimelinePage = function() {
+        setupRoseRotunda3D();
         initFloatingHearts();
     };
 
@@ -1218,14 +1403,14 @@
 
             const targetPage = (url.split('/').pop().split('?')[0] || 'index.html');
             if (targetPage === 'index.html' || targetPage === '') {
-                pauseRoseGarden();
+                pauseRoseRotunda();
                 setupHeroHeart();
             } else if (targetPage === 'timeline.html') {
                 pauseHeroHeart();
                 window.initTimelinePage();
             } else {
                 pauseHeroHeart();
-                pauseRoseGarden();
+                pauseRoseRotunda();
                 if (targetPage === 'gallery.html') {
                     window.initGalleryPage();
                 } else if (targetPage === 'letter.html') {

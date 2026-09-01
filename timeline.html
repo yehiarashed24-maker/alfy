@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="scroll-smooth" lang="en">
+<html lang="en">
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/>
@@ -7,7 +7,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
     <meta name="apple-mobile-web-app-title" content="Y ❤️ A"/>
     <meta name="theme-color" content="#fff0f5"/>
-    <title>Y ❤️ A - حديقة الذكريات والورود</title>
+    <title>Y ❤️ A - حديقة بوابات الذكريات 360°</title>
     <script src="https://ajax.googleapis.com/ajax/libs/threejs/r125/three.min.js"></script>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Inter:wght@400;600&family=Playfair+Display:wght@500;600;700&family=Tajawal:wght@500;700;800&display=swap" rel="stylesheet"/>
@@ -41,65 +41,66 @@
         body {
             background: radial-gradient(circle at 50% 30%, #ffd8e7 0%, #fff0f5 45%, #fce7f3 100%) !important;
             min-height: 100vh;
+            overflow: hidden;
+            touch-action: none;
         }
 
-        #timeline-rose-canvas {
+        #timeline-rotunda-canvas {
             position: fixed;
             inset: 0;
             width: 100%;
             height: 100%;
             z-index: 1;
-            pointer-events: none;
+            cursor: grab;
+        }
+        #timeline-rotunda-canvas:active {
+            cursor: grabbing;
         }
 
-        /* Luxury Rose Memory Card */
-        .rose-memory-card {
-            background: linear-gradient(145deg, rgba(255, 255, 255, 0.93) 0%, rgba(255, 240, 245, 0.9) 100%);
+        /* 3D Gate Button */
+        .gate-dock-btn {
+            background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1.5px solid rgba(244, 114, 182, 0.55);
-            border-radius: 1.5rem;
-            box-shadow: 0 15px 35px -5px rgba(164, 48, 115, 0.15), 0 0 25px rgba(251, 207, 232, 0.4);
-            transform-style: preserve-3d;
-            perspective: 1000px;
-            transition: all 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+            border: 1.5px solid rgba(244, 114, 182, 0.5);
+            color: #765469;
+            transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .gate-dock-btn:hover, .gate-dock-btn.active {
+            background: linear-gradient(135deg, #a43073 0%, #ec4899 100%);
+            color: #ffffff;
+            border-color: #ec4899;
+            transform: translateY(-6px) scale(1.08);
+            box-shadow: 0 10px 25px -4px rgba(164, 48, 115, 0.4), 0 0 15px rgba(244, 114, 182, 0.5);
         }
 
-        /* Progressive Locked State */
-        .rose-step-locked {
-            opacity: 0.35;
-            filter: blur(4px);
-            transform: scale(0.9) translateY(40px);
+        /* Memory Overlay Modal */
+        #gate-memory-overlay {
+            transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        #gate-memory-overlay.hidden-overlay {
+            opacity: 0;
             pointer-events: none;
+            transform: scale(0.9) translateY(40px);
+        }
+        #gate-memory-overlay.visible-overlay {
+            opacity: 1;
+            pointer-events: auto;
+            transform: scale(1) translateY(0);
         }
 
-        /* Progressive Unlocked State */
-        .rose-step-unlocked {
-            opacity: 1 !important;
-            filter: blur(0px) !important;
-            transform: scale(1) translateY(0) !important;
-            pointer-events: auto !important;
+        .pulse-portal {
+            animation: portalGlow 2.5s ease-in-out infinite;
         }
-
-        .rose-bud-seal {
-            animation: pulse-bud 2.5s ease-in-out infinite;
-        }
-        @keyframes pulse-bud {
-            0%, 100% { transform: scale(1); filter: drop-shadow(0 0 8px rgba(244, 114, 182, 0.6)); }
-            50% { transform: scale(1.1); filter: drop-shadow(0 0 18px rgba(236, 72, 153, 0.9)); }
-        }
-
-        /* Glowing Vine Line */
-        .rose-vine-line {
-            background: linear-gradient(to bottom, #fc79bd, #a43073, #f472b6);
-            box-shadow: 0 0 12px rgba(244, 114, 182, 0.8);
+        @keyframes portalGlow {
+            0%, 100% { filter: drop-shadow(0 0 10px rgba(244, 114, 182, 0.6)); }
+            50% { filter: drop-shadow(0 0 25px rgba(236, 72, 153, 0.95)); }
         }
     </style>
 </head>
-<body class="text-on-background font-body-lg overflow-x-hidden relative min-h-screen flex flex-col">
+<body class="text-on-background font-body-lg relative min-h-screen select-none flex flex-col justify-between">
 
-<!-- 3D Rose Garden Canvas (Three.js Blooming Roses & Petal Field) -->
-<canvas id="timeline-rose-canvas"></canvas>
+<!-- 3D Rose Rotunda Canvas (360 Garden Engine) -->
+<canvas id="timeline-rotunda-canvas"></canvas>
 
 <!-- TopNavBar -->
 <header class="bg-[#fff0f5]/80 backdrop-blur-md fixed top-0 w-full z-50 border-b border-[#fbcfe8]/70 shadow-sm shadow-secondary/10">
@@ -113,8 +114,8 @@
             <a class="text-on-surface-variant hover:text-primary transition-colors hover:bg-primary-container/20 rounded-full px-4 py-2" href="gallery.html">Gallery</a>
             <a class="text-on-surface-variant hover:text-primary transition-colors hover:bg-primary-container/20 rounded-full px-4 py-2 font-cairo" href="letter.html">رسالة</a>
         </nav>
-        <a href="timeline.html" class="text-primary font-cairo text-sm hover:bg-primary-container/20 rounded-full px-6 py-2 border border-secondary/30 hidden md:inline-block transition-transform duration-300 active:scale-95 font-bold">
-            حكايتنا معاً ♡
+        <a href="timeline.html" class="text-primary font-cairo text-sm hover:bg-primary-container/20 rounded-full px-6 py-2 border border-secondary/30 hidden md:inline-block font-bold">
+            حديقة بوابات 360° ♡
         </a>
         <!-- Mobile Menu Toggle -->
         <button class="md:hidden text-primary p-2" onclick="document.getElementById('mobile-menu').classList.toggle('hidden')">
@@ -130,270 +131,81 @@
     </div>
 </header>
 
-<!-- Main Progressive Rose Timeline -->
-<main class="pt-36 pb-28 min-h-screen relative z-10">
-    <div class="max-w-5xl mx-auto px-4 sm:px-6">
+<!-- Garden Top HUD Prompt -->
+<div class="fixed top-24 left-1/2 -translate-x-1/2 z-20 text-center pointer-events-none w-full px-4">
+    <div class="inline-flex items-center gap-2 bg-white/75 backdrop-blur-md text-secondary px-6 py-2.5 rounded-full text-xs sm:text-sm font-cairo font-bold shadow-md border border-[#f472b6]/50 pulse-portal">
+        <span class="material-symbols-outlined text-sm">360</span>
+        <span>اسحبي يمين وشمال لتلفي في الحديقة.. واضغطي على أي بوابة لتدخلي جواها ♡</span>
+    </div>
+</div>
+
+<!-- 360 Rotation Arrow Shortcuts (Desktop & Mobile) -->
+<div class="fixed inset-y-0 left-4 z-20 flex items-center pointer-events-none">
+    <button onclick="rotateGardenBy(-0.4)" class="pointer-events-auto w-12 h-12 rounded-full bg-white/80 backdrop-blur-md border border-[#f472b6]/60 text-secondary flex items-center justify-center shadow-lg hover:scale-110 active:scale-95 transition-all">
+        <span class="material-symbols-outlined text-2xl">arrow_back_ios_new</span>
+    </button>
+</div>
+<div class="fixed inset-y-0 right-4 z-20 flex items-center pointer-events-none">
+    <button onclick="rotateGardenBy(0.4)" class="pointer-events-auto w-12 h-12 rounded-full bg-white/80 backdrop-blur-md border border-[#f472b6]/60 text-secondary flex items-center justify-center shadow-lg hover:scale-110 active:scale-95 transition-all">
+        <span class="material-symbols-outlined text-2xl">arrow_forward_ios</span>
+    </button>
+</div>
+
+<!-- Bottom Gate Selection Bar -->
+<div class="fixed bottom-6 left-1/2 -translate-x-1/2 z-30 w-full max-w-xl px-4">
+    <div class="flex items-center justify-center gap-2 sm:gap-3 p-2 rounded-3xl bg-white/60 backdrop-blur-xl border border-[#fbcfe8] shadow-xl shadow-secondary/15">
+        <button onclick="selectGate(0)" class="gate-dock-btn active flex-1 py-2.5 px-2 rounded-2xl flex flex-col items-center justify-center gap-1 font-cairo text-xs font-bold" id="dock-gate-0">
+            <span class="text-base">🍝</span>
+            <span>2022</span>
+        </button>
+        <button onclick="selectGate(1)" class="gate-dock-btn flex-1 py-2.5 px-2 rounded-2xl flex flex-col items-center justify-center gap-1 font-cairo text-xs font-bold" id="dock-gate-1">
+            <span class="text-base">🌸</span>
+            <span>2023</span>
+        </button>
+        <button onclick="selectGate(2)" class="gate-dock-btn flex-1 py-2.5 px-2 rounded-2xl flex flex-col items-center justify-center gap-1 font-cairo text-xs font-bold" id="dock-gate-2">
+            <span class="text-base">🩺</span>
+            <span>2024</span>
+        </button>
+        <button onclick="selectGate(3)" class="gate-dock-btn flex-1 py-2.5 px-2 rounded-2xl flex flex-col items-center justify-center gap-1 font-cairo text-xs font-bold" id="dock-gate-3">
+            <span class="text-base">🌙</span>
+            <span>2025</span>
+        </button>
+        <button onclick="selectGate(4)" class="gate-dock-btn flex-1 py-2.5 px-2 rounded-2xl flex flex-col items-center justify-center gap-1 font-cairo text-xs font-bold" id="dock-gate-4">
+            <span class="text-base">❤️</span>
+            <span>2026</span>
+        </button>
+    </div>
+</div>
+
+<!-- Inside-The-Gate Memory Overlay Stage -->
+<div id="gate-memory-overlay" class="hidden-overlay fixed inset-0 z-40 bg-black/40 backdrop-blur-md flex items-center justify-center p-4 sm:p-6">
+    <div class="bg-gradient-to-br from-white/95 to-[#fff0f5]/90 border-2 border-[#f472b6] shadow-2xl rounded-3xl max-w-2xl w-full p-6 sm:p-8 relative max-h-[85vh] overflow-y-auto" dir="rtl">
         
-        <!-- Header -->
-        <div class="text-center mb-16 relative">
-            <div class="inline-flex items-center gap-2 bg-primary-container/90 text-secondary px-6 py-2 rounded-full text-sm font-cairo font-bold mb-4 shadow-sm backdrop-blur-md border border-[#f472b6]/40 rose-bud-seal">
-                <span>🌹</span>
-                <span>حديقة ورود ذكرياتنا.. اسكرول لتتفتح كل سنة أمامك</span>
-                <span>🌹</span>
-            </div>
-            <h1 class="font-display-lg text-4xl sm:text-5xl md:text-6xl text-primary mb-3">Our Love Story in Bloom</h1>
-            <p class="text-sm sm:text-base md:text-lg text-primary/80 max-w-2xl mx-auto font-cairo">
-                كل وردة في الحديقة بتحكي لحظة من أجمل سنين عمرنا.. انزلي بالسكرول عشان تشوفي الوردة وهي بتفتح ذكرياتها ❤️
-            </p>
+        <!-- Close / Walk Back Button -->
+        <button onclick="exitGateWalk()" class="absolute top-4 left-4 w-10 h-10 rounded-full bg-primary-container text-secondary flex items-center justify-center hover:bg-secondary hover:text-white transition-colors shadow-sm">
+            <span class="material-symbols-outlined">close</span>
+        </button>
+
+        <!-- Memory Content Target -->
+        <div id="overlay-memory-body">
+            <!-- Dynamic Content Injected by JS -->
         </div>
 
-        <!-- Rose Timeline Steps Container -->
-        <div class="relative py-8" id="rose-timeline-container">
-
-            <!-- Center Vine Line -->
-            <div class="absolute top-12 bottom-12 left-1/2 -translate-x-1/2 w-1 border-l-2 border-dashed border-[#f472b6]/40 hidden md:block z-0 pointer-events-none">
-                <div id="rose-vine-progress" class="w-1 rose-vine-line absolute top-0 -left-[2px] rounded-full transition-all duration-300" style="height: 0%;"></div>
+        <!-- Back to Garden Center CTA -->
+        <div class="mt-6 pt-4 border-t border-[#fbcfe8] flex flex-col sm:flex-row items-center justify-between gap-3">
+            <button onclick="exitGateWalk()" class="w-full sm:w-auto px-6 py-3 rounded-full bg-secondary text-white font-cairo font-bold text-sm hover:bg-secondary/90 transition-transform active:scale-95 shadow-md flex items-center justify-center gap-2">
+                <span>🌹</span>
+                <span>الرجوع لوسط الحديقة 360°</span>
+            </button>
+            <div class="flex items-center gap-2">
+                <button onclick="stepToPrevGate()" class="px-4 py-2 rounded-full bg-primary-container/60 text-secondary font-cairo font-bold text-xs hover:bg-primary-container">السنة السابقة</button>
+                <button onclick="stepToNextGate()" class="px-4 py-2 rounded-full bg-primary-container/60 text-secondary font-cairo font-bold text-xs hover:bg-primary-container">السنة التالية</button>
             </div>
-
-            <!-- Steps List -->
-            <div class="flex flex-col gap-20 md:gap-36">
-
-                <!-- 1. 2022: The Bechamel Pasta -->
-                <div id="step-2022" class="rose-step rose-step-unlocked flex flex-col md:flex-row items-center justify-between w-full relative z-10 transition-all duration-700">
-                    <div class="w-full md:w-5/12 flex justify-end mb-6 md:mb-0">
-                        <div class="rose-memory-card p-6 md:p-8 w-full relative text-right cursor-pointer" dir="rtl" onmousemove="tiltMemoryCard(this, event)" onmouseleave="resetMemoryCard(this)" onclick="openGalleryModal('2022')">
-                            <div class="flex items-center justify-between mb-4">
-                                <span class="bg-primary-container text-secondary font-bold text-xs md:text-sm px-4 py-1.5 rounded-full shadow-sm font-cairo flex items-center gap-1.5">
-                                    <span>🍝</span>
-                                    <span>أول ذكرى وأحلى ذكرى • 2022</span>
-                                </span>
-                                <span class="text-xs text-secondary font-mono font-bold">6 Nov 2022</span>
-                            </div>
-                            <h3 class="font-headline-md text-2xl text-primary font-bold mb-3 font-cairo">The Bechamel Pasta</h3>
-                            <p class="font-body-md text-sm md:text-base text-on-surface-variant leading-relaxed font-cairo mb-4">
-                                ساعتها دي أول ذكرى وأحلى ذكرى عشان إنتي اللي كنتي عاملاهاااا. إنتي متعرفيش أنا كنت مبسوط إزاي، وإنتي كنتي مكسوفة كده، وحتة «اشطااا» يوميها 😂❤️ أنا يوميها قولت: دي هتبقى أحلى وأنجح علاقة، عشان جبتيني من أحلى حاجة بحبها ❤️😂
-                            </p>
-                            <div class="flex items-center gap-2 text-secondary font-bold text-xs md:text-sm font-cairo">
-                                <span class="material-symbols-outlined text-base">photo_library</span>
-                                <span>اضغطي لمشاهدة صور 2022 ♡</span>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Center 3D Rose Marker -->
-                    <div class="hidden md:flex w-2/12 justify-center items-center">
-                        <div class="w-12 h-12 rounded-full bg-gradient-to-tr from-secondary to-pink-400 border-4 border-white flex items-center justify-center text-white text-lg shadow-lg shadow-secondary/30">
-                            🌹
-                        </div>
-                    </div>
-                    <!-- Right Image Preview -->
-                    <div class="w-full md:w-5/12">
-                        <div class="rose-memory-card p-3 overflow-hidden rounded-2xl cursor-pointer group" onclick="openGalleryModal('2022')">
-                            <div class="aspect-4/3 rounded-xl overflow-hidden relative">
-                                <img src="assets/2022/01_first_memory_bechamel.jpg" alt="Bechamel Memory" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"/>
-                                <div class="absolute bottom-2 right-2 bg-black/60 backdrop-blur-md text-white px-3 py-1 rounded-full text-xs font-cairo">
-                                    🍝 أول ذكرى • 2022
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 2. 2023: Trips & Endless Smiles -->
-                <div id="step-2023" class="rose-step rose-step-locked flex flex-col-reverse md:flex-row items-center justify-between w-full relative z-10 transition-all duration-700">
-                    <!-- Left Image Preview -->
-                    <div class="w-full md:w-5/12 mb-6 md:mb-0">
-                        <div class="rose-memory-card p-3 overflow-hidden rounded-2xl cursor-pointer group" onclick="openGalleryModal('2023')">
-                            <div class="aspect-4/3 rounded-xl overflow-hidden relative">
-                                <img src="assets/2023/2023_memory_2.jpg" alt="2023 Memory" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"/>
-                                <div class="absolute bottom-2 right-2 bg-black/60 backdrop-blur-md text-white px-3 py-1 rounded-full text-xs font-cairo">
-                                    🌸 ذكريات وسفريات • 2023
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Center 3D Rose Marker -->
-                    <div class="hidden md:flex w-2/12 justify-center items-center">
-                        <div class="w-12 h-12 rounded-full bg-gradient-to-tr from-secondary to-pink-400 border-4 border-white flex items-center justify-center text-white text-lg shadow-lg shadow-secondary/30">
-                            🌸
-                        </div>
-                    </div>
-                    <!-- Right Text Card -->
-                    <div class="w-full md:w-5/12 flex justify-start">
-                        <div class="rose-memory-card p-6 md:p-8 w-full relative text-right cursor-pointer" dir="rtl" onmousemove="tiltMemoryCard(this, event)" onmouseleave="resetMemoryCard(this)" onclick="openGalleryModal('2023')">
-                            <div class="flex items-center justify-between mb-4">
-                                <span class="bg-primary-container text-secondary font-bold text-xs md:text-sm px-4 py-1.5 rounded-full shadow-sm font-cairo flex items-center gap-1.5">
-                                    <span>🌸</span>
-                                    <span>سنة الذكريات والضحك • 2023</span>
-                                </span>
-                                <span class="text-xs text-secondary font-mono font-bold">Year 2023</span>
-                            </div>
-                            <h3 class="font-headline-md text-2xl text-primary font-bold mb-3 font-cairo">Trips & Endless Smiles</h3>
-                            <p class="font-body-md text-sm md:text-base text-on-surface-variant leading-relaxed font-cairo mb-4">
-                                سنة كانت مليانة خروجات وسفريات وضحكات من القلب.. كل مكان روحناه سوا بقى فيه حتة من روحنا ومن حبنا اللي بيكبر كل يوم ✨
-                            </p>
-                            <div class="flex items-center gap-2 text-secondary font-bold text-xs md:text-sm font-cairo">
-                                <span class="material-symbols-outlined text-base">photo_library</span>
-                                <span>اضغطي لمشاهدة صور 2023 ♡</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 3. 2024: Proud of My Doctor Soso -->
-                <div id="step-2024" class="rose-step rose-step-locked flex flex-col md:flex-row items-center justify-between w-full relative z-10 transition-all duration-700">
-                    <div class="w-full md:w-5/12 flex justify-end mb-6 md:mb-0">
-                        <div class="rose-memory-card p-6 md:p-8 w-full relative text-right cursor-pointer" dir="rtl" onmousemove="tiltMemoryCard(this, event)" onmouseleave="resetMemoryCard(this)" onclick="openGalleryModal('2024')">
-                            <div class="flex items-center justify-between mb-4">
-                                <span class="bg-primary-container text-secondary font-bold text-xs md:text-sm px-4 py-1.5 rounded-full shadow-sm font-cairo flex items-center gap-1.5">
-                                    <span>🩺</span>
-                                    <span>دكتورة سوسو في كلية الطب • 2024</span>
-                                </span>
-                                <span class="text-xs text-secondary font-mono font-bold">Year 2024</span>
-                            </div>
-                            <h3 class="font-headline-md text-2xl text-primary font-bold mb-3 font-cairo">Proud of My Doctor</h3>
-                            <p class="font-body-md text-sm md:text-base text-on-surface-variant leading-relaxed font-cairo mb-4">
-                                وقفتك وتعبك ونجاحك في كلية الطب كان أكتر حاجة بتبهرني بيكي وفخور بيها.. أحلى وأشطر دكتورة في الدنيا كلها 💖
-                            </p>
-                            <div class="flex items-center gap-2 text-secondary font-bold text-xs md:text-sm font-cairo">
-                                <span class="material-symbols-outlined text-base">photo_library</span>
-                                <span>اضغطي لمشاهدة صور 2024 ♡</span>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Center 3D Rose Marker -->
-                    <div class="hidden md:flex w-2/12 justify-center items-center">
-                        <div class="w-12 h-12 rounded-full bg-gradient-to-tr from-secondary to-pink-400 border-4 border-white flex items-center justify-center text-white text-lg shadow-lg shadow-secondary/30">
-                            🩺
-                        </div>
-                    </div>
-                    <!-- Right Image Preview -->
-                    <div class="w-full md:w-5/12">
-                        <div class="rose-memory-card p-3 overflow-hidden rounded-2xl cursor-pointer group" onclick="openGalleryModal('2024')">
-                            <div class="aspect-4/3 rounded-xl overflow-hidden relative">
-                                <img src="assets/2024/2024_medicine.jpg" alt="Medicine Doctor Soso" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"/>
-                                <div class="absolute bottom-2 right-2 bg-black/60 backdrop-blur-md text-white px-3 py-1 rounded-full text-xs font-cairo">
-                                    🩺 دكتورة سارة • 2024
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 4. 2025: Nile Celebration -->
-                <div id="step-2025" class="rose-step rose-step-locked flex flex-col-reverse md:flex-row items-center justify-between w-full relative z-10 transition-all duration-700">
-                    <!-- Left Image Preview -->
-                    <div class="w-full md:w-5/12 mb-6 md:mb-0">
-                        <div class="rose-memory-card p-3 overflow-hidden rounded-2xl cursor-pointer group" onclick="openGalleryModal('2025')">
-                            <div class="aspect-4/3 rounded-xl overflow-hidden relative">
-                                <img src="assets/2025/2025_memory_2.jpg" alt="2025 Nile Memory" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"/>
-                                <div class="absolute bottom-2 right-2 bg-black/60 backdrop-blur-md text-white px-3 py-1 rounded-full text-xs font-cairo">
-                                    🌙 ليلة النيل والاحتفال • 2025
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Center 3D Rose Marker -->
-                    <div class="hidden md:flex w-2/12 justify-center items-center">
-                        <div class="w-12 h-12 rounded-full bg-gradient-to-tr from-secondary to-pink-400 border-4 border-white flex items-center justify-center text-white text-lg shadow-lg shadow-secondary/30">
-                            🌙
-                        </div>
-                    </div>
-                    <!-- Right Text Card -->
-                    <div class="w-full md:w-5/12 flex justify-start">
-                        <div class="rose-memory-card p-6 md:p-8 w-full relative text-right cursor-pointer" dir="rtl" onmousemove="tiltMemoryCard(this, event)" onmouseleave="resetMemoryCard(this)" onclick="openGalleryModal('2025')">
-                            <div class="flex items-center justify-between mb-4">
-                                <span class="bg-primary-container text-secondary font-bold text-xs md:text-sm px-4 py-1.5 rounded-full shadow-sm font-cairo flex items-center gap-1.5">
-                                    <span>🌙</span>
-                                    <span>ليلة النيل وسهرتنا • 2025</span>
-                                </span>
-                                <span class="text-xs text-secondary font-mono font-bold">Year 2025</span>
-                            </div>
-                            <h3 class="font-headline-md text-2xl text-primary font-bold mb-3 font-cairo">Nile Nights & Celebrations</h3>
-                            <p class="font-body-md text-sm md:text-base text-on-surface-variant leading-relaxed font-cairo mb-4">
-                                ليلة الاحتفال وضحكتك اللي نورت النيل.. كل تفصيلة وسهرة قضيناها سوا كانت أحلى من ألف احتفال 🌹
-                            </p>
-                            <div class="flex items-center gap-2 text-secondary font-bold text-xs md:text-sm font-cairo">
-                                <span class="material-symbols-outlined text-base">photo_library</span>
-                                <span>اضغطي لمشاهدة صور 2025 ♡</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 5. 2026: The Hijab Step -->
-                <div id="step-2026" class="rose-step rose-step-locked flex flex-col md:flex-row items-center justify-between w-full relative z-10 transition-all duration-700">
-                    <div class="w-full md:w-5/12 flex justify-end mb-6 md:mb-0">
-                        <div class="rose-memory-card p-6 md:p-8 w-full relative text-right cursor-pointer" dir="rtl" onmousemove="tiltMemoryCard(this, event)" onmouseleave="resetMemoryCard(this)" onclick="openGalleryModal('2026')">
-                            <div class="flex items-center justify-between mb-4">
-                                <span class="bg-primary-container text-secondary font-bold text-xs md:text-sm px-4 py-1.5 rounded-full shadow-sm font-cairo flex items-center gap-1.5">
-                                    <span>❤️</span>
-                                    <span>خطوة الحجاب ونور العيون • 2026</span>
-                                </span>
-                                <span class="text-xs text-secondary font-mono font-bold">Year 2026</span>
-                            </div>
-                            <h3 class="font-headline-md text-2xl text-primary font-bold mb-3 font-cairo">A Glowing Crown</h3>
-                            <p class="font-body-md text-sm md:text-base text-on-surface-variant leading-relaxed font-cairo mb-4">
-                                خطوة الحجاب اللي زادتك نور وجمال.. أحلى وأرق بنت في عيني دايماً، وشايف فيكي كل الخير والجمال اللي في الكون ❤️✨
-                            </p>
-                            <div class="flex items-center gap-2 text-secondary font-bold text-xs md:text-sm font-cairo">
-                                <span class="material-symbols-outlined text-base">photo_library</span>
-                                <span>اضغطي لمشاهدة صور 2026 ♡</span>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Center 3D Rose Marker -->
-                    <div class="hidden md:flex w-2/12 justify-center items-center">
-                        <div class="w-12 h-12 rounded-full bg-gradient-to-tr from-secondary to-pink-400 border-4 border-white flex items-center justify-center text-white text-lg shadow-lg shadow-secondary/30">
-                            ✨
-                        </div>
-                    </div>
-                    <!-- Right Image Preview -->
-                    <div class="w-full md:w-5/12">
-                        <div class="rose-memory-card p-3 overflow-hidden rounded-2xl cursor-pointer group" onclick="openGalleryModal('2026')">
-                            <div class="aspect-4/3 rounded-xl overflow-hidden relative">
-                                <img src="assets/2026/2026_hijab.jpg" alt="2026 Hijab Memory" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"/>
-                                <div class="absolute bottom-2 right-2 bg-black/60 backdrop-blur-md text-white px-3 py-1 rounded-full text-xs font-cairo">
-                                    ❤️ سارة القمر • 2026
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
         </div>
 
     </div>
-</main>
+</div>
 
-<!-- Footer -->
-<footer class="bg-[#fff0f5]/70 backdrop-blur-md font-body-md text-body-md w-full py-xl border-t border-[#fbcfe8]/70 flex flex-col items-center gap-md text-center px-gutter z-10 relative mt-auto mb-20">
-    <div class="font-headline-sm text-2xl text-primary tracking-wider flex items-center gap-1.5">
-        <span>Y</span><span class="text-secondary text-2xl">❤️</span><span>A</span>
-    </div>
-    <div class="text-secondary mt-2 font-cairo">
-        Made with love for Soso ♡
-    </div>
-</footer>
-
-<script>
-    // 3D Card Interactive Tilt
-    function tiltMemoryCard(card, e) {
-        const rect = card.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        const centerX = rect.width / 2;
-        const centerY = rect.height / 2;
-        const rotateX = ((y - centerY) / centerY) * -6;
-        const rotateY = ((x - centerX) / centerX) * 6;
-        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
-    }
-
-    function resetMemoryCard(card) {
-        card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
-    }
-</script>
 <script src="shared.js"></script>
 </body>
 </html>
