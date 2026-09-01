@@ -1,5 +1,5 @@
 // Shared Auth, Continuous Audio Player, iOS Bottom TabBar, Love Counter, and Universal Modals System
-(function() {
+(function () {
     const START_DATE = new Date('2022-11-06T00:00:00+02:00');
 
     // Playlist with multiple romantic songs
@@ -96,7 +96,7 @@
 
     // Burst hearts effect on tap
     function burstHearts(x, y) {
-        for(let i = 0; i < 6; i++) {
+        for (let i = 0; i < 6; i++) {
             const h = document.createElement('span');
             h.className = 'material-symbols-outlined burst-heart text-secondary';
             h.textContent = 'favorite';
@@ -108,62 +108,63 @@
         }
     }
 
-    // Global Letter Modal System (Appended directly to document.body with z-[999999] & inline styling)
+    // Global Letter Modal System (Appended directly to document.body with z-[200])
     function initLoveModal() {
         let modal = document.getElementById('love-modal');
         if (!modal) {
             modal = document.createElement('div');
             modal.id = 'love-modal';
+            modal.className = 'fixed inset-0 z-[200] bg-inverse-surface/60 backdrop-blur-md hidden items-center justify-center p-4';
+            modal.innerHTML = `
+                <div class="bg-surface-container-lowest modal-fade-in rounded-3xl p-6 md:p-10 max-w-lg w-full relative text-center border border-secondary/30 shadow-2xl my-auto">
+                    <button onclick="closeLetterModal()" class="absolute top-4 left-4 w-9 h-9 rounded-full bg-surface-container hover:bg-secondary hover:text-white flex items-center justify-center transition-colors text-primary shadow-sm" title="إغلاق">
+                        <span class="material-symbols-outlined text-base">close</span>
+                    </button>
+                    <div class="w-14 h-14 rounded-full bg-primary-container/40 flex items-center justify-center mx-auto mb-3 border border-secondary/30">
+                        <span class="material-symbols-outlined text-3xl text-secondary animate-pulse">favorite</span>
+                    </div>
+                    <div class="text-secondary font-label-md text-sm mb-3 tracking-wider font-cairo font-bold">رسالة حب خاصة لسارة ❤️</div>
+                    <div class="my-4 p-5 rounded-2xl bg-surface-container-low border border-outline-variant/30 shadow-inner">
+                        <p id="modal-letter-text" class="text-primary font-headline-sm text-base sm:text-xl md:text-2xl leading-relaxed font-semibold font-cairo" dir="rtl">
+                            "${SARA_MESSAGES[0]}"
+                        </p>
+                    </div>
+                    <div class="w-20 h-[2px] bg-gradient-to-r from-transparent via-secondary to-transparent mx-auto mb-5"></div>
+                    <div class="flex items-center justify-center gap-3 flex-wrap">
+                        <button onclick="openNextLetter(event)" class="px-5 py-2.5 rounded-full bg-secondary-container hover:bg-secondary text-on-secondary-container hover:text-white font-label-md transition-all transform active:scale-95 hover:scale-105 shadow-sm flex items-center gap-2 font-cairo font-bold">
+                            <span>رسالة تانية لسارة</span>
+                            <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                        </button>
+                        <button onclick="closeLetterModal()" class="px-5 py-2.5 rounded-full bg-surface-container-high hover:bg-surface-container-highest text-primary font-label-md transition-all border border-outline-variant/40 font-cairo">
+                            إغلاق
+                        </button>
+                    </div>
+                </div>
+            `;
             document.body.appendChild(modal);
+
+            modal.addEventListener('click', (e) => {
+                if (e.target.id === 'love-modal') {
+                    window.closeLetterModal();
+                }
+            });
+        } else {
+            if (modal.parentElement !== document.body) {
+                document.body.appendChild(modal);
+            }
+            modal.className = 'fixed inset-0 z-[200] bg-inverse-surface/60 backdrop-blur-md hidden items-center justify-center p-4';
         }
-        modal.style.cssText = 'position:fixed; inset:0; z-index:999999; background:rgba(15, 23, 42, 0.65); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); display:none; align-items:center; justify-content:center; padding:1rem;';
-        modal.innerHTML = `
-            <div style="background:#ffffff; border:1px solid #fbcfe8; border-radius:1.5rem; max-width:32rem; width:100%; padding:2rem 1.5rem; text-align:center; position:relative; box-shadow:0 25px 50px -12px rgba(164, 48, 115, 0.35); margin:auto;">
-                <button id="modal-close-btn-x" style="position:absolute; top:1rem; left:1rem; width:2.25rem; height:2.25rem; border-radius:9999px; background:#f1f5f9; border:none; display:flex; align-items:center; justify-content:center; cursor:pointer; color:#765469; box-shadow:0 1px 3px rgba(0,0,0,0.1);" title="إغلاق">
-                    <span class="material-symbols-outlined" style="font-size:1.25rem;">close</span>
-                </button>
-                <div style="width:3.5rem; height:3.5rem; border-radius:9999px; background:#fbcfe8; border:1px solid #f472b6; display:flex; align-items:center; justify-content:center; margin:0 auto 0.75rem auto;">
-                    <span class="material-symbols-outlined animate-pulse" style="font-size:2rem; color:#a43073;">favorite</span>
-                </div>
-                <div style="color:#a43073; font-weight:700; font-size:1rem; margin-bottom:0.75rem; letter-spacing:0.05em; font-family:'Inter', sans-serif;">رسالة حب خاصة لسارة ❤️</div>
-                <div style="background:#fff0f5; border:1px solid #fbcfe8; border-radius:1rem; padding:1.25rem; margin:1rem 0; box-shadow:inset 0 2px 4px rgba(0,0,0,0.03);">
-                    <p id="modal-letter-text" style="color:#4a044e; font-size:1.15rem; line-height:1.8; font-weight:600; margin:0; direction:rtl; text-align:center;" dir="rtl">
-                        "${SARA_MESSAGES[0]}"
-                    </p>
-                </div>
-                <div style="width:5rem; height:2px; background:linear-gradient(to right, transparent, #a43073, transparent); margin:1rem auto;"></div>
-                <div style="display:flex; align-items:center; justify-content:center; gap:0.75rem; flex-wrap:wrap;">
-                    <button id="modal-next-btn" style="padding:0.7rem 1.5rem; border-radius:9999px; background:#fc79bd; color:#ffffff; font-weight:700; font-size:0.95rem; border:none; cursor:pointer; display:flex; align-items:center; gap:0.5rem; box-shadow:0 4px 14px rgba(252, 121, 189, 0.4); transition:all 0.2s;">
-                        <span>رسالة تانية لسارة</span>
-                        <span class="material-symbols-outlined" style="font-size:1rem;">arrow_forward</span>
-                    </button>
-                    <button id="modal-close-btn" style="padding:0.7rem 1.5rem; border-radius:9999px; background:#f1f5f9; color:#475569; font-weight:600; font-size:0.95rem; border:1px solid #cbd5e1; cursor:pointer; transition:all 0.2s;">
-                        إغلاق
-                    </button>
-                </div>
-            </div>
-        `;
-
-        const btnX = document.getElementById('modal-close-btn-x');
-        if (btnX) btnX.onclick = window.closeLetterModal;
-        const btnClose = document.getElementById('modal-close-btn');
-        if (btnClose) btnClose.onclick = window.closeLetterModal;
-        const btnNext = document.getElementById('modal-next-btn');
-        if (btnNext) btnNext.onclick = (e) => window.openNextLetter(e);
-        modal.onclick = (e) => {
-            if (e.target.id === 'love-modal') window.closeLetterModal();
-        };
-
-        return modal;
     }
 
-    window.openLetter = function(idx, e) {
-        const modal = initLoveModal();
+    window.openLetter = function (idx, e) {
+        initLoveModal();
         currentLetterIdx = (typeof idx === 'number' ? idx : 0) % SARA_MESSAGES.length;
         const textEl = document.getElementById('modal-letter-text');
+        const modal = document.getElementById('love-modal');
         if (textEl) textEl.textContent = SARA_MESSAGES[currentLetterIdx];
         if (modal) {
-            modal.style.display = 'flex';
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
             document.body.style.overflow = 'hidden';
         }
         const x = (e && e.clientX) ? e.clientX : (window.innerWidth / 2);
@@ -171,118 +172,31 @@
         burstHearts(x, y);
     };
 
-    window.openRandomLetter = function(e) {
+    window.openRandomLetter = function (e) {
+        initLoveModal();
         const rand = Math.floor(Math.random() * SARA_MESSAGES.length);
         window.openLetter(rand, e);
     };
 
-    window.openNextLetter = function(e) {
+    window.openNextLetter = function (e) {
+        initLoveModal();
         currentLetterIdx = (currentLetterIdx + 1) % SARA_MESSAGES.length;
         const textEl = document.getElementById('modal-letter-text');
         if (textEl) textEl.textContent = SARA_MESSAGES[currentLetterIdx];
         burstHearts(window.innerWidth / 2, window.innerHeight / 2);
     };
 
-    window.closeLetterModal = function() {
+    window.closeLetterModal = function () {
         const modal = document.getElementById('love-modal');
         if (modal) {
-            modal.style.display = 'none';
-            document.body.style.overflow = '';
-        }
-    };
-
-    // Gallery Album Data & Modal System
-    const YEAR_PHOTOS = {
-        '2022': [
-            { src: 'assets/2022/01_first_memory_bechamel.jpg', caption: '🍝 أول ذكرى (المكرونة بالبشاميل واشطا) ❤️' },
-            { src: 'assets/2022/2022_memory_1.jpg', caption: 'أول أيام حبنا وبداية أحلى حكاية في 2022 ✨' },
-            { src: 'assets/2022/2022_memory_2.jpg', caption: 'لحظات وضحكات بداية مشوارنا سوا في 2022 🌸' }
-        ],
-        '2023': [
-            { src: 'assets/2023/2023_memory_2.jpg', caption: 'سنة الذكريات واللحظات الحلوة ✨' },
-            { src: 'assets/2023/2023_memory_1.jpg', caption: 'ضحكات متتنسيش مع سارة 🌸' }
-        ],
-        '2024': [
-            { src: 'assets/2024/2024_medicine.jpg', caption: '🩺 دكتورة سوسو في كلية الطب • 2024' },
-            { src: 'assets/2024/2024_memory_2.jpg', caption: 'حب بيكبر ومحطات أجمل سوا 💖' },
-            { src: 'assets/2024/2024_memory_1.jpg', caption: 'أحلى أيام سنة 2024 🌹' }
-        ],
-        '2025': [
-            { src: 'assets/2025/2025_memory_2.jpg', caption: 'ليلة النيل والاحتفال الجميل 🌙' },
-            { src: 'assets/2025/2025_memory_1.jpg', caption: 'أحلى سهرة واحتفال في 2025 ✨' }
-        ],
-        '2026': [
-            { src: 'assets/2026/2026_hijab.jpg', caption: 'خطوة الحجاب وسارة القمر • فخور بيكي دايماً ❤️' }
-        ]
-    };
-
-    function initGalleryModal() {
-        let modal = document.getElementById('album-modal');
-        if (!modal) {
-            modal = document.createElement('div');
-            modal.id = 'album-modal';
-            document.body.appendChild(modal);
-        }
-        modal.style.cssText = 'position:fixed; inset:0; z-index:999999; background:rgba(255, 240, 245, 0.96); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px); display:none; flex-direction:column; overflow-y:auto;';
-        return modal;
-    }
-
-    window.openModal = function(year) {
-        window.openGalleryModal(year);
-    };
-
-    window.openGalleryModal = function(year) {
-        const modal = initGalleryModal();
-        const photos = YEAR_PHOTOS[year] || [];
-        
-        modal.innerHTML = `
-            <div style="position:sticky; top:0; width:100%; background:rgba(255,255,255,0.9); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); border-bottom:1px solid #fbcfe8; padding:1rem 1.5rem; display:flex; align-items:center; justify-content:space-between; z-index:10; box-shadow:0 4px 20px rgba(164,48,115,0.08);">
-                <div style="display:flex; align-items:center; gap:0.5rem;">
-                    <span class="material-symbols-outlined" style="color:#a43073; font-size:1.75rem;">photo_library</span>
-                    <h3 style="margin:0; font-size:1.25rem; font-weight:700; color:#765469; font-family:'Playfair Display', serif;">ذكريات ${year} • Soso ❤️</h3>
-                </div>
-                <button onclick="closeGalleryModal()" style="background:#ffffff; border:1px solid #fbcfe8; color:#a43073; padding:0.6rem 1.25rem; border-radius:9999px; font-weight:600; font-size:0.9rem; cursor:pointer; display:flex; align-items:center; gap:0.4rem; box-shadow:0 2px 8px rgba(0,0,0,0.05); font-family:'Cairo', sans-serif;">
-                    <span class="material-symbols-outlined" style="font-size:1.1rem;">close</span>
-                    <span>إغلاق الألبوم</span>
-                </button>
-            </div>
-            <div style="max-width:1200px; width:100%; margin:0 auto; padding:2rem 1.5rem 6rem 1.5rem; flex-grow:1;">
-                <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:1.5rem;">
-                    ${photos.map((p) => `
-                        <div style="background:#ffffff; border:1px solid #fbcfe8; border-radius:1.25rem; overflow:hidden; box-shadow:0 10px 25px -5px rgba(164,48,115,0.12); transition:transform 0.3s;">
-                            <div style="position:relative; aspect-ratio:1; overflow:hidden; background:#fdf2f8;">
-                                <img src="${p.src}" alt="${p.caption || 'Memory'}" style="width:100%; height:100%; object-fit:cover; display:block; transition:transform 0.5s;" onmouseover="this.style.transform='scale(1.06)'" onmouseout="this.style.transform='scale(1)'"/>
-                            </div>
-                            <div style="padding:1rem; text-align:center;">
-                                <p style="margin:0; font-size:0.95rem; font-weight:600; color:#765469; font-family:'Cairo', sans-serif;" dir="rtl">${p.caption || ''}</p>
-                            </div>
-                        </div>
-                    `).join('')}
-                </div>
-            </div>
-        `;
-
-        modal.style.display = 'flex';
-        document.body.style.overflow = 'hidden';
-    };
-
-    window.closeModal = function() {
-        window.closeGalleryModal();
-    };
-
-    window.closeGalleryModal = function() {
-        const modal = document.getElementById('album-modal');
-        if (modal) {
-            modal.style.display = 'none';
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
             document.body.style.overflow = '';
         }
     };
 
     document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') {
-            window.closeLetterModal();
-            window.closeGalleryModal();
-        }
+        if (e.key === 'Escape') window.closeLetterModal();
     });
 
     // 1. Inject Lock Screen if not authenticated
@@ -326,7 +240,7 @@
                 sessionStorage.setItem('story_unlocked', 'true');
                 lockOverlay.style.transition = 'opacity 0.5s ease-out';
                 lockOverlay.style.opacity = '0';
-                
+
                 // Immediately trigger play inside this direct user gesture
                 playAudio();
 
@@ -445,13 +359,13 @@
             loadTrack(currentTrackIndex + 1, true);
         };
 
-        audioInstance.onplay = () => { 
+        audioInstance.onplay = () => {
             sessionStorage.setItem('story_audio_playing', 'true');
-            playIcon.textContent = 'pause'; 
+            playIcon.textContent = 'pause';
         };
-        audioInstance.onpause = () => { 
+        audioInstance.onpause = () => {
             sessionStorage.setItem('story_audio_playing', 'false');
-            playIcon.textContent = 'play_arrow'; 
+            playIcon.textContent = 'play_arrow';
         };
 
         audioInstance.ontimeupdate = () => {
@@ -491,7 +405,7 @@
         if (audioInstance) {
             const savedTime = parseFloat(sessionStorage.getItem('story_audio_time') || '0');
             if (savedTime > 0 && Math.abs(audioInstance.currentTime - savedTime) > 1 && audioInstance.currentTime < 1) {
-                try { audioInstance.currentTime = savedTime; } catch(e) {}
+                try { audioInstance.currentTime = savedTime; } catch (e) { }
             }
             if (audioInstance.paused) {
                 const playPromise = audioInstance.play();
@@ -570,7 +484,7 @@
 
     // 4. Seamless SPA Navigation (Audio NEVER pauses when changing pages!)
     function initSeamlessNavigation() {
-        document.addEventListener('click', function(e) {
+        document.addEventListener('click', function (e) {
             const link = e.target.closest('a');
             if (!link) return;
             const href = link.getAttribute('href');
@@ -583,7 +497,7 @@
             }
         });
 
-        window.addEventListener('popstate', function() {
+        window.addEventListener('popstate', function () {
             const page = location.pathname.split('/').pop() || 'index.html';
             navigateSeamlessly(page, false);
         });
@@ -633,10 +547,10 @@
 
             // Clean up any Three.js or WebGL animations before re-running scripts
             if (typeof window._cleanupHeroHeart === 'function') {
-                try { window._cleanupHeroHeart(); } catch(e) {}
+                try { window._cleanupHeroHeart(); } catch (e) { }
             }
             if (typeof window._cleanupShaderBg === 'function') {
-                try { window._cleanupShaderBg(); } catch(e) {}
+                try { window._cleanupShaderBg(); } catch (e) { }
             }
 
             // Re-run inline scripts from new page
