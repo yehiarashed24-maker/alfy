@@ -191,8 +191,96 @@
         }
     };
 
+    // Gallery Album Data & Modal System
+    const YEAR_PHOTOS = {
+        '2022': [
+            { src: 'assets/2022/01_first_memory_bechamel.jpg', caption: '🍝 أول ذكرى (المكرونة بالبشاميل واشطا) ❤️' }
+        ],
+        '2023': [
+            { src: 'assets/2023/2023_memory_2.jpg', caption: 'سنة الذكريات واللحظات الحلوة ✨' },
+            { src: 'assets/2023/2023_memory_1.jpg', caption: 'ضحكات متتنسيش مع سارة 🌸' }
+        ],
+        '2024': [
+            { src: 'assets/2024/2024_medicine.jpg', caption: '🩺 دكتورة سوسو في كلية الطب • 2024' },
+            { src: 'assets/2024/2024_memory_2.jpg', caption: 'حب بيكبر ومحطات أجمل سوا 💖' },
+            { src: 'assets/2024/2024_memory_1.jpg', caption: 'أحلى أيام سنة 2024 🌹' }
+        ],
+        '2025': [
+            { src: 'assets/2025/2025_memory_2.jpg', caption: 'ليلة النيل والاحتفال الجميل 🌙' },
+            { src: 'assets/2025/2025_memory_1.jpg', caption: 'أحلى سهرة واحتفال في 2025 ✨' }
+        ],
+        '2026': [
+            { src: 'assets/2026/2026_hijab.jpg', caption: 'خطوة الحجاب وسارة القمر • فخور بيكي دايماً ❤️' }
+        ]
+    };
+
+    function initGalleryModal() {
+        let modal = document.getElementById('album-modal');
+        if (!modal) {
+            modal = document.createElement('div');
+            modal.id = 'album-modal';
+            document.body.appendChild(modal);
+        }
+        modal.style.cssText = 'position:fixed; inset:0; z-index:999999; background:rgba(255, 240, 245, 0.96); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px); display:none; flex-direction:column; overflow-y:auto;';
+        return modal;
+    }
+
+    window.openModal = function(year) {
+        window.openGalleryModal(year);
+    };
+
+    window.openGalleryModal = function(year) {
+        const modal = initGalleryModal();
+        const photos = YEAR_PHOTOS[year] || [];
+        
+        modal.innerHTML = `
+            <div style="position:sticky; top:0; width:100%; background:rgba(255,255,255,0.9); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); border-bottom:1px solid #fbcfe8; padding:1rem 1.5rem; display:flex; align-items:center; justify-content:space-between; z-index:10; box-shadow:0 4px 20px rgba(164,48,115,0.08);">
+                <div style="display:flex; align-items:center; gap:0.5rem;">
+                    <span class="material-symbols-outlined" style="color:#a43073; font-size:1.75rem;">photo_library</span>
+                    <h3 style="margin:0; font-size:1.25rem; font-weight:700; color:#765469; font-family:'Playfair Display', serif;">ذكريات ${year} • Soso ❤️</h3>
+                </div>
+                <button onclick="closeGalleryModal()" style="background:#ffffff; border:1px solid #fbcfe8; color:#a43073; padding:0.6rem 1.25rem; border-radius:9999px; font-weight:600; font-size:0.9rem; cursor:pointer; display:flex; align-items:center; gap:0.4rem; box-shadow:0 2px 8px rgba(0,0,0,0.05); font-family:'Cairo', sans-serif;">
+                    <span class="material-symbols-outlined" style="font-size:1.1rem;">close</span>
+                    <span>إغلاق الألبوم</span>
+                </button>
+            </div>
+            <div style="max-width:1200px; width:100%; margin:0 auto; padding:2rem 1.5rem 6rem 1.5rem; flex-grow:1;">
+                <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:1.5rem;">
+                    ${photos.map((p) => `
+                        <div style="background:#ffffff; border:1px solid #fbcfe8; border-radius:1.25rem; overflow:hidden; box-shadow:0 10px 25px -5px rgba(164,48,115,0.12); transition:transform 0.3s;">
+                            <div style="position:relative; aspect-ratio:1; overflow:hidden; background:#fdf2f8;">
+                                <img src="${p.src}" alt="${p.caption || 'Memory'}" style="width:100%; height:100%; object-fit:cover; display:block; transition:transform 0.5s;" onmouseover="this.style.transform='scale(1.06)'" onmouseout="this.style.transform='scale(1)'"/>
+                            </div>
+                            <div style="padding:1rem; text-align:center;">
+                                <p style="margin:0; font-size:0.95rem; font-weight:600; color:#765469; font-family:'Cairo', sans-serif;" dir="rtl">${p.caption || ''}</p>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+        `;
+
+        modal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+    };
+
+    window.closeModal = function() {
+        window.closeGalleryModal();
+    };
+
+    window.closeGalleryModal = function() {
+        const modal = document.getElementById('album-modal');
+        if (modal) {
+            modal.style.display = 'none';
+            document.body.style.overflow = '';
+        }
+    };
+
     document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') window.closeLetterModal();
+        if (e.key === 'Escape') {
+            window.closeLetterModal();
+            window.closeGalleryModal();
+        }
     });
 
     // 1. Inject Lock Screen if not authenticated

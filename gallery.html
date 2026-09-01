@@ -323,159 +323,69 @@
 <div class="absolute bottom-0 left-0 p-md z-20 w-full flex justify-between items-end">
 <div>
 <h2 class="font-headline-md text-headline-md text-white mb-2 transition-transform duration-500 origin-left group-hover:scale-105">2022</h2>
-<p class="font-body-md text-body-md text-surface-container opacity-90">🍝 أول ذكرى (المكرونة بالبشاميل واشطا)</p>
+<p class="font-body-md text-body-md text-surface-container opacity-90 font-cairo">🍝 أول ذكرى (المكرونة بالبشاميل واشطا)</p>
 </div>
 <div class="bg-white/20 backdrop-blur-md rounded-full p-3 text-white opacity-0 transform translate-y-4 transition-all duration-500 group-hover:opacity-100 group-hover:translate-y-0">
 <span class="material-symbols-outlined text-sm">fullscreen</span>
 </div>
 </div>
 </div>
-    <!-- Fullscreen Modal Overlay -->
-    <div class="fixed inset-0 z-50 modal-overlay flex flex-col overflow-y-auto" id="album-modal">
-    <div class="sticky top-0 w-full bg-background/80 backdrop-blur-lg border-b border-outline-variant/30 px-gutter py-4 flex items-center justify-between z-10 transition-all">
-    <h3 class="font-headline-lg text-headline-lg text-primary" id="modal-title">Memories of 2026</h3>
-    <button class="bg-surface text-on-surface-variant hover:text-primary hover:bg-primary-container/30 transition-all duration-300 flex items-center gap-2 font-label-md px-5 py-2.5 rounded-full border border-outline-variant/50 shadow-sm" onclick="closeModal()">
-    <span class="material-symbols-outlined text-sm">arrow_back</span> Back to Albums
-            </button>
-    </div>
-    <div class="p-gutter max-w-container-max mx-auto w-full modal-content flex-grow mb-xl mt-4">
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-sm md:gap-md" id="modal-photo-grid">
-    <!-- Dynamically populated -->
-    </div>
-    </div>
-    </div>
+</article>
+</section>
 </main>
 <!-- Footer -->
 <footer class="w-full py-xl bg-surface-container-low border-t border-outline-variant/50 flex flex-col items-center gap-md text-center px-gutter relative z-10 mt-auto mb-20 transition-all">
 <a class="font-headline-sm text-2xl text-primary hover:opacity-80 transition-opacity flex items-center gap-1.5" href="index.html">
     <span>Y</span><span class="text-secondary text-2xl">❤️</span><span>A</span>
 </a>
-<p class="font-body-md text-body-md text-secondary mt-sm">Made with love for Soso ♡</p>
+<p class="font-body-md text-body-md text-secondary mt-sm font-cairo">Made with love for Soso ♡</p>
 </footer>
 <script src="shared.js"></script>
 <script>
-        const yearPhotos = {
-            '2022': [
-                'assets/2022/01_first_memory_bechamel.jpg'
-            ],
-            '2023': [
-                'assets/2023/2023_memory_2.jpg',
-                'assets/2023/2023_memory_1.jpg'
-            ],
-            '2024': [
-                'assets/2024/2024_medicine.jpg',
-                'assets/2024/2024_memory_2.jpg',
-                'assets/2024/2024_memory_1.jpg'
-            ],
-            '2025': [
-                'assets/2025/2025_memory_2.jpg',
-                'assets/2025/2025_memory_1.jpg'
-            ],
-            '2026': [
-                'assets/2026/2026_hijab.jpg'
-            ]
-        };
-
+    (function initGalleryPage() {
         // Enhanced Particle Generation
         const particleContainer = document.getElementById('particles');
-        const particleCount = 30;
+        if (particleContainer) {
+            particleContainer.innerHTML = '';
+            const particleCount = 25;
 
-        for (let i = 0; i < particleCount; i++) {
-            const particle = document.createElement('div');
-            particle.classList.add('particle');
-            
-            const size = Math.random() * 6 + 2; 
-            const left = Math.random() * 100; 
-            const duration = Math.random() * 25 + 15; 
-            const delay = Math.random() * 15; 
-            
-            const opacities = [0.3, 0.5, 0.7];
-            const opacity = opacities[Math.floor(Math.random() * opacities.length)];
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                const size = Math.random() * 6 + 2; 
+                const left = Math.random() * 100; 
+                const duration = Math.random() * 25 + 15; 
+                const delay = Math.random() * 15; 
+                
+                const opacities = [0.3, 0.5, 0.7];
+                const opacity = opacities[Math.floor(Math.random() * opacities.length)];
 
-            particle.style.width = `${size}px`;
-            particle.style.height = `${size}px`;
-            particle.style.left = `${left}%`;
-            particle.style.bottom = `-50px`; 
-            particle.style.opacity = opacity;
-            particle.style.animation = `drift ${duration}s linear ${delay}s infinite`;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${left}%`;
+                particle.style.bottom = `-50px`; 
+                particle.style.opacity = opacity;
+                particle.style.animation = `drift ${duration}s linear ${delay}s infinite`;
 
-            particleContainer.appendChild(particle);
+                particleContainer.appendChild(particle);
+            }
         }
 
-        // Parallax effect on mouse move
-        document.addEventListener('mousemove', (e) => {
-            const x = (e.clientX / window.innerWidth - 0.5) * 20;
-            const y = (e.clientY / window.innerHeight - 0.5) * 20;
-            
-            const cards = document.querySelectorAll('.glass-card:not(.modal-content .glass-card)');
-            cards.forEach(card => {
-                const img = card.querySelector('img');
-                if(img && !card.matches(':hover')) {
-                     img.style.transform = `translate(${x * -0.5}px, ${y * -0.5}px) scale(1.02)`;
-                }
-            });
-        });
-        
-        document.querySelectorAll('.glass-card').forEach(card => {
-            card.addEventListener('mouseleave', function() {
-                 const img = this.querySelector('img');
-                 if(img) img.style.transform = '';
-            });
-        });
-
         // Intersection Observer for Scroll Animations
-        const observerOptions = {
-            root: null,
-            rootMargin: '0px',
-            threshold: 0.1
-        };
-
-        const observer = new IntersectionObserver((entries, observer) => {
+        const observer = new IntersectionObserver((entries, obs) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('is-visible');
-                    observer.unobserve(entry.target);
+                    obs.unobserve(entry.target);
                 }
             });
-        }, observerOptions);
+        }, { threshold: 0.1 });
 
         document.querySelectorAll('.reveal-on-scroll').forEach(el => {
             observer.observe(el);
         });
-
-        // Modal Logic
-        window.openModal = function(year) {
-            const modal = document.getElementById('album-modal');
-            const modalTitle = document.getElementById('modal-title');
-            const modalGrid = document.getElementById('modal-photo-grid');
-            if (!modal) return;
-            modalTitle.textContent = `Memories of ${year} • Soso ❤️`;
-            modalGrid.innerHTML = '';
-            
-            const photos = yearPhotos[year] || [];
-            photos.forEach(src => {
-                const div = document.createElement('div');
-                div.className = 'aspect-square rounded-xl overflow-hidden glass-card shadow-sm hover:shadow-md';
-                div.innerHTML = `<img class="w-full h-full object-cover hover:scale-110 transition-transform duration-700" src="${src}" alt="Memory"/>`;
-                modalGrid.appendChild(div);
-            });
-
-            modal.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        };
-
-        window.closeModal = function() {
-            const modal = document.getElementById('album-modal');
-            if (modal) modal.classList.remove('active');
-            document.body.style.overflow = '';
-        };
-        
-        document.addEventListener('keydown', (e) => {
-            const modal = document.getElementById('album-modal');
-            if (modal && e.key === 'Escape' && modal.classList.contains('active')) {
-                window.closeModal();
-            }
-        });
-    </script>
+    })();
+</script>
 </body>
 </html>
