@@ -1063,10 +1063,18 @@
     window.initTimelinePage = function () {
         const timelineContainer = document.getElementById('timeline-container');
         const glowLine = document.getElementById('glowing-timeline-line');
-        const nodes = ['node-basket', 'node-2022', 'node-2023', 'node-2024', 'node-2025', 'node-2026'];
+        const nodes = ['node-basket', 'node-2022', 'node-2023', 'node-2024', 'node-2025', 'node-2025-hijab', 'node-2026'];
 
-        // 1. Scroll Reveal for Cards
+        // 1. Scroll Reveal for Cards (Immediate visibility check + IntersectionObserver)
         const scrollElements = document.querySelectorAll('.scroll-reveal');
+        
+        scrollElements.forEach(el => {
+            const rect = el.getBoundingClientRect();
+            if (rect.top < window.innerHeight * 1.5) {
+                el.classList.add('visible');
+            }
+        });
+
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -1074,16 +1082,12 @@
                 }
             });
         }, {
-            threshold: 0.08,
-            rootMargin: "0px 0px -50px 0px"
+            threshold: 0.02,
+            rootMargin: "100px 0px 50px 0px"
         });
 
         scrollElements.forEach(el => {
             observer.observe(el);
-            const rect = el.getBoundingClientRect();
-            if (rect.top < window.innerHeight * 0.9) {
-                el.classList.add('visible');
-            }
         });
 
         // 2. Glowing Line Progress & Milestone Node Activation
@@ -1205,6 +1209,12 @@
         }
     }
 
+    function getPageName(pathOrUrl) {
+        if (!pathOrUrl) return 'index';
+        const clean = pathOrUrl.split('#')[0].split('?')[0].split('/').pop().replace(/\.html$/, '');
+        return (clean === '' || clean === 'index') ? 'index' : clean;
+    }
+
     // 4. Seamless SPA Navigation (Audio NEVER pauses when changing pages!)
     function initSeamlessNavigation() {
         document.addEventListener('click', function (e) {
@@ -1213,15 +1223,16 @@
             const href = link.getAttribute('href');
             if (!href || href.startsWith('#') || href.startsWith('http') || href.startsWith('mailto')) return;
 
-            if (href.endsWith('.html') || href === 'index.html' || href === 'timeline.html' || href === 'gallery.html' || href === 'letter.html') {
+            const page = getPageName(href);
+            if (['index', 'timeline', 'gallery', 'letter'].includes(page)) {
                 e.preventDefault();
                 navigateSeamlessly(href);
             }
         });
 
         window.addEventListener('popstate', function () {
-            const page = location.pathname.split('/').pop() || 'index.html';
-            navigateSeamlessly(page, false);
+            const page = getPageName(location.pathname);
+            navigateSeamlessly(page === 'index' ? 'index.html' : page + '.html', false);
         });
     }
 
@@ -1274,20 +1285,20 @@
             initLoveModal();
             initCounter();
 
-            const targetPage = (url.split('/').pop().split('?')[0] || 'index.html');
-            if (targetPage === 'index.html' || targetPage === '') {
+            const targetPage = getPageName(url);
+            if (targetPage === 'index') {
                 pauseRoseGarden();
                 setupHeroHeart();
                 window.initHomePageAnimations();
-            } else if (targetPage === 'timeline.html') {
+            } else if (targetPage === 'timeline') {
                 pauseHeroHeart();
                 window.initTimelinePage();
             } else {
                 pauseHeroHeart();
                 pauseRoseGarden();
-                if (targetPage === 'gallery.html') {
+                if (targetPage === 'gallery') {
                     window.initGalleryPage();
-                } else if (targetPage === 'letter.html') {
+                } else if (targetPage === 'letter') {
                     window.initLetterPage();
                 }
             }
@@ -1717,15 +1728,15 @@
         initFloatingRosePetals();
         injectQuizFloatingButton();
 
-        const curPage = location.pathname.split('/').pop() || 'index.html';
-        if (curPage === 'index.html' || curPage === '') {
+        const curPage = getPageName(location.pathname);
+        if (curPage === 'index') {
             setupHeroHeart();
             window.initHomePageAnimations();
-        } else if (curPage === 'timeline.html') {
+        } else if (curPage === 'timeline') {
             window.initTimelinePage();
-        } else if (curPage === 'gallery.html') {
+        } else if (curPage === 'gallery') {
             window.initGalleryPage();
-        } else if (curPage === 'letter.html') {
+        } else if (curPage === 'letter') {
             window.initLetterPage();
         }
     });
