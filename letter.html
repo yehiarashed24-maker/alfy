@@ -7,9 +7,9 @@
         name="viewport" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <meta name="apple-mobile-web-app-title" content="Y ❤️ A" />
+    <meta name="apple-mobile-web-app-title" content="A ❤️ S" />
     <meta name="theme-color" content="#fff0f5" />
-    <title>Y ❤️ A - Letters</title>
+    <title>A ❤️ S - Letters</title>
     <script src="https://ajax.googleapis.com/ajax/libs/threejs/r125/three.min.js"></script>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link
@@ -172,47 +172,54 @@
 
     <!-- TopNavBar -->
     <header
-        class="bg-[#fff0f5]/80 backdrop-blur-md font-headline-sm text-headline-sm fixed top-0 w-full z-50 border-b border-[#fbcfe8]/70 shadow-sm shadow-secondary/10">
-        <div class="max-w-container-max mx-auto px-gutter h-20 flex justify-between items-center">
+        class="bg-[#fff0f5]/85 backdrop-blur-md fixed top-0 w-full z-50 border-b border-[#fbcfe8]/70 shadow-sm shadow-secondary/10 font-sans" dir="ltr">
+        <div class="max-w-6xl mx-auto px-6 h-20 flex justify-between items-center">
+            <!-- Brand Logo -->
             <a href="index.html"
-                class="font-headline-md text-2xl md:text-3xl text-primary font-bold tracking-wider hover:opacity-90 transition-opacity flex items-center gap-1.5">
-                <span>Y</span><span
-                    class="text-secondary text-2xl md:text-3xl animate-pulse inline-block">❤️</span><span>A</span>
+                class="font-headline-md text-2xl md:text-3xl text-primary font-bold tracking-wider hover:opacity-90 transition-opacity flex items-center gap-1.5 font-sans">
+                <span>A</span><span class="text-secondary text-2xl md:text-3xl animate-pulse inline-block">❤️</span><span>S</span>
             </a>
-            <nav class="hidden md:flex items-center gap-md">
+            <!-- Desktop Navigation (English) -->
+            <nav class="hidden md:flex items-center gap-2 lg:gap-3 font-semibold text-sm font-sans">
                 <a class="text-on-surface-variant hover:text-primary transition-colors hover:bg-primary-container/20 rounded-full px-4 py-2"
                     href="index.html">Home</a>
                 <a class="text-on-surface-variant hover:text-primary transition-colors hover:bg-primary-container/20 rounded-full px-4 py-2"
                     href="timeline.html">Timeline</a>
                 <a class="text-on-surface-variant hover:text-primary transition-colors hover:bg-primary-container/20 rounded-full px-4 py-2"
                     href="gallery.html">Gallery</a>
-                <a class="text-secondary border-b-2 border-secondary pb-1 hover:bg-primary-container/20 rounded-full px-4 py-2 font-bold font-cairo"
-                    href="letter.html">رسالة</a>
+                <a class="text-secondary border-b-2 border-secondary bg-primary-container/40 rounded-full px-4 py-2 font-bold transition-colors"
+                    href="letter.html">Letter</a>
             </nav>
+            <!-- Action Button -->
             <a href="timeline.html"
-                class="text-primary font-label-md text-label-md hover:bg-primary-container/20 rounded-full px-6 py-2 border border-secondary/30 hidden md:inline-block transition-transform duration-300 active:scale-95">
-                Our Story
+                class="text-primary font-bold text-sm hover:bg-primary-container/30 rounded-full px-5 py-2 border border-secondary/30 hidden md:inline-flex items-center gap-1.5 transition-transform active:scale-95 font-sans">
+                <span>Our Story</span><span>♡</span>
             </a>
             <!-- Mobile Menu Toggle -->
-            <button class="md:hidden text-primary p-2"
-                onclick="document.getElementById('mobile-menu').classList.toggle('hidden')">
-                <span class="material-symbols-outlined">menu</span>
+            <button class="md:hidden text-primary p-2 focus:outline-none"
+                onclick="document.getElementById('mobile-menu').classList.toggle('hidden')" aria-label="Toggle Navigation">
+                <span class="material-symbols-outlined text-2xl">menu</span>
             </button>
         </div>
-        <!-- Mobile Menu dropdown -->
+        <!-- Mobile Menu Dropdown (English) -->
         <div id="mobile-menu"
-            class="hidden md:hidden bg-[#fff0f5]/95 backdrop-blur-md border-b border-[#fbcfe8]/70 px-gutter py-4 flex flex-col gap-2">
-            <a class="text-on-surface-variant hover:text-primary px-4 py-2 rounded-lg" href="index.html">Home</a>
-            <a class="text-on-surface-variant hover:text-primary px-4 py-2 rounded-lg" href="timeline.html">Timeline</a>
-            <a class="text-on-surface-variant hover:text-primary px-4 py-2 rounded-lg" href="gallery.html">Gallery</a>
-            <a class="text-secondary font-bold px-4 py-2 rounded-lg bg-primary-container/20 font-cairo"
-                href="letter.html">رسالة</a>
+            class="hidden md:hidden bg-[#fff0f5]/95 backdrop-blur-lg border-b border-[#fbcfe8]/70 px-6 py-4 flex flex-col gap-2 font-semibold text-base shadow-lg font-sans">
+            <a class="text-on-surface-variant hover:text-primary hover:bg-primary-container/20 px-4 py-2.5 rounded-xl"
+                href="index.html">Home</a>
+            <a class="text-on-surface-variant hover:text-primary hover:bg-primary-container/20 px-4 py-2.5 rounded-xl"
+                href="timeline.html">Timeline</a>
+            <a class="text-on-surface-variant hover:text-primary hover:bg-primary-container/20 px-4 py-2.5 rounded-xl"
+                href="gallery.html">Gallery</a>
+            <a class="text-secondary bg-primary-container/40 px-4 py-2.5 rounded-xl font-bold"
+                href="letter.html">Letter</a>
+            <a class="text-primary border border-secondary/30 px-4 py-2.5 rounded-xl text-center font-bold mt-1 bg-white/50"
+                href="timeline.html">Our Story ♡</a>
         </div>
     </header>
 
     <!-- Main Content Area -->
     <main
-        class="pt-32 pb-xl px-gutter max-w-container-max mx-auto w-full flex-grow relative z-10 flex flex-col items-center justify-center text-center">
+        class="pt-28 md:pt-32 pb-32 px-gutter max-w-container-max mx-auto w-full flex-grow relative z-10 flex flex-col items-center justify-center text-center">
 
         <!-- Title Section -->
         <div class="mb-12">
@@ -333,7 +340,7 @@
     <footer
         class="bg-[#fff0f5]/70 backdrop-blur-md font-body-md text-body-md w-full py-xl border-t border-[#fbcfe8]/70 flex flex-col items-center gap-md text-center px-gutter z-10 relative mt-auto mb-20">
         <div class="font-headline-sm text-2xl text-primary tracking-wider flex items-center gap-1.5">
-            <span>Y</span><span class="text-secondary text-2xl">❤️</span><span>A</span>
+            <span>A</span><span class="text-secondary text-2xl">❤️</span><span>S</span>
         </div>
         <div class="text-secondary mt-2 font-cairo">
             Made with love for Soso ♡

@@ -8,13 +8,13 @@
             title: 'Nano (نانو)',
             artist: 'TUL8TE & Saint Levant • سوسو ❤️',
             src: 'assets/audio/nano.mp3',
-            img: 'assets/2026/2026_hijab.jpg'
+            img: 'assets/audio/cover_nano.jpg'
         },
         {
             title: 'Tamally Maak (تملي معاك)',
             artist: 'Amr Diab • سوسو ❤️',
             src: 'https://soso-our-storyy.vercel.app/02.Tamally_Maak.mp3',
-            img: 'assets/2022/01_first_memory_bechamel.jpg'
+            img: 'assets/audio/cover_tamally_maak.jpg'
         }
     ];
 
@@ -163,6 +163,27 @@
                 opacity: 1 !important;
                 transform: translateY(0) !important;
             }
+
+            /* Neon Audio Visualizer Ring */
+            .neon-playing {
+                opacity: 1 !important;
+                transform: scale(1.08) !important;
+                animation: neonPulseRing 2s infinite ease-in-out !important;
+            }
+            @keyframes neonPulseRing {
+                0% {
+                    box-shadow: 0 0 12px rgba(244, 114, 182, 0.85), 0 0 25px rgba(236, 72, 153, 0.65), inset 0 0 10px rgba(251, 207, 232, 0.5);
+                    border-color: rgba(244, 114, 182, 0.9);
+                }
+                50% {
+                    box-shadow: 0 0 24px rgba(236, 72, 153, 0.95), 0 0 42px rgba(219, 39, 119, 0.85), inset 0 0 18px rgba(244, 114, 182, 0.7);
+                    border-color: rgba(236, 72, 153, 1);
+                }
+                100% {
+                    box-shadow: 0 0 12px rgba(244, 114, 182, 0.85), 0 0 25px rgba(236, 72, 153, 0.65), inset 0 0 10px rgba(251, 207, 232, 0.5);
+                    border-color: rgba(244, 114, 182, 0.9);
+                }
+            }
         `;
         document.head.appendChild(style);
     }
@@ -269,7 +290,8 @@
         ],
         '2023': [
             { src: 'assets/2023/2023_memory_2.jpg', caption: 'سنة الذكريات واللحظات الحلوة والسفريات ✨' },
-            { src: 'assets/2023/2023_memory_1.jpg', caption: 'ضحكات متتنسيش مع سوسو في 2023 🌸' }
+            { src: 'assets/2023/2023_memory_1.jpg', caption: 'ضحكات متتنسيش مع سوسو في 2023 🌸' },
+            { src: 'assets/2023/image.jpeg', caption: 'لحظات دافئة وضحكة من القلب مع سارة ❤️' }
         ],
         '2024': [
             { src: 'assets/2024/2024_medicine.jpg', caption: '🩺 دكتورة سوسو في كلية الطب • فخور بيكي دايماً 💖' },
@@ -277,11 +299,18 @@
             { src: 'assets/2024/2024_memory_1.jpg', caption: 'أحلى سهرات ولقاءات سنة 2024 ✨' }
         ],
         '2025': [
+            { src: 'assets/2025/2025_hijab.jpg', caption: '🤍 خطوة الحجاب وسارة القمر • أجمل وأرق بنت في الكون ❤️' },
             { src: 'assets/2025/2025_memory_2.jpg', caption: 'ليلة النيل والاحتفال الجميل مع أحلى قمر 🌙' },
             { src: 'assets/2025/2025_memory_1.jpg', caption: 'أحلى سهرة واحتفال في 2025 ✨' }
         ],
         '2026': [
-            { src: 'assets/2026/2026_hijab.jpg', caption: 'خطوة الحجاب وسارة القمر • أجمل وأرق بنت في الكون ❤️' }
+            { src: 'assets/2026/2026_memory_1.jpg', caption: '🌸 ضحكات ولحظات مميزة مع القمر سوسو ✨' },
+            { src: 'assets/2026/2026_memory_2.jpg', caption: '💖 أحلى الذكريات والأوقات سوا في 2026 🌹' },
+            { src: 'assets/2026/2026_memory_3.jpg', caption: '✨ جمالك ونورك اللي منوّر كل أيامي 🌙' },
+            { src: 'assets/2026/2026_memory_4.jpg', caption: '🌹 فرحتي معاكي في كل لحظة وفي كل مكان ❤️' },
+            { src: 'assets/2026/2026_memory_5.jpg', caption: '💖 ابتسامة سارة اللي بتاخد العقل وتخطف القلب ✨' },
+            { src: 'assets/2026/2026_memory_6.jpg', caption: '🌸 الراحة والأمان والضحكة الحلوة في عيونك ❤️' },
+            { src: 'assets/2026/2026_memory_7.jpg', caption: '💍 كل يوم في 2026 معاكي بداية جديدة للحبيبة الغالية ✨' }
         ]
     };
 
@@ -332,7 +361,7 @@
                     ${photos.map((p, i) => `
                         <div onclick="openPhotoLightbox('${year}', ${i})" style="background:#ffffff; border:1px solid #fbcfe8; border-radius:1.25rem; overflow:hidden; box-shadow:0 10px 25px -5px rgba(164,48,115,0.12); cursor:pointer; transition:all 0.3s; position:relative;" onmouseover="this.style.transform='translateY(-6px)'; this.style.boxShadow='0 18px 35px -5px rgba(164,48,115,0.22)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 25px -5px rgba(164,48,115,0.12)'">
                             <div style="position:relative; aspect-ratio:4/3; overflow:hidden; background:#fdf2f8;">
-                                <img src="${p.src}" alt="${p.caption || 'Memory'}" style="width:100%; height:100%; object-fit:cover; display:block; transition:transform 0.5s;" onmouseover="this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'"/>
+                                <img src="${p.src}" alt="${p.caption || 'Memory'}" style="width:100%; height:100%; object-fit:cover; object-position:top; display:block; transition:transform 0.5s;" onmouseover="this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'"/>
                                 <div style="position:absolute; top:0.75rem; right:0.75rem; background:rgba(0,0,0,0.5); backdrop-filter:blur(6px); color:#ffffff; font-size:0.75rem; font-weight:600; padding:0.25rem 0.6rem; border-radius:9999px; font-family:'Cairo', sans-serif;">
                                     🔍 اضغط للتكبير
                                 </div>
@@ -459,7 +488,7 @@
                 <div class="w-20 h-20 rounded-full bg-primary-container/40 flex items-center justify-center mx-auto mb-6 shadow-inner border border-secondary/30">
                     <span class="material-symbols-outlined text-4xl text-secondary animate-pulse">lock</span>
                 </div>
-                <h2 class="font-headline-md text-2xl md:text-3xl text-primary font-bold mb-2">Y ❤️ A</h2>
+                <h2 class="font-headline-md text-2xl md:text-3xl text-primary font-bold mb-2">A ❤️ S</h2>
                 <p class="text-on-surface-variant font-body-md text-sm mb-6">بعض الحكايات معمولة مخصوص لينا إحنا وبس...</p>
                 <div class="space-y-4">
                     <input id="story-pass-input" type="password" placeholder="Enter password..." class="w-full px-5 py-3.5 rounded-full border border-secondary/30 focus:border-secondary focus:ring-2 focus:ring-secondary/20 outline-none text-center font-body-md bg-[#fff5f8] transition-all" autocomplete="off"/>
@@ -533,10 +562,13 @@
 
         const playerDiv = document.createElement('div');
         playerDiv.id = 'floating-music-player';
-        playerDiv.className = 'fixed bottom-[calc(4.5rem+env(safe-area-inset-bottom))] left-3 right-3 md:bottom-6 md:left-auto md:right-6 md:w-96 z-50 bg-[#fff0f5]/92 backdrop-blur-2xl border border-[#fbcfe8] rounded-2xl p-2.5 md:p-3 shadow-2xl shadow-secondary/15 flex flex-col gap-1.5 md:gap-2 transition-all duration-300';
+        playerDiv.className = 'fixed bottom-3 left-3 right-3 md:bottom-6 md:left-auto md:right-6 md:w-96 z-50 bg-[#fff0f5]/92 backdrop-blur-2xl border border-[#fbcfe8] rounded-2xl p-2.5 md:p-3 shadow-2xl shadow-secondary/15 flex flex-col gap-1.5 md:gap-2 transition-all duration-300';
         playerDiv.innerHTML = `
             <div class="flex items-center gap-2.5 md:gap-3">
-                <img id="player-track-img" src="${currentTrack.img}" alt="Album cover" class="w-10 h-10 md:w-12 md:h-12 rounded-xl object-cover border border-secondary/30 shadow-sm flex-shrink-0"/>
+                <div class="relative flex-shrink-0 flex items-center justify-center">
+                    <div id="neon-audio-ring" class="absolute -inset-1 rounded-xl pointer-events-none opacity-0 border-2 border-secondary transition-all duration-500"></div>
+                    <img id="player-track-img" src="${currentTrack.img}" alt="Album cover" class="w-10 h-10 md:w-12 md:h-12 rounded-xl object-cover border border-secondary/30 shadow-sm relative z-10"/>
+                </div>
                 <div class="flex-grow min-w-0">
                     <div id="player-track-title" class="text-primary font-bold text-xs md:text-sm truncate">${currentTrack.title}</div>
                     <div id="player-track-artist" class="text-secondary text-[10px] md:text-xs truncate font-cairo">${currentTrack.artist}</div>
@@ -605,10 +637,14 @@
         audioInstance.onplay = () => {
             sessionStorage.setItem('story_audio_playing', 'true');
             playIcon.textContent = 'pause';
+            const ring = document.getElementById('neon-audio-ring');
+            if (ring) ring.classList.add('neon-playing');
         };
         audioInstance.onpause = () => {
             sessionStorage.setItem('story_audio_playing', 'false');
             playIcon.textContent = 'play_arrow';
+            const ring = document.getElementById('neon-audio-ring');
+            if (ring) ring.classList.remove('neon-playing');
         };
 
         audioInstance.ontimeupdate = () => {
@@ -678,36 +714,10 @@
         window.addEventListener('keydown', triggerOnFirstGesture, { once: true });
     }
 
-    // 3. Native iOS Mobile Bottom TabBar (Home, Timeline, Gallery, رسالة)
+    // 3. Mobile Navigation is unified in the sleek Top Header Navbar
     function initMobileTabBar() {
-        if (document.getElementById('ios-bottom-tabbar')) {
-            updateActiveTab();
-            return;
-        }
-
-        const tabBar = document.createElement('nav');
-        tabBar.id = 'ios-bottom-tabbar';
-        tabBar.className = 'fixed bottom-0 left-0 right-0 z-40 bg-[#fff0f5]/90 backdrop-blur-2xl border-t border-[#fbcfe8] flex justify-around items-center pt-2 pb-[max(0.6rem,env(safe-area-inset-bottom))] md:hidden shadow-[0_-4px_20px_rgba(164,48,115,0.08)]';
-        tabBar.innerHTML = `
-            <a href="index.html" data-tab="index.html" class="flex flex-col items-center gap-0.5 text-on-surface-variant py-1 px-3 rounded-xl ios-touch transition-all">
-                <span class="material-symbols-outlined text-2xl">home</span>
-                <span class="text-[10px] font-medium font-sans">Home</span>
-            </a>
-            <a href="timeline.html" data-tab="timeline.html" class="flex flex-col items-center gap-0.5 text-on-surface-variant py-1 px-3 rounded-xl ios-touch transition-all">
-                <span class="material-symbols-outlined text-2xl">auto_stories</span>
-                <span class="text-[10px] font-medium font-sans">Timeline</span>
-            </a>
-            <a href="gallery.html" data-tab="gallery.html" class="flex flex-col items-center gap-0.5 text-on-surface-variant py-1 px-3 rounded-xl ios-touch transition-all">
-                <span class="material-symbols-outlined text-2xl">photo_library</span>
-                <span class="text-[10px] font-medium font-sans">Gallery</span>
-            </a>
-            <a href="letter.html" data-tab="letter.html" class="flex flex-col items-center gap-0.5 text-on-surface-variant py-1 px-3 rounded-xl ios-touch transition-all">
-                <span class="material-symbols-outlined text-2xl">favorite</span>
-                <span class="text-[10px] font-medium font-cairo">رسالة</span>
-            </a>
-        `;
-        document.body.appendChild(tabBar);
-        updateActiveTab();
+        const existing = document.getElementById('ios-bottom-tabbar');
+        if (existing) existing.remove();
     }
 
     function updateActiveTab() {
@@ -1053,7 +1063,7 @@
     window.initTimelinePage = function () {
         const timelineContainer = document.getElementById('timeline-container');
         const glowLine = document.getElementById('glowing-timeline-line');
-        const nodes = ['node-2022', 'node-2023', 'node-2024', 'node-2025', 'node-2026'];
+        const nodes = ['node-basket', 'node-2022', 'node-2023', 'node-2024', 'node-2025', 'node-2026'];
 
         // 1. Scroll Reveal for Cards
         const scrollElements = document.querySelectorAll('.scroll-reveal');
@@ -1081,7 +1091,7 @@
             const onScrollTimeline = () => {
                 const rect = timelineContainer.getBoundingClientRect();
                 const windowHeight = window.innerHeight;
-                
+
                 // Calculate how much the user has scrolled through the timeline
                 const triggerPoint = windowHeight * 0.65;
                 let progress = (triggerPoint - rect.top) / rect.height;
@@ -1124,12 +1134,20 @@
         { src: 'assets/2022/2022_memory_2.jpg', title: 'ذكريات 2022' },
         { src: 'assets/2023/2023_memory_1.jpg', title: 'خروجات وسفريات 2023' },
         { src: 'assets/2023/2023_memory_2.jpg', title: 'سحر 2023' },
+        { src: 'assets/2023/image.jpeg', title: 'ضحكة من القلب 2023' },
         { src: 'assets/2024/2024_medicine.jpg', title: 'دكتورة سوسو في كلية الطب 2024' },
         { src: 'assets/2024/2024_memory_1.jpg', title: 'نجاح وفخر 2024' },
         { src: 'assets/2024/2024_memory_2.jpg', title: 'ضحكة دكتورتنا 2024' },
         { src: 'assets/2025/2025_memory_1.jpg', title: 'سهرة النيل 2025' },
         { src: 'assets/2025/2025_memory_2.jpg', title: 'احتفال النيل 2025' },
-        { src: 'assets/2026/2026_hijab.jpg', title: 'خطوة الحجاب ونور العيون 2026' }
+        { src: 'assets/2025/2025_hijab.jpg', title: 'خطوة الحجاب ونور العيون 2025' },
+        { src: 'assets/2026/2026_memory_1.jpg', title: 'لحظات القمر سوسو 2026' },
+        { src: 'assets/2026/2026_memory_2.jpg', title: 'أحلى الذكريات 2026' },
+        { src: 'assets/2026/2026_memory_3.jpg', title: 'نور أيامي 2026' },
+        { src: 'assets/2026/2026_memory_4.jpg', title: 'فرحتي معاكي 2026' },
+        { src: 'assets/2026/2026_memory_5.jpg', title: 'ابتسامة سارة 2026' },
+        { src: 'assets/2026/2026_memory_6.jpg', title: 'الراحة والأمان 2026' },
+        { src: 'assets/2026/2026_memory_7.jpg', title: 'بداية جديدة سوا 2026' }
     ];
 
     window.setupImageStreamCorridor = function () {
@@ -1260,6 +1278,7 @@
             if (targetPage === 'index.html' || targetPage === '') {
                 pauseRoseGarden();
                 setupHeroHeart();
+                window.initHomePageAnimations();
             } else if (targetPage === 'timeline.html') {
                 pauseHeroHeart();
                 window.initTimelinePage();
@@ -1280,8 +1299,75 @@
         }
     }
 
-    // 5. Realtime Love Counter
+    // Anime.js Interactive Romantic Animation Engine for Home Page
+    window.initHomePageAnimations = function () {
+        if (typeof anime === 'undefined') return;
+
+        // 1. Hero Staggered Spring Entrance Timeline
+        try {
+            anime.timeline({ easing: 'easeOutExpo' })
+                .add({
+                    targets: '.hero-badge',
+                    translateY: [-25, 0],
+                    opacity: [0, 1],
+                    duration: 900
+                })
+                .add({
+                    targets: '.hero-title-name',
+                    scale: [0.75, 1],
+                    opacity: [0, 1],
+                    duration: 1100,
+                    easing: 'easeOutElastic(1, 0.55)'
+                }, '-=500')
+                .add({
+                    targets: '.counter-box',
+                    translateY: [35, 0],
+                    opacity: [0, 1],
+                    duration: 900
+                }, '-=700');
+        } catch (e) { }
+
+        // 2. Interactive Anime.js Heart Explosion on Tap / Pointer Down
+        const heroCard = document.querySelector('.hero-card-container');
+        if (heroCard && !heroCard.dataset.animeBound) {
+            heroCard.dataset.animeBound = 'true';
+            heroCard.addEventListener('pointerdown', (e) => {
+                spawnAnimeHearts(e.clientX, e.clientY);
+            });
+        }
+    };
+
+    function spawnAnimeHearts(x, y) {
+        if (typeof anime === 'undefined') return;
+        const count = 14;
+        const emojis = ['💖', '❤️', '✨', '🌸', '💕'];
+        for (let i = 0; i < count; i++) {
+            const heart = document.createElement('div');
+            heart.className = 'anime-burst-heart';
+            heart.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+            heart.style.cssText = `position:fixed; left:${x}px; top:${y}px; font-size:${18 + Math.random() * 18}px; pointer-events:none; z-index:99999; transform:translate(-50%, -50%);`;
+            document.body.appendChild(heart);
+
+            const angle = (Math.PI * 2 / count) * i + (Math.random() - 0.5) * 0.4;
+            const dist = 70 + Math.random() * 90;
+
+            anime({
+                targets: heart,
+                translateX: Math.cos(angle) * dist,
+                translateY: Math.sin(angle) * dist - 50,
+                scale: [0.3, 1.4, 0],
+                rotate: (Math.random() - 0.5) * 360,
+                opacity: [1, 0],
+                duration: 1300 + Math.random() * 500,
+                easing: 'easeOutBack',
+                complete: () => heart.remove()
+            });
+        }
+    }
+
+    // Realtime Love Counter with Anime.js Pulse
     function initCounter() {
+        let lastSec = -1;
         function updateCounter() {
             let s = Math.max(0, Math.floor((Date.now() - START_DATE.getTime()) / 1000));
             let d = Math.floor(s / 86400);
@@ -1299,7 +1385,18 @@
             if (daysEl) daysEl.textContent = d.toLocaleString('en-US');
             if (hoursEl) hoursEl.textContent = String(h).padStart(2, '0');
             if (minsEl) minsEl.textContent = String(m).padStart(2, '0');
-            if (secsEl) secsEl.textContent = String(s).padStart(2, '0');
+            if (secsEl) {
+                secsEl.textContent = String(s).padStart(2, '0');
+                if (s !== lastSec && typeof anime !== 'undefined') {
+                    lastSec = s;
+                    anime({
+                        targets: secsEl,
+                        scale: [1.28, 1],
+                        duration: 450,
+                        easing: 'easeOutElastic(1, .5)'
+                    });
+                }
+            }
         }
 
         updateCounter();
@@ -1308,18 +1405,322 @@
         }
     }
 
+    // 1. Constellation Starlight Effect (خلفية نجوم الحب و A ❤️ S)
+    function initConstellationStarlight() {
+        if (document.getElementById('constellation-canvas')) return;
+        const canvas = document.createElement('canvas');
+        canvas.id = 'constellation-canvas';
+        canvas.style.cssText = 'position:fixed; inset:0; z-index:-2; pointer-events:none; width:100vw; height:100vh;';
+        document.body.appendChild(canvas);
+
+        const ctx = canvas.getContext('2d');
+        let width = canvas.width = window.innerWidth;
+        let height = canvas.height = window.innerHeight;
+
+        window.addEventListener('resize', () => {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        });
+
+        const stars = [];
+        const starCount = Math.min(75, Math.floor(width / 20));
+        let mouseX = -1000, mouseY = -1000;
+
+        window.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+        window.addEventListener('touchmove', (e) => {
+            if (e.touches && e.touches[0]) {
+                mouseX = e.touches[0].clientX;
+                mouseY = e.touches[0].clientY;
+            }
+        });
+
+        for (let i = 0; i < starCount; i++) {
+            stars.push({
+                x: Math.random() * width,
+                y: Math.random() * height,
+                vx: (Math.random() - 0.5) * 0.45,
+                vy: (Math.random() - 0.5) * 0.45,
+                radius: Math.random() * 2 + 1,
+                alpha: Math.random() * 0.7 + 0.3,
+                pulse: Math.random() * 0.03 + 0.01
+            });
+        }
+
+        function renderStars() {
+            ctx.clearRect(0, 0, width, height);
+
+            for (let i = 0; i < stars.length; i++) {
+                const s = stars[i];
+                s.x += s.vx;
+                s.y += s.vy;
+
+                if (s.x < 0) s.x = width;
+                if (s.x > width) s.x = 0;
+                if (s.y < 0) s.y = height;
+                if (s.y > height) s.y = 0;
+
+                s.alpha += Math.sin(Date.now() * 0.002 + i) * s.pulse * 0.1;
+                const a = Math.max(0.2, Math.min(0.9, s.alpha));
+
+                ctx.beginPath();
+                ctx.arc(s.x, s.y, s.radius, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(244, 114, 182, ${a})`;
+                ctx.shadowBlur = 8;
+                ctx.shadowColor = '#f472b6';
+                ctx.fill();
+
+                // Connect to Mouse Cursor
+                const dxMouse = mouseX - s.x;
+                const dyMouse = mouseY - s.y;
+                const distMouse = Math.sqrt(dxMouse * dxMouse + dyMouse * dyMouse);
+                if (distMouse < 160) {
+                    ctx.beginPath();
+                    ctx.moveTo(s.x, s.y);
+                    ctx.lineTo(mouseX, mouseY);
+                    ctx.strokeStyle = `rgba(236, 72, 153, ${0.45 * (1 - distMouse / 160)})`;
+                    ctx.lineWidth = 1;
+                    ctx.stroke();
+                }
+
+                // Connect nearby stars
+                for (let j = i + 1; j < stars.length; j++) {
+                    const s2 = stars[j];
+                    const dx = s.x - s2.x;
+                    const dy = s.y - s2.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < 120) {
+                        ctx.beginPath();
+                        ctx.moveTo(s.x, s.y);
+                        ctx.lineTo(s2.x, s2.y);
+                        ctx.strokeStyle = `rgba(251, 207, 232, ${0.25 * (1 - dist / 120)})`;
+                        ctx.lineWidth = 0.8;
+                        ctx.stroke();
+                    }
+                }
+            }
+
+            requestAnimationFrame(renderStars);
+        }
+
+        renderStars();
+    }
+
+    // 2. Interactive Floating Rose Petals Physics Engine
+    function initFloatingRosePetals() {
+        if (document.getElementById('rose-petals-canvas')) return;
+        const canvas = document.createElement('canvas');
+        canvas.id = 'rose-petals-canvas';
+        canvas.style.cssText = 'position:fixed; inset:0; z-index:-1; pointer-events:none; width:100vw; height:100vh;';
+        document.body.appendChild(canvas);
+
+        const ctx = canvas.getContext('2d');
+        let width = canvas.width = window.innerWidth;
+        let height = canvas.height = window.innerHeight;
+
+        window.addEventListener('resize', () => {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        });
+
+        let windVelocityX = 0;
+        let lastMouseX = 0;
+        window.addEventListener('mousemove', (e) => {
+            windVelocityX = (e.clientX - lastMouseX) * 0.05;
+            lastMouseX = e.clientX;
+        });
+
+        const petals = [];
+        const petalCount = 24;
+        const petalColors = ['#f472b6', '#ec4899', '#fbcfe8', '#fda4af', '#e11d48'];
+
+        for (let i = 0; i < petalCount; i++) {
+            petals.push({
+                x: Math.random() * width,
+                y: Math.random() * height,
+                size: Math.random() * 12 + 10,
+                speedY: Math.random() * 1.2 + 0.8,
+                sway: Math.random() * 2 + 1,
+                angle: Math.random() * Math.PI * 2,
+                rotSpeed: (Math.random() - 0.5) * 0.04,
+                color: petalColors[Math.floor(Math.random() * petalColors.length)],
+                opacity: Math.random() * 0.4 + 0.55
+            });
+        }
+
+        function drawPetal(p) {
+            ctx.save();
+            ctx.translate(p.x, p.y);
+            ctx.rotate(p.angle);
+            ctx.scale(Math.cos(p.angle * 0.5), 1);
+            ctx.beginPath();
+            ctx.moveTo(0, 0);
+            ctx.bezierCurveTo(-p.size / 2, -p.size / 2, -p.size, p.size / 3, 0, p.size);
+            ctx.bezierCurveTo(p.size, p.size / 3, p.size / 2, -p.size / 2, 0, 0);
+            ctx.fillStyle = p.color;
+            ctx.globalAlpha = p.opacity;
+            ctx.shadowBlur = 6;
+            ctx.shadowColor = p.color;
+            ctx.fill();
+            ctx.restore();
+        }
+
+        function updatePetals() {
+            ctx.clearRect(0, 0, width, height);
+            windVelocityX *= 0.95;
+
+            for (let i = 0; i < petals.length; i++) {
+                const p = petals[i];
+                p.y += p.speedY;
+                p.x += Math.sin(p.angle) * p.sway + windVelocityX;
+                p.angle += p.rotSpeed;
+
+                if (p.y > height + 20) {
+                    p.y = -20;
+                    p.x = Math.random() * width;
+                }
+                if (p.x < -20) p.x = width + 20;
+                if (p.x > width + 20) p.x = -20;
+
+                drawPetal(p);
+            }
+
+            requestAnimationFrame(updatePetals);
+        }
+
+        updatePetals();
+    }
+
+    // 4. Romantic Love Quiz & Memory Popups System
+    const LOVE_QUIZ_DATA = [
+        {
+            q: "إيه كانت أول ذكرى أكل تجمع بين سوسو وألفي سنة 2022؟ 🍝",
+            options: [
+                "🍝 صينية المكرونة بالبشاميل واشطا",
+                "🍕 بيتزا مارجريتا سخنة",
+                "🍔 برجر وحاجات حلوة"
+            ],
+            correct: 0,
+            msg: "صح يا سوسو! أول ذكرى مكرونة بشاميل واشطا علمت في قلوبنا للأبد ❤️"
+        },
+        {
+            q: "سنة 2024 كانت سنة الحب والفخر لدكتورتنا القمر في كلية إيه؟ 🩺",
+            options: [
+                "🎨 كلية الفنون الجميلة",
+                "🩺 دكتورة سوسو في كلية الطب",
+                "💻 كلية الحاسبات والمعلومات"
+            ],
+            correct: 1,
+            msg: "صح وبرافو بيكي! دكتورة سوسو فخور بيكي في كلية الطب دايماً 💖"
+        },
+        {
+            q: "خطوة الحجاب وسارة القمر ونور عيوني كانت في ألبوم سنة كام؟ 🤍",
+            options: [
+                "🤍 2025 ليلة الحجاب والنور",
+                "🌸 2022 البدايات",
+                "🌹 2023 السفريات"
+            ],
+            correct: 0,
+            msg: "صح يا قمر! خطوة الحجاب كانت أجمل وأرق نور لعام 2025 ✨"
+        }
+    ];
+
+    let currentQuizIdx = 0;
+
+    window.openLoveQuizModal = function () {
+        const quiz = LOVE_QUIZ_DATA[currentQuizIdx % LOVE_QUIZ_DATA.length];
+        currentQuizIdx++;
+
+        let modal = document.getElementById('quiz-modal');
+        if (!modal) {
+            modal = document.createElement('div');
+            modal.id = 'quiz-modal';
+            document.body.appendChild(modal);
+        }
+
+        modal.style.cssText = 'position:fixed; inset:0; z-index:999999; background:rgba(74, 4, 78, 0.45); backdrop-filter:blur(18px); -webkit-backdrop-filter:blur(18px); display:flex; align-items:center; justify-content:center; padding:1.25rem;';
+        modal.innerHTML = `
+            <div style="background:rgba(255, 245, 248, 0.98); border:1.5px solid #fbcfe8; border-radius:1.5rem; max-width:28rem; width:100%; padding:2rem 1.5rem; text-align:center; position:relative; box-shadow:0 25px 50px -12px rgba(164, 48, 115, 0.3); margin:auto;" dir="rtl">
+                <button type="button" onclick="closeLoveQuizModal()" style="position:absolute; top:1rem; left:1rem; width:2.25rem; height:2.25rem; border-radius:9999px; background:#ffe4e6; border:none; display:flex; align-items:center; justify-content:center; cursor:pointer; color:#a43073;" title="إغلاق">
+                    <span class="material-symbols-outlined" style="font-size:1.25rem;">close</span>
+                </button>
+                <div style="width:3.5rem; height:3.5rem; border-radius:9999px; background:#fbcfe8; border:1px solid #f472b6; display:flex; align-items:center; justify-content:center; margin:0 auto 1rem auto;">
+                    <span class="material-symbols-outlined animate-bounce" style="font-size:2rem; color:#a43073;">quiz</span>
+                </div>
+                <span style="display:inline-block; background:#ffd8e7; color:#85145a; font-weight:700; font-size:0.8rem; padding:0.25rem 0.8rem; border-radius:9999px; margin-bottom:0.75rem; font-family:'Cairo', sans-serif;">💖 سؤال ذكريات الحب بين سوسو وألفي ✨</span>
+                <h3 style="color:#765469; font-size:1.15rem; font-weight:700; font-family:'Cairo', sans-serif; margin-bottom:1.25rem; line-height:1.5;">${quiz.q}</h3>
+                
+                <div style="display:flex; flex-direction:column; gap:0.75rem; text-align:right;">
+                    ${quiz.options.map((opt, i) => `
+                        <button onclick="checkLoveQuizAnswer(${i})" style="background:#ffffff; border:1.5px solid #fbcfe8; border-radius:1rem; padding:0.85rem 1rem; color:#765469; font-weight:600; font-size:0.95rem; cursor:pointer; text-align:right; font-family:'Cairo', sans-serif; transition:all 0.25s; box-shadow:0 2px 6px rgba(0,0,0,0.03);" onmouseover="this.style.borderColor='#ec4899'; this.style.transform='translateY(-2px)'" onmouseout="this.style.borderColor='#fbcfe8'; this.style.transform='translateY(0)'">
+                            ${opt}
+                        </button>
+                    `).join('')}
+                </div>
+                <div id="quiz-result-feedback" style="margin-top:1rem; font-size:0.95rem; font-weight:700; font-family:'Cairo', sans-serif; min-height:1.5rem;"></div>
+            </div>
+        `;
+    };
+
+    window.checkLoveQuizAnswer = function (idx) {
+        const quiz = LOVE_QUIZ_DATA[(currentQuizIdx - 1 + LOVE_QUIZ_DATA.length) % LOVE_QUIZ_DATA.length];
+        const feedback = document.getElementById('quiz-result-feedback');
+        if (!feedback) return;
+
+        if (idx === quiz.correct) {
+            feedback.style.color = '#a43073';
+            feedback.innerHTML = `✨ ${quiz.msg}`;
+            burstHearts(window.innerWidth / 2, window.innerHeight / 2);
+            if (typeof anime !== 'undefined') {
+                spawnAnimeHearts(window.innerWidth / 2, window.innerHeight / 2);
+            }
+            setTimeout(() => {
+                closeLoveQuizModal();
+            }, 2500);
+        } else {
+            feedback.style.color = '#ba1a1a';
+            feedback.innerHTML = '❌ فكري تاني يا قمر! إجابة قريبة جداً ❤️';
+        }
+    };
+
+    window.closeLoveQuizModal = function () {
+        const modal = document.getElementById('quiz-modal');
+        if (modal) modal.style.display = 'none';
+    };
+
+    function injectQuizFloatingButton() {
+        if (document.getElementById('floating-quiz-pill')) return;
+        const btn = document.createElement('button');
+        btn.id = 'floating-quiz-pill';
+        btn.onclick = () => window.openLoveQuizModal();
+        const isMobile = window.innerWidth < 768;
+        btn.style.cssText = isMobile 
+            ? 'position:fixed; bottom:calc(5.2rem + env(safe-area-inset-bottom)); left:1rem; z-index:45; background:rgba(255, 240, 245, 0.95); backdrop-filter:blur(14px); border:1.5px solid #fbcfe8; color:#a43073; font-weight:700; font-size:0.8rem; padding:0.45rem 0.9rem; border-radius:9999px; cursor:pointer; box-shadow:0 6px 18px rgba(164, 48, 115, 0.18); display:flex; align-items:center; gap:0.35rem; font-family:"Cairo", sans-serif; transition:all 0.3s;'
+            : 'position:fixed; bottom:1.5rem; left:1.5rem; z-index:45; background:rgba(255, 240, 245, 0.95); backdrop-filter:blur(14px); border:1.5px solid #fbcfe8; color:#a43073; font-weight:700; font-size:0.85rem; padding:0.55rem 1.1rem; border-radius:9999px; cursor:pointer; box-shadow:0 8px 22px rgba(164, 48, 115, 0.16); display:flex; align-items:center; gap:0.4rem; font-family:"Cairo", sans-serif; transition:all 0.3s;';
+        btn.innerHTML = `<span class="material-symbols-outlined text-sm animate-pulse">quiz</span><span>سؤال حب ✨</span>`;
+        btn.onmouseover = function () { this.style.transform = 'scale(1.05)'; };
+        btn.onmouseout = function () { this.style.transform = 'scale(1)'; };
+        document.body.appendChild(btn);
+    }
+
     document.addEventListener('DOMContentLoaded', () => {
         injectMobileStyles();
         initPlayer();
-        initMobileTabBar();
         initAuth();
         initLoveModal();
         initCounter();
         initSeamlessNavigation();
 
+        initConstellationStarlight();
+        initFloatingRosePetals();
+        injectQuizFloatingButton();
+
         const curPage = location.pathname.split('/').pop() || 'index.html';
         if (curPage === 'index.html' || curPage === '') {
             setupHeroHeart();
+            window.initHomePageAnimations();
         } else if (curPage === 'timeline.html') {
             window.initTimelinePage();
         } else if (curPage === 'gallery.html') {
@@ -1329,3 +1730,5 @@
         }
     });
 })();
+
+

@@ -8,10 +8,11 @@
         name="viewport" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <meta name="apple-mobile-web-app-title" content="Y ❤️ A" />
+    <meta name="apple-mobile-web-app-title" content="A ❤️ S" />
     <meta name="theme-color" content="#fff0f5" />
-    <title>Y ❤️ A - Our Story</title>
+    <title>A ❤️ S - Our Story</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/threejs/r125/three.min.js"></script>
     <link
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
@@ -120,8 +121,7 @@
         }
     </script>
     <style>
-        body,
-        #shader-background {
+        body {
             background: radial-gradient(circle at 50% 30%, #ffd8e7 0%, #fff0f5 45%, #fce7f3 100%) !important;
         }
 
@@ -184,141 +184,7 @@
 </head>
 
 <body class="bg-background text-on-background relative min-h-screen overflow-x-hidden font-body-lg">
-    <!-- WebGL Background Shader -->
-    <div class="fixed inset-0 z-0 pointer-events-none w-full h-full" id="shader-background"></div>
-    <script>
-            (function () {
-                if (window._cleanupShaderBg) {
-                    window._cleanupShaderBg();
-                }
 
-                const container = document.getElementById('shader-background');
-                if (!container) return;
-                container.innerHTML = '';
-
-                const canvas = document.createElement('canvas');
-                container.appendChild(canvas);
-                const gl = canvas.getContext('webgl', { alpha: true, antialias: false, powerPreference: 'low-power' });
-                if (!gl) return;
-
-                let animId = null;
-                let isRunning = true;
-
-                window._cleanupShaderBg = function () {
-                    isRunning = false;
-                    if (animId) cancelAnimationFrame(animId);
-                    window.removeEventListener('resize', resize);
-                    if (canvas && canvas.parentNode) canvas.remove();
-                };
-
-                canvas.addEventListener('webglcontextlost', function (e) {
-                    e.preventDefault();
-                    isRunning = false;
-                    if (animId) cancelAnimationFrame(animId);
-                }, false);
-
-                const vsSource = `
-            attribute vec2 position;
-            varying vec2 v_texCoord;
-            void main() {
-                gl_Position = vec4(position, 0.0, 1.0);
-                v_texCoord = position * 0.5 + 0.5;
-            }
-        `;
-
-                const fsSource = `
-precision highp float;
-varying vec2 v_texCoord;
-uniform float u_time;
-uniform vec2 u_resolution;
-
-float noise(vec2 p) {
-    return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453);
-}
-
-float smoothNoise(vec2 p) {
-    vec2 i = floor(p);
-    vec2 f = fract(p);
-    f = f * f * (3.0 - 2.0 * f);
-    float a = noise(i);
-    float b = noise(i + vec2(1.0, 0.0));
-    float c = noise(i + vec2(0.0, 1.0));
-    float d = noise(i + vec2(1.0, 1.0));
-    return mix(mix(a, b, f.x), mix(c, d, f.x), f.y);
-}
-
-void main() {
-    vec2 uv = v_texCoord;
-    float n1 = smoothNoise(uv * 3.0 + u_time * 0.2);
-    float n2 = smoothNoise(uv * 5.0 - u_time * 0.15);
-    float movement = (n1 + n2) * 0.5;
-    
-    vec3 baseColor = vec3(0.98, 0.94, 0.96);
-    vec3 accent1 = vec3(1.0, 0.85, 0.9);
-    vec3 accent2 = vec3(0.95, 0.8, 0.85);
-    
-    float mix1 = smoothstep(0.2, 0.8, uv.y + movement * 0.2);
-    float mix2 = smoothstep(0.0, 1.0, uv.x + movement * 0.3);
-    
-    vec3 color = mix(baseColor, accent1, mix1);
-    color = mix(color, accent2, mix2 * 0.4);
-    
-    float shimmer = pow(movement, 4.0) * 0.05;
-    color += shimmer;
-    
-    float dist = distance(uv, vec2(0.5));
-    color *= 1.0 - dist * 0.15;
-    
-    gl_FragColor = vec4(color, 1.0);
-}
-`;
-
-                function compileShader(gl, source, type) {
-                    const shader = gl.createShader(type);
-                    gl.shaderSource(shader, source);
-                    gl.compileShader(shader);
-                    return shader;
-                }
-
-                const program = gl.createProgram();
-                gl.attachShader(program, compileShader(gl, vsSource, gl.VERTEX_SHADER));
-                gl.attachShader(program, compileShader(gl, fsSource, gl.FRAGMENT_SHADER));
-                gl.linkProgram(program);
-                gl.useProgram(program);
-
-                const positionBuffer = gl.createBuffer();
-                gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
-                gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([
-                    -1.0, -1.0, 1.0, -1.0, -1.0, 1.0,
-                    -1.0, 1.0, 1.0, -1.0, 1.0, 1.0
-                ]), gl.STATIC_DRAW);
-
-                const positionLocation = gl.getAttribLocation(program, 'position');
-                gl.enableVertexAttribArray(positionLocation);
-                gl.vertexAttribPointer(positionLocation, 2, gl.FLOAT, false, 0, 0);
-
-                const timeLocation = gl.getUniformLocation(program, 'u_time');
-                const resolutionLocation = gl.getUniformLocation(program, 'u_resolution');
-
-                function resize() {
-                    if (!canvas || !gl) return;
-                    canvas.width = window.innerWidth;
-                    canvas.height = window.innerHeight;
-                    gl.viewport(0, 0, canvas.width, canvas.height);
-                    gl.uniform2f(resolutionLocation, canvas.width, canvas.height);
-                }
-                window.addEventListener('resize', resize);
-                resize();
-
-                function render(time) {
-                    if (!isRunning) return;
-                    gl.uniform1f(timeLocation, time * 0.001);
-                    gl.drawArrays(gl.TRIANGLES, 0, 6);
-                    animId = requestAnimationFrame(render);
-                }
-                animId = requestAnimationFrame(render);
-            })();
-    </script>
     <!-- Love Particles -->
     <div id="particles-container"></div>
     <script>
@@ -342,59 +208,66 @@ void main() {
     </script>
     <!-- TopNavBar -->
     <header
-        class="bg-[#fff0f5]/80 backdrop-blur-md font-headline-sm text-headline-sm fixed top-0 w-full z-50 border-b border-[#fbcfe8]/70 shadow-sm shadow-secondary/10">
-        <div class="max-w-container-max mx-auto px-gutter h-20 flex justify-between items-center">
+        class="bg-[#fff0f5]/85 backdrop-blur-md fixed top-0 w-full z-50 border-b border-[#fbcfe8]/70 shadow-sm shadow-secondary/10 font-sans" dir="ltr">
+        <div class="max-w-6xl mx-auto px-6 h-20 flex justify-between items-center">
+            <!-- Brand Logo -->
             <a href="index.html"
-                class="font-headline-md text-2xl md:text-3xl text-primary font-bold tracking-wider hover:opacity-90 transition-opacity flex items-center gap-1.5">
-                <span>Y</span><span
-                    class="text-secondary text-2xl md:text-3xl animate-pulse inline-block">❤️</span><span>A</span>
+                class="font-headline-md text-2xl md:text-3xl text-primary font-bold tracking-wider hover:opacity-90 transition-opacity flex items-center gap-1.5 font-sans">
+                <span>A</span><span class="text-secondary text-2xl md:text-3xl animate-pulse inline-block">❤️</span><span>S</span>
             </a>
-            <nav class="hidden md:flex items-center gap-md">
-                <a class="text-secondary border-b-2 border-secondary pb-1 hover:bg-primary-container/20 rounded-full px-4 py-2"
+            <!-- Desktop Navigation (English) -->
+            <nav class="hidden md:flex items-center gap-2 lg:gap-3 font-semibold text-sm font-sans">
+                <a class="text-secondary border-b-2 border-secondary bg-primary-container/40 rounded-full px-4 py-2 font-bold transition-colors"
                     href="index.html">Home</a>
                 <a class="text-on-surface-variant hover:text-primary transition-colors hover:bg-primary-container/20 rounded-full px-4 py-2"
                     href="timeline.html">Timeline</a>
                 <a class="text-on-surface-variant hover:text-primary transition-colors hover:bg-primary-container/20 rounded-full px-4 py-2"
                     href="gallery.html">Gallery</a>
-                <a class="text-on-surface-variant hover:text-primary transition-colors hover:bg-primary-container/20 rounded-full px-4 py-2 font-cairo"
-                    href="letter.html">رسالة</a>
+                <a class="text-on-surface-variant hover:text-primary transition-colors hover:bg-primary-container/20 rounded-full px-4 py-2"
+                    href="letter.html">Letter</a>
             </nav>
+            <!-- Action Button -->
             <a href="timeline.html"
-                class="text-primary font-label-md text-label-md hover:bg-primary-container/20 rounded-full px-6 py-2 border border-secondary/30 hidden md:inline-block transition-transform duration-300 active:scale-95">
-                Our Story
+                class="text-primary font-bold text-sm hover:bg-primary-container/30 rounded-full px-5 py-2 border border-secondary/30 hidden md:inline-flex items-center gap-1.5 transition-transform active:scale-95 font-sans">
+                <span>Our Story</span><span>♡</span>
             </a>
             <!-- Mobile Menu Toggle -->
-            <button class="md:hidden text-primary p-2"
-                onclick="document.getElementById('mobile-menu').classList.toggle('hidden')">
-                <span class="material-symbols-outlined">menu</span>
+            <button class="md:hidden text-primary p-2 focus:outline-none"
+                onclick="document.getElementById('mobile-menu').classList.toggle('hidden')" aria-label="Toggle Navigation">
+                <span class="material-symbols-outlined text-2xl">menu</span>
             </button>
         </div>
-        <!-- Mobile Menu dropdown -->
+        <!-- Mobile Menu Dropdown (English) -->
         <div id="mobile-menu"
-            class="hidden md:hidden bg-[#fff0f5]/95 backdrop-blur-md border-b border-[#fbcfe8]/70 px-gutter py-4 flex flex-col gap-2">
-            <a class="text-secondary font-bold px-4 py-2 rounded-lg bg-primary-container/20" href="index.html">Home</a>
-            <a class="text-on-surface-variant hover:text-primary px-4 py-2 rounded-lg" href="timeline.html">Timeline</a>
-            <a class="text-on-surface-variant hover:text-primary px-4 py-2 rounded-lg" href="gallery.html">Gallery</a>
-            <a class="text-on-surface-variant hover:text-primary px-4 py-2 rounded-lg font-cairo"
-                href="letter.html">رسالة</a>
+            class="hidden md:hidden bg-[#fff0f5]/95 backdrop-blur-lg border-b border-[#fbcfe8]/70 px-6 py-4 flex flex-col gap-2 font-semibold text-base shadow-lg font-sans">
+            <a class="text-secondary bg-primary-container/40 px-4 py-2.5 rounded-xl font-bold"
+                href="index.html">Home</a>
+            <a class="text-on-surface-variant hover:text-primary hover:bg-primary-container/20 px-4 py-2.5 rounded-xl"
+                href="timeline.html">Timeline</a>
+            <a class="text-on-surface-variant hover:text-primary hover:bg-primary-container/20 px-4 py-2.5 rounded-xl"
+                href="gallery.html">Gallery</a>
+            <a class="text-on-surface-variant hover:text-primary hover:bg-primary-container/20 px-4 py-2.5 rounded-xl"
+                href="letter.html">Letter</a>
+            <a class="text-primary border border-secondary/30 px-4 py-2.5 rounded-xl text-center font-bold mt-1 bg-white/50"
+                href="timeline.html">Our Story ♡</a>
         </div>
     </header>
     <!-- Main Content -->
     <main
-        class="relative z-10 flex flex-col items-center justify-center min-h-screen pt-24 px-gutter text-center overflow-hidden">
+        class="relative z-10 flex flex-col items-center justify-center min-h-screen pt-28 md:pt-32 pb-24 px-gutter text-center overflow-hidden">
         <!-- 3D Heart Container (Managed seamlessly by shared.js) -->
         <div class="absolute inset-0 z-0 pointer-events-none flex items-center justify-center opacity-90"
             id="threejs-hero-heart"></div>
         <div
-            class="relative z-20 flex flex-col items-center py-10 sm:py-16 px-4 sm:px-6 mt-4 sm:mt-8 bg-white/30 backdrop-blur-[6px] rounded-3xl border border-white/50 shadow-2xl max-w-4xl w-full text-center">
+            class="hero-card-container relative z-20 flex flex-col items-center py-10 sm:py-16 px-4 sm:px-6 mt-4 sm:mt-8 bg-white/30 backdrop-blur-[6px] rounded-3xl border border-white/50 shadow-2xl max-w-4xl w-full text-center cursor-pointer transition-transform duration-300">
             <span
-                class="inline-block bg-primary-container text-on-primary-container font-label-md text-xs md:text-sm px-4 py-1.5 rounded-full mb-4 shadow-sm font-cairo">
+                class="hero-badge inline-block bg-primary-container text-on-primary-container font-label-md text-xs md:text-sm px-4 py-1.5 rounded-full mb-4 shadow-sm font-cairo">
                 بدأت الحكاية يوم 6 نوفمبر 2022 ❤️
             </span>
             <h1
                 class="text-primary mb-3 md:mb-4 max-w-3xl drop-shadow-sm tracking-wide leading-tight text-center w-full">
                 <div
-                    class="font-display-lg text-2xl sm:text-4xl md:text-5xl lg:text-display-lg flex items-center justify-center gap-2 md:gap-3 whitespace-nowrap flex-nowrap leading-none py-1">
+                    class="hero-title-name font-display-lg text-2xl sm:text-4xl md:text-5xl lg:text-display-lg flex items-center justify-center gap-2 md:gap-3 whitespace-nowrap flex-nowrap leading-none py-1">
                     <span>Alfy</span>
                     <span
                         class="text-secondary animate-pulse inline-block text-xl sm:text-3xl md:text-4xl mx-1">❤️</span>
@@ -411,7 +284,7 @@ void main() {
 
             <!-- Real-time Love Counter Widget (Mobile Responsive) -->
             <div
-                class="mb-8 md:mb-10 w-full max-w-md md:max-w-lg bg-white/40 backdrop-blur-md rounded-2xl p-3.5 sm:p-5 md:p-6 border border-[#fbcfe8] shadow-lg shadow-secondary/10">
+                class="counter-box mb-8 md:mb-10 w-full max-w-md md:max-w-lg bg-white/40 backdrop-blur-md rounded-2xl p-3.5 sm:p-5 md:p-6 border border-[#fbcfe8] shadow-lg shadow-secondary/10">
                 <h3 class="text-sm sm:text-base text-secondary font-bold mb-3 sm:mb-4 font-cairo flex items-center justify-center gap-2"
                     style="letter-spacing: normal;">
                     <span class="text-base sm:text-lg">⏳</span>
@@ -460,7 +333,7 @@ void main() {
         class="relative z-10 bg-[#fff0f5]/70 backdrop-blur-md border-t border-[#fbcfe8]/70 w-full py-16 flex flex-col items-center gap-8 text-center px-gutter mt-24 mb-20">
         <div
             class="font-headline-sm text-2xl md:text-3xl text-primary tracking-widest uppercase flex items-center gap-2">
-            <span>Y</span><span class="text-secondary text-2xl">❤️</span><span>A</span>
+            <span>A</span><span class="text-secondary text-2xl">❤️</span><span>S</span>
         </div>
         <div class="flex gap-12 font-body-md text-on-surface-variant">
         </div>
