@@ -138,6 +138,131 @@
                 transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
             }
 
+            /* Responsive Album Modal Styling */
+            .album-modal-header {
+                position: sticky;
+                top: 0;
+                width: 100%;
+                background: rgba(255, 255, 255, 0.94);
+                backdrop-filter: blur(16px);
+                -webkit-backdrop-filter: blur(16px);
+                border-bottom: 1px solid #fbcfe8;
+                padding: max(0.85rem, env(safe-area-inset-top, 0.85rem)) 1.25rem 0.85rem 1.25rem;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                z-index: 20;
+                box-shadow: 0 4px 20px rgba(164, 48, 115, 0.08);
+                gap: 0.75rem;
+            }
+            .album-modal-title-box {
+                display: flex;
+                align-items: center;
+                gap: 0.6rem;
+                min-width: 0;
+                flex: 1;
+            }
+            .album-modal-icon {
+                width: 2.35rem;
+                height: 2.35rem;
+                border-radius: 9999px;
+                background: #fbcfe8;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: #a43073;
+                flex-shrink: 0;
+            }
+            .album-modal-heading {
+                margin: 0;
+                font-size: 1.15rem;
+                font-weight: 700;
+                color: #765469;
+                font-family: 'Cairo', 'Playfair Display', serif;
+                line-height: 1.3;
+            }
+            .album-modal-subtitle {
+                font-size: 0.78rem;
+                color: #a43073;
+                font-weight: 600;
+                font-family: 'Cairo', sans-serif;
+                display: block;
+                margin-top: 0.1rem;
+            }
+            .album-modal-close-btn {
+                background: #ffffff;
+                border: 1px solid #fbcfe8;
+                color: #a43073;
+                padding: 0.5rem 1rem;
+                border-radius: 9999px;
+                font-weight: 700;
+                font-size: 0.85rem;
+                cursor: pointer;
+                display: inline-flex;
+                align-items: center;
+                gap: 0.35rem;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+                font-family: 'Cairo', sans-serif;
+                transition: all 0.2s;
+                flex-shrink: 0;
+                white-space: nowrap;
+            }
+            .album-photos-container {
+                max-width: 1200px;
+                width: 100%;
+                margin: 0 auto;
+                padding: 1.75rem 1.25rem 6rem 1.25rem;
+                flex-grow: 1;
+            }
+            .album-photos-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+                gap: 1.5rem;
+            }
+
+            @media (max-width: 640px) {
+                .album-modal-header {
+                    padding: max(0.65rem, env(safe-area-inset-top, 0.65rem)) 0.75rem 0.65rem 0.75rem !important;
+                    gap: 0.5rem !important;
+                }
+                .album-modal-icon {
+                    width: 2rem !important;
+                    height: 2rem !important;
+                }
+                .album-modal-icon span {
+                    font-size: 1.15rem !important;
+                }
+                .album-modal-heading {
+                    font-size: 0.92rem !important;
+                    line-height: 1.25 !important;
+                }
+                .album-modal-subtitle {
+                    font-size: 0.7rem !important;
+                }
+                .album-modal-close-btn {
+                    padding: 0.4rem 0.75rem !important;
+                    font-size: 0.78rem !important;
+                    gap: 0.25rem !important;
+                }
+                .album-modal-close-btn span.material-symbols-outlined {
+                    font-size: 1rem !important;
+                }
+                .album-photos-container {
+                    padding: 1rem 0.75rem 5.5rem 0.75rem !important;
+                }
+                .album-photos-grid {
+                    grid-template-columns: 1fr !important;
+                    gap: 1rem !important;
+                }
+                .lightbox-nav-btn {
+                    width: 2.5rem !important;
+                    height: 2.5rem !important;
+                }
+                .lightbox-nav-btn span {
+                    font-size: 1.4rem !important;
+                }
+            }
+
             /* Floating Hearts */
             .floating-heart {
                 position: absolute;
@@ -304,13 +429,22 @@
             { src: 'assets/2025/2025_memory_1.jpg', caption: 'أحلى سهرة واحتفال في 2025 ✨' }
         ],
         '2026': [
-            { src: 'assets/2026/2026_memory_1.jpg', caption: '🌸 ضحكات ولحظات مميزة مع القمر سوسو ✨' },
-            { src: 'assets/2026/2026_memory_2.jpg', caption: '💖 أحلى الذكريات والأوقات سوا في 2026 🌹' },
-            { src: 'assets/2026/2026_memory_3.jpg', caption: '✨ جمالك ونورك اللي منوّر كل أيامي 🌙' },
-            { src: 'assets/2026/2026_memory_4.jpg', caption: '🌹 فرحتي معاكي في كل لحظة وفي كل مكان ❤️' },
-            { src: 'assets/2026/2026_memory_5.jpg', caption: '💖 ابتسامة سارة اللي بتاخد العقل وتخطف القلب ✨' },
-            { src: 'assets/2026/2026_memory_6.jpg', caption: '🌸 الراحة والأمان والضحكة الحلوة في عيونك ❤️' },
-            { src: 'assets/2026/2026_memory_7.jpg', caption: '💍 كل يوم في 2026 معاكي بداية جديدة للحبيبة الغالية ✨' }
+            { src: 'assets/2026/2026_memory_1.jpg', caption: '🌸 ضحكات ولحظات مميزة مع القمر سوسو ✨', pos: 'center 75%' },
+            { src: 'assets/2026/2026_memory_2.jpg', caption: '💖 أحلى الذكريات والأوقات سوا في 2026 🌹', pos: 'center 60%' },
+            { src: 'assets/2026/2026_memory_3.jpg', caption: '✨ جمالك ونورك اللي منوّر كل أيامي 🌙', pos: 'center 20%' },
+            { src: 'assets/2026/2026_memory_4.jpg', caption: '🌹 فرحتي معاكي في كل لحظة وفي كل مكان ❤️', pos: 'center 30%' },
+            { src: 'assets/2026/2026_memory_5.jpg', caption: '💖 ابتسامة سارة اللي بتاخد العقل وتخطف القلب ✨', pos: 'center 25%' },
+            { src: 'assets/2026/2026_memory_6.jpg', caption: '🌸 الراحة والأمان والضحكة الحلوة في عيونك ❤️', pos: 'center 30%' },
+            { src: 'assets/2026/2026_memory_7.jpg', caption: '💍 كل يوم في 2026 معاكي بداية جديدة للحبيبة الغالية ✨', pos: 'center 25%' },
+            { src: 'assets/2026/2026_memory_8.jpg', caption: '🚗 أحلى حركة وضحكة شقاوة في العربية مع سوسو القمر ❤️', pos: 'center 75%' },
+            { src: 'assets/2026/2026_memory_9.jpg', caption: '🌅 لقطة غروب ساحرة على البحر مع سارة حبيبتي ✨', pos: 'center 30%' },
+            { src: 'assets/2026/2026_memory_10.jpg', caption: '🌙 أجواء رمضان الجميلة مع سوسو ونور الفوانيس 💖', pos: 'center 25%' },
+            { src: 'assets/2026/2026_memory_11.jpg', caption: '🎂 أحلى عيد ميلاد (20) لأغلى وأجمل سارة في الدنيا 🎈🌹', pos: 'center 35%' },
+            { src: 'assets/2026/2026_memory_12.jpg', caption: '🪞 سيلفي المرايا الحلو والورد منوّر الصورة بجمالك ❤️', pos: 'center 30%' },
+            { src: 'assets/2026/2026_memory_13.jpg', caption: '🍳 أحلى فطار شرقي وفطير مشلتت مع القمر سوسو 😋❤️', pos: 'center 25%' },
+            { src: 'assets/2026/2026_memory_14.jpg', caption: '🧃 سوسو وحركات الشقاوة مع عصير سيتي درينك الفريش 🍍✨', pos: 'center 25%' },
+            { src: 'assets/2026/2026_memory_15.jpg', caption: '🕌 انعكاس سيلفي خطير في قبة الفانوس الذهبي المميز 🌙💖', pos: 'center 40%' },
+            { src: 'assets/2026/2026_memory_16.jpg', caption: '✨ أحلى سيلفي وحركات الدك فيس سوا في سهرة بالليل 🌙❤️', pos: 'center 25%' }
         ]
     };
 
@@ -339,35 +473,35 @@
 
         modal.innerHTML = `
             <!-- Sticky Modal Header -->
-            <div style="position:sticky; top:0; width:100%; background:rgba(255,255,255,0.92); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); border-bottom:1px solid #fbcfe8; padding:1rem 1.5rem; display:flex; align-items:center; justify-content:space-between; z-index:20; box-shadow:0 4px 20px rgba(164,48,115,0.08);">
-                <div style="display:flex; align-items:center; gap:0.75rem;">
-                    <div style="width:2.5rem; height:2.5rem; border-radius:9999px; background:#fbcfe8; display:flex; align-items:center; justify-content:center; color:#a43073;">
-                        <span class="material-symbols-outlined" style="font-size:1.4rem;">photo_library</span>
+            <div class="album-modal-header">
+                <div class="album-modal-title-box">
+                    <div class="album-modal-icon">
+                        <span class="material-symbols-outlined">photo_library</span>
                     </div>
-                    <div>
-                        <h3 style="margin:0; font-size:1.25rem; font-weight:700; color:#765469; font-family:'Playfair Display', serif;">ذكريات ${year} • Alfy & Soso ❤️</h3>
-                        <span style="font-size:0.8rem; color:#a43073; font-weight:600; font-family:'Cairo', sans-serif;">${photos.length} ذكريات وصور مسجلة</span>
+                    <div style="min-width:0; flex:1;">
+                        <h3 class="album-modal-heading">ذكريات ${year} • Alfy & Soso ❤️</h3>
+                        <span class="album-modal-subtitle">${photos.length} ذكريات وصور مسجلة</span>
                     </div>
                 </div>
-                <button onclick="closeGalleryModal()" style="background:#ffffff; border:1px solid #fbcfe8; color:#a43073; padding:0.6rem 1.25rem; border-radius:9999px; font-weight:700; font-size:0.9rem; cursor:pointer; display:flex; align-items:center; gap:0.4rem; box-shadow:0 2px 8px rgba(0,0,0,0.06); font-family:'Cairo', sans-serif; transition:all 0.2s;">
-                    <span class="material-symbols-outlined" style="font-size:1.1rem;">close</span>
+                <button onclick="closeGalleryModal()" class="album-modal-close-btn">
+                    <span class="material-symbols-outlined">close</span>
                     <span>إغلاق الألبوم</span>
                 </button>
             </div>
 
             <!-- Photos Grid -->
-            <div style="max-width:1200px; width:100%; margin:0 auto; padding:2rem 1.5rem 6rem 1.5rem; flex-grow:1;">
-                <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:1.75rem;">
+            <div class="album-photos-container">
+                <div class="album-photos-grid">
                     ${photos.map((p, i) => `
                         <div onclick="openPhotoLightbox('${year}', ${i})" style="background:#ffffff; border:1px solid #fbcfe8; border-radius:1.25rem; overflow:hidden; box-shadow:0 10px 25px -5px rgba(164,48,115,0.12); cursor:pointer; transition:all 0.3s; position:relative;" onmouseover="this.style.transform='translateY(-6px)'; this.style.boxShadow='0 18px 35px -5px rgba(164,48,115,0.22)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 25px -5px rgba(164,48,115,0.12)'">
-                            <div style="position:relative; aspect-ratio:4/3; overflow:hidden; background:#fdf2f8;">
-                                <img src="${p.src}" alt="${p.caption || 'Memory'}" style="width:100%; height:100%; object-fit:cover; object-position:top; display:block; transition:transform 0.5s;" onmouseover="this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'"/>
-                                <div style="position:absolute; top:0.75rem; right:0.75rem; background:rgba(0,0,0,0.5); backdrop-filter:blur(6px); color:#ffffff; font-size:0.75rem; font-weight:600; padding:0.25rem 0.6rem; border-radius:9999px; font-family:'Cairo', sans-serif;">
+                            <div style="position:relative; aspect-ratio:4/5; overflow:hidden; background:#fdf2f8;">
+                                <img src="${p.src}" alt="${p.caption || 'Memory'}" style="width:100%; height:100%; object-fit:cover; object-position:${p.pos || 'center 30%'}; display:block; transition:transform 0.5s;" onmouseover="this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'"/>
+                                <div style="position:absolute; top:0.6rem; right:0.6rem; background:rgba(0,0,0,0.55); backdrop-filter:blur(6px); color:#ffffff; font-size:0.72rem; font-weight:600; padding:0.2rem 0.55rem; border-radius:9999px; font-family:'Cairo', sans-serif;">
                                     🔍 اضغط للتكبير
                                 </div>
                             </div>
-                            <div style="padding:1.15rem; text-align:center;">
-                                <p style="margin:0; font-size:0.95rem; font-weight:600; color:#765469; font-family:'Cairo', sans-serif; line-height:1.5;" dir="rtl">${p.caption || ''}</p>
+                            <div style="padding:1rem; text-align:center;">
+                                <p style="margin:0; font-size:0.92rem; font-weight:600; color:#765469; font-family:'Cairo', sans-serif; line-height:1.4;" dir="rtl">${p.caption || ''}</p>
                             </div>
                         </div>
                     `).join('')}
@@ -410,35 +544,35 @@
 
         lightbox.innerHTML = `
             <!-- Top Bar -->
-            <div style="position:absolute; top:1rem; left:1rem; right:1rem; display:flex; justify-content:space-between; align-items:center; z-index:30;">
-                <span style="color:#ffffff; font-weight:700; font-size:0.95rem; background:rgba(255,255,255,0.15); padding:0.4rem 1rem; border-radius:9999px; font-family:'Cairo', sans-serif;" dir="rtl">
+            <div style="position:absolute; top:max(0.75rem, env(safe-area-inset-top)); left:0.75rem; right:0.75rem; display:flex; justify-content:space-between; align-items:center; z-index:30;">
+                <span style="color:#ffffff; font-weight:700; font-size:0.85rem; background:rgba(255,255,255,0.18); backdrop-filter:blur(8px); padding:0.35rem 0.85rem; border-radius:9999px; font-family:'Cairo', sans-serif;" dir="rtl">
                     صورة ${idx + 1} من ${photos.length} (${year})
                 </span>
-                <button onclick="closePhotoLightbox()" style="background:#ffffff; border:none; color:#1e293b; width:2.5rem; height:2.5rem; border-radius:9999px; display:flex; align-items:center; justify-content:center; cursor:pointer; font-weight:bold; box-shadow:0 4px 12px rgba(0,0,0,0.3);">
-                    <span class="material-symbols-outlined">close</span>
+                <button onclick="closePhotoLightbox()" style="background:#ffffff; border:none; color:#1e293b; width:2.25rem; height:2.25rem; border-radius:9999px; display:flex; align-items:center; justify-content:center; cursor:pointer; font-weight:bold; box-shadow:0 4px 12px rgba(0,0,0,0.3); flex-shrink:0;">
+                    <span class="material-symbols-outlined" style="font-size:1.2rem;">close</span>
                 </button>
             </div>
 
             <!-- Image & Navigation Arrows -->
-            <div style="position:relative; max-width:90vw; max-height:75vh; display:flex; align-items:center; justify-content:center;">
+            <div style="position:relative; width:100%; max-width:92vw; max-height:68vh; display:flex; align-items:center; justify-content:center;">
                 ${photos.length > 1 ? `
-                    <button onclick="navigateLightbox(-1)" style="position:absolute; right:-1rem; md:right:-3rem; background:rgba(255,255,255,0.25); hover:background:rgba(255,255,255,0.5); border:none; color:#ffffff; width:3rem; height:3rem; border-radius:9999px; display:flex; align-items:center; justify-content:center; cursor:pointer; z-index:30; backdrop-filter:blur(8px);">
-                        <span class="material-symbols-outlined" style="font-size:1.8rem;">chevron_right</span>
+                    <button onclick="navigateLightbox(-1)" class="lightbox-nav-btn" style="position:absolute; right:0.25rem; background:rgba(255,255,255,0.25); border:none; color:#ffffff; width:2.75rem; height:2.75rem; border-radius:9999px; display:flex; align-items:center; justify-content:center; cursor:pointer; z-index:30; backdrop-filter:blur(8px); box-shadow:0 4px 12px rgba(0,0,0,0.25);">
+                        <span class="material-symbols-outlined" style="font-size:1.6rem;">chevron_right</span>
                     </button>
                 ` : ''}
 
-                <img id="lightbox-img" src="${photo.src}" alt="${photo.caption}" style="max-width:100%; max-height:75vh; border-radius:1rem; object-fit:contain; box-shadow:0 25px 60px rgba(0,0,0,0.6); border:2px solid rgba(255,255,255,0.2);"/>
+                <img id="lightbox-img" src="${photo.src}" alt="${photo.caption}" style="max-width:100%; max-height:68vh; border-radius:1rem; object-fit:contain; box-shadow:0 25px 60px rgba(0,0,0,0.6); border:1.5px solid rgba(255,255,255,0.2);"/>
 
                 ${photos.length > 1 ? `
-                    <button onclick="navigateLightbox(1)" style="position:absolute; left:-1rem; md:left:-3rem; background:rgba(255,255,255,0.25); hover:background:rgba(255,255,255,0.5); border:none; color:#ffffff; width:3rem; height:3rem; border-radius:9999px; display:flex; align-items:center; justify-content:center; cursor:pointer; z-index:30; backdrop-filter:blur(8px);">
-                        <span class="material-symbols-outlined" style="font-size:1.8rem;">chevron_left</span>
+                    <button onclick="navigateLightbox(1)" class="lightbox-nav-btn" style="position:absolute; left:0.25rem; background:rgba(255,255,255,0.25); border:none; color:#ffffff; width:2.75rem; height:2.75rem; border-radius:9999px; display:flex; align-items:center; justify-content:center; cursor:pointer; z-index:30; backdrop-filter:blur(8px); box-shadow:0 4px 12px rgba(0,0,0,0.25);">
+                        <span class="material-symbols-outlined" style="font-size:1.6rem;">chevron_left</span>
                     </button>
                 ` : ''}
             </div>
 
             <!-- Bottom Caption -->
-            <div style="margin-top:1.25rem; max-width:36rem; text-align:center; padding:0.75rem 1.5rem; background:rgba(255,255,255,0.12); backdrop-filter:blur(10px); border-radius:9999px; border:1px solid rgba(255,255,255,0.2);">
-                <p id="lightbox-caption" style="color:#ffffff; margin:0; font-size:1.05rem; font-weight:600; font-family:'Cairo', sans-serif; line-height:1.4;" dir="rtl">
+            <div style="margin-top:1rem; max-width:90vw; text-align:center; padding:0.6rem 1.25rem; background:rgba(255,255,255,0.15); backdrop-filter:blur(12px); border-radius:9999px; border:1px solid rgba(255,255,255,0.25);">
+                <p id="lightbox-caption" style="color:#ffffff; margin:0; font-size:0.9rem; font-weight:600; font-family:'Cairo', sans-serif; line-height:1.4;" dir="rtl">
                     ${photo.caption || ''}
                 </p>
             </div>
