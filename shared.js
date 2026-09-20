@@ -806,6 +806,13 @@
                 .animate-projector {
                     animation: projectorFlicker 3.2s ease-in-out infinite;
                 }
+                #chat-messages-container {
+                    scrollbar-width: none !important;
+                    -ms-overflow-style: none !important;
+                }
+                #chat-messages-container::-webkit-scrollbar {
+                    display: none !important;
+                }
             `;
             document.head.appendChild(style);
         }
@@ -942,34 +949,34 @@
                 </div>
 
                 <!-- Chat Messages Body -->
-                <div id="chat-messages-container" class="p-3 sm:p-4 h-[315px] sm:h-[370px] flex flex-col justify-end gap-2.5 sm:gap-3 overflow-hidden relative font-cairo">
+                <div id="chat-messages-container" class="p-3 sm:p-4 h-[340px] sm:h-[390px] flex flex-col gap-2.5 sm:gap-3 overflow-y-auto relative font-cairo">
                     
                     <!-- Bubble 1: Soso -->
-                    <div id="msg-bubble-1" class="self-start max-w-[88%] sm:max-w-[85%] bg-[#2b1b30] text-[#fce7f3] border border-white/10 rounded-2xl rounded-tl-sm px-3.5 py-2 sm:px-4 sm:py-2.5 shadow-sm opacity-0 transform translate-y-3">
+                    <div id="msg-bubble-1" style="display: none;" class="self-start max-w-[88%] sm:max-w-[85%] bg-[#2b1b30] text-[#fce7f3] border border-white/10 rounded-2xl rounded-tl-sm px-3.5 py-2 sm:px-4 sm:py-2.5 shadow-sm opacity-0 transform translate-y-3">
                         <p class="text-xs sm:text-base leading-snug">ألفي.. فاكر أول يوم اتقابلنا فيه؟ 🥺❤️</p>
                         <span class="text-[9px] sm:text-[10px] text-white/40 block text-right mt-1 font-mono tracking-tighter">12:00 AM</span>
                     </div>
 
                     <!-- Bubble 2: Alfy -->
-                    <div id="msg-bubble-2" class="self-end max-w-[90%] sm:max-w-[88%] bg-gradient-to-r from-secondary to-[#85145a] text-white rounded-2xl rounded-tr-sm px-3.5 py-2 sm:px-4 sm:py-2.5 shadow-md opacity-0 transform translate-y-3">
+                    <div id="msg-bubble-2" style="display: none;" class="self-end max-w-[90%] sm:max-w-[88%] bg-gradient-to-r from-secondary to-[#85145a] text-white rounded-2xl rounded-tr-sm px-3.5 py-2 sm:px-4 sm:py-2.5 shadow-md opacity-0 transform translate-y-3">
                         <p class="text-xs sm:text-base leading-snug">يوم 6 نوفمبر 2022.. هو في يوم يتنسي؟ ده بداية كل حاجة حلوة في عمري ❤️</p>
                         <span class="text-[9px] sm:text-[10px] text-white/70 block text-right mt-1 font-mono tracking-tighter">12:00 AM ✓✓</span>
                     </div>
 
                     <!-- Bubble 3: Soso -->
-                    <div id="msg-bubble-3" class="self-start max-w-[88%] sm:max-w-[85%] bg-[#2b1b30] text-[#fce7f3] border border-white/10 rounded-2xl rounded-tl-sm px-3.5 py-2 sm:px-4 sm:py-2.5 shadow-sm opacity-0 transform translate-y-3">
+                    <div id="msg-bubble-3" style="display: none;" class="self-start max-w-[88%] sm:max-w-[85%] bg-[#2b1b30] text-[#fce7f3] border border-white/10 rounded-2xl rounded-tl-sm px-3.5 py-2 sm:px-4 sm:py-2.5 shadow-sm opacity-0 transform translate-y-3">
                         <p class="text-xs sm:text-base leading-snug">أربع سنين عدّوا جنبك كأنهم حلم جميل.. بحبك أوي ✨</p>
                         <span class="text-[9px] sm:text-[10px] text-white/40 block text-right mt-1 font-mono tracking-tighter">12:01 AM</span>
                     </div>
 
                     <!-- Bubble 4: Alfy -->
-                    <div id="msg-bubble-4" class="self-end max-w-[90%] sm:max-w-[88%] bg-gradient-to-r from-secondary to-[#85145a] text-white rounded-2xl rounded-tr-sm px-3.5 py-2 sm:px-4 sm:py-2.5 shadow-md opacity-0 transform translate-y-3">
+                    <div id="msg-bubble-4" style="display: none;" class="self-end max-w-[90%] sm:max-w-[88%] bg-gradient-to-r from-secondary to-[#85145a] text-white rounded-2xl rounded-tr-sm px-3.5 py-2 sm:px-4 sm:py-2.5 shadow-md opacity-0 transform translate-y-3">
                         <p class="text-xs sm:text-base leading-snug">عشان كدا عملتلك المكان ده مخصوص عشانك.. وجمعتلك فيه كل ذكرياتنا 🌸</p>
                         <span class="text-[9px] sm:text-[10px] text-white/70 block text-right mt-1 font-mono tracking-tighter">12:01 AM ✓✓</span>
                     </div>
 
                     <!-- Bubble 5: Secret Lock Climax Message -->
-                    <div id="msg-bubble-5" class="self-center w-full bg-gradient-to-r from-[#fc79bd]/25 to-[#ff2a6d]/30 border border-[#ffafd3]/50 rounded-2xl p-3 sm:p-3.5 text-center shadow-[0_0_30px_rgba(255,42,109,0.35)] opacity-0 transform translate-y-3">
+                    <div id="msg-bubble-5" style="display: none;" class="self-center w-full bg-gradient-to-r from-[#fc79bd]/25 to-[#ff2a6d]/30 border border-[#ffafd3]/50 rounded-2xl p-3 sm:p-3.5 text-center shadow-[0_0_30px_rgba(255,42,109,0.35)] opacity-0 transform translate-y-3">
                         <div class="flex items-center justify-center gap-1.5 text-secondary-container font-bold text-[11px] sm:text-xs mb-1">
                             <span class="material-symbols-outlined text-xs sm:text-sm animate-pulse text-[#fc79bd]">lock</span>
                             <span class="text-[#fc79bd]">رسالة مشفرة ومقفولة</span>
@@ -978,7 +985,7 @@
                     </div>
 
                     <!-- Typing Indicator -->
-                    <div id="chat-typing-dots" class="self-start px-3 py-1.5 sm:px-3.5 sm:py-2 bg-[#2b1b30] rounded-2xl rounded-tl-sm border border-white/10 opacity-0 transition-opacity">
+                    <div id="chat-typing-dots" style="display: none;" class="self-start px-3 py-1.5 sm:px-3.5 sm:py-2 bg-[#2b1b30] rounded-2xl rounded-tl-sm border border-white/10 opacity-0 transition-opacity">
                         <div class="flex items-center gap-1">
                             <span class="w-1.5 h-1.5 rounded-full bg-[#fc79bd] animate-bounce"></span>
                             <span class="w-1.5 h-1.5 rounded-full bg-[#fc79bd] animate-bounce [animation-delay:0.2s]"></span>
@@ -1185,18 +1192,30 @@
             };
         }
 
-        // --- PHASE 2: WhatsApp Chat Sequence (6.5s) ---
+        // --- PHASE 2: WhatsApp Chat Sequence ---
+        function scrollChatToBottom() {
+            const container = document.getElementById('chat-messages-container');
+            if (container) {
+                container.scrollTo({ top: container.scrollHeight, behavior: 'smooth' });
+            }
+        }
+
         function showBubble(bubble, soundType) {
             if (!bubble || isTransitioned) return;
+            bubble.style.display = 'block';
+            void bubble.offsetWidth; // Force layout recalculation
             bubble.classList.add('chat-bubble-in');
             bubble.style.opacity = '1';
             bubble.style.transform = 'translateY(0)';
             if (soundType) playChatSound(soundType);
+            scrollChatToBottom();
         }
 
         function setTyping(visible, isRight = false) {
             if (!typingDots || isTransitioned) return;
             if (visible) {
+                typingDots.style.display = 'block';
+                void typingDots.offsetWidth;
                 typingDots.style.opacity = '1';
                 if (isRight) {
                     typingDots.classList.remove('self-start', 'rounded-tl-sm');
@@ -1205,32 +1224,34 @@
                     typingDots.classList.remove('self-end', 'rounded-tr-sm', 'bg-secondary/40');
                     typingDots.classList.add('self-start', 'rounded-tl-sm', 'bg-[#2b1b30]');
                 }
+                scrollChatToBottom();
             } else {
                 typingDots.style.opacity = '0';
+                typingDots.style.display = 'none';
             }
         }
 
         function startChatSequence() {
             if (isTransitioned) return;
 
-            // Animate Story Progress Bar (0 to 100% over 6.5s)
+            // Animate Story Progress Bar (0 to 100% over 7.0s)
             if (progressFill) {
-                progressFill.style.transition = 'width 6.5s linear';
+                progressFill.style.transition = 'width 7.0s linear';
                 requestAnimationFrame(() => {
                     progressFill.style.width = '100%';
                 });
             }
 
-            // Scripted Conversation Timeline
-            chatTimeouts.push(setTimeout(() => { showBubble(b1, 'in'); }, 500));
+            // Scripted Conversation Timeline (Bubble 1 appears immediately at 350ms, perfectly visible at top)
+            chatTimeouts.push(setTimeout(() => { showBubble(b1, 'in'); }, 350));
             chatTimeouts.push(setTimeout(() => { setTyping(true, true); }, 1300));
             chatTimeouts.push(setTimeout(() => { setTyping(false); showBubble(b2, 'out'); }, 2000));
             chatTimeouts.push(setTimeout(() => { setTyping(true, false); }, 2900));
             chatTimeouts.push(setTimeout(() => { setTyping(false); showBubble(b3, 'in'); }, 3600));
             chatTimeouts.push(setTimeout(() => { setTyping(true, true); }, 4400));
-            chatTimeouts.push(setTimeout(() => { setTyping(false); showBubble(b4, 'out'); }, 5000));
-            chatTimeouts.push(setTimeout(() => { showBubble(b5, 'lock'); }, 5700));
-            chatTimeouts.push(setTimeout(() => { morphToPasscode(); }, 6600));
+            chatTimeouts.push(setTimeout(() => { setTyping(false); showBubble(b4, 'out'); }, 5100));
+            chatTimeouts.push(setTimeout(() => { showBubble(b5, 'lock'); }, 5800));
+            chatTimeouts.push(setTimeout(() => { morphToPasscode(); }, 7100));
         }
 
         // Function to smoothly morph from Chat to Passcode Card
