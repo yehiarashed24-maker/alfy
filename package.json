@@ -1,0 +1,27 @@
+{
+  "name": "alfy",
+  "version": "1.0.0",
+  "description": "",
+  "main": "shared.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yehiarashed24-maker/alfy.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/yehiarashed24-maker/alfy/issues"
+  },
+  "homepage": "https://github.com/yehiarashed24-maker/alfy#readme",
+  "dependencies": {
+    "canvas-confetti": "^1.9.4",
+    "gsap": "^3.15.0",
+    "tsparticles": "^4.4.0",
+    "tsparticles-engine": "^2.12.0"
+  }
+}

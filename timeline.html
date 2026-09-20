@@ -10,6 +10,8 @@
     <meta name="apple-mobile-web-app-title" content="A ❤️ S" />
     <meta name="theme-color" content="#fff0f5" />
     <title>A ❤️ S - Timeline of Us</title>
+    <script src="assets/vendor/confetti.browser.js"></script>
+    <script src="assets/vendor/gsap.min.js"></script>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link
         href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Inter:wght@400;500;600&family=Playfair+Display:wght@500;600;700&family=Tajawal:wght@500;700;800&display=swap"
@@ -211,7 +213,7 @@
 
             .timeline-track,
             .timeline-glowing-progress {
-                left: 24px;
+                display: none;
             }
         }
     </style>
@@ -225,12 +227,14 @@
 
     <!-- Unified Navigation Bar -->
     <header
-        class="bg-[#fff0f5]/85 backdrop-blur-md fixed top-0 w-full z-50 border-b border-[#fbcfe8]/70 shadow-sm shadow-secondary/10 font-sans" dir="ltr">
+        class="bg-[#fff0f5]/85 backdrop-blur-md fixed top-0 w-full z-50 border-b border-[#fbcfe8]/70 shadow-sm shadow-secondary/10 font-sans"
+        dir="ltr">
         <div class="max-w-6xl mx-auto px-6 h-20 flex justify-between items-center">
             <!-- Brand Logo -->
             <a href="index.html"
                 class="font-headline-md text-2xl md:text-3xl text-primary font-bold tracking-wider hover:opacity-90 transition-opacity flex items-center gap-1.5 font-sans">
-                <span>A</span><span class="text-secondary text-2xl md:text-3xl animate-pulse inline-block">❤️</span><span>S</span>
+                <span>A</span><span
+                    class="text-secondary text-2xl md:text-3xl animate-pulse inline-block">❤️</span><span>S</span>
             </a>
             <!-- Desktop Navigation (English) -->
             <nav class="hidden md:flex items-center gap-2 lg:gap-3 font-semibold text-sm font-sans">
@@ -250,7 +254,8 @@
             </a>
             <!-- Mobile Menu Toggle -->
             <button class="md:hidden text-primary p-2 focus:outline-none"
-                onclick="document.getElementById('mobile-menu').classList.toggle('hidden')" aria-label="Toggle Navigation">
+                onclick="document.getElementById('mobile-menu').classList.toggle('hidden')"
+                aria-label="Toggle Navigation">
                 <span class="material-symbols-outlined text-2xl">menu</span>
             </button>
         </div>
@@ -305,12 +310,19 @@
                             <div class="timeline-glass-card rounded-3xl p-6 md:p-8 w-full relative text-right"
                                 dir="rtl">
                                 <span
-                                    class="inline-block bg-primary-container text-secondary font-bold text-xs md:text-sm px-4 py-1.5 rounded-full mb-3 shadow-sm font-cairo">🏀 لاعبة الباسكت القمر • Sara 23 ❤️</span>
+                                    class="inline-block bg-primary-container text-secondary font-bold text-xs md:text-sm px-4 py-1.5 rounded-full mb-3 shadow-sm font-cairo">🏀
+                                    لاعبة الباسكت القمر • Sara 23 ❤️</span>
                                 <h3 class="font-headline-md text-xl md:text-2xl text-primary font-bold mb-3 font-cairo">
                                     The Basketball Star • نجمة الملعب وروح قلبي 🏀</h3>
                                 <p
                                     class="font-body-md text-sm md:text-base text-on-surface-variant leading-relaxed font-cairo">
-                                    اكتر حاجة حبتني فيكي من الأول إنك بتلعبي باسكت وإن دي حاجة مش أي حد بيعملها أصلا وكنت دايما بحس إن ليكي حاجة مميزة كده وانتي في الملعب بتكوني مختلفة وبتفرحيني من غير ما تعملي أي حاجة غير إنك تنزلي تلعبي وانا بجد بحب أشوفك وانتي بتلعبي وبشوف قد ايه انتي لعيبة وقد ايه عندك روح وإصرار وبتعرفي تكسري الدنيا في الملعب وانا متأكد إن السيزون ده هيبقى بتاعك وهتعملي فيه حاجات تخلي كل اللي حواليكي يعرفوا ان سارة بتاعت زمان عاملة ايه وهفضل دايما مبسوط وفخور بيكي وبكل خطوة بتاخديها وبحب أشوفك وانتي بتكبري وبتتطوري وبتثبتي لنفسك قبل أي حد إنك قدها وقد كل حاجة نفسك توصليلها ❤️🏀
+                                    اكتر حاجة حبتني فيكي من الأول إنك بتلعبي باسكت وإن دي حاجة مش أي حد بيعملها أصلا
+                                    وكنت دايما بحس إن ليكي حاجة مميزة كده وانتي في الملعب بتكوني مختلفة وبتفرحيني من غير
+                                    ما تعملي أي حاجة غير إنك تنزلي تلعبي وانا بجد بحب أشوفك وانتي بتلعبي وبشوف قد ايه
+                                    انتي لعيبة وقد ايه عندك روح وإصرار وبتعرفي تكسري الدنيا في الملعب وانا متأكد إن
+                                    السيزون ده هيبقى بتاعك وهتعملي فيه حاجات تخلي كل اللي حواليكي يعرفوا ان سارة بتاعت
+                                    زمان عاملة ايه وهفضل دايما مبسوط وفخور بيكي وبكل خطوة بتاخديها وبحب أشوفك وانتي
+                                    بتكبري وبتتطوري وبتثبتي لنفسك قبل أي حد إنك قدها وقد كل حاجة نفسك توصليلها ❤️🏀
                                 </p>
                             </div>
                         </div>
@@ -324,7 +336,8 @@
                         </div>
 
                         <div class="w-full md:w-5/12 pr-0 md:pr-lg">
-                            <div class="rounded-3xl overflow-hidden shadow-xl shadow-secondary/15 w-full h-[360px] md:h-[420px] border-2 border-[#fbcfe8] relative group">
+                            <div
+                                class="rounded-3xl overflow-hidden shadow-xl shadow-secondary/15 w-full h-[360px] md:h-[420px] border-2 border-[#fbcfe8] relative group">
                                 <img class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700"
                                     src="assets/basket_sara.jpg" alt="Sara Basketball #23" />
                                 <div

@@ -337,7 +337,7 @@
         }
         modal.style.cssText = 'position:fixed; inset:0; z-index:999999; background:rgba(74, 4, 78, 0.45); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); display:none; align-items:center; justify-content:center; padding:1rem;';
         modal.innerHTML = `
-            <div style="background:rgba(255, 245, 248, 0.98); border:1.5px solid #fbcfe8; border-radius:1.5rem; max-width:32rem; width:100%; padding:2rem 1.5rem; text-align:center; position:relative; box-shadow:0 25px 50px -12px rgba(164, 48, 115, 0.3); margin:auto;">
+            <div style="background:rgba(255, 245, 248, 0.98); border:1.5px solid #fbcfe8; border-radius:1.5rem; max-width:32rem; width:100%; max-height:88vh; overflow-y:auto; padding:1.75rem 1.25rem; text-align:center; position:relative; box-shadow:0 25px 50px -12px rgba(164, 48, 115, 0.3); margin:auto;">
                 <button type="button" onclick="closeLetterModal()" style="position:absolute; top:1rem; left:1rem; width:2.25rem; height:2.25rem; border-radius:9999px; background:#ffe4e6; border:none; display:flex; align-items:center; justify-content:center; cursor:pointer; color:#a43073; box-shadow:0 1px 3px rgba(0,0,0,0.1);" title="إغلاق">
                     <span class="material-symbols-outlined" style="font-size:1.25rem;">close</span>
                 </button>
@@ -579,6 +579,27 @@
         `;
 
         lightbox.style.display = 'flex';
+
+        // Mobile touch swipe gesture
+        let touchStartX = 0;
+        lightbox.ontouchstart = (e) => {
+            if (e.touches && e.touches[0]) {
+                touchStartX = e.touches[0].clientX;
+            }
+        };
+        lightbox.ontouchend = (e) => {
+            if (e.changedTouches && e.changedTouches[0]) {
+                const touchEndX = e.changedTouches[0].clientX;
+                const diffX = touchStartX - touchEndX;
+                if (Math.abs(diffX) > 40) {
+                    if (diffX > 0) {
+                        window.navigateLightbox(1);
+                    } else {
+                        window.navigateLightbox(-1);
+                    }
+                }
+            }
+        };
     };
 
     window.navigateLightbox = function (dir) {
@@ -605,7 +626,131 @@
         }
     });
 
-    // 1. Inject Lock Screen if not authenticated
+    // Ensure GSAP and Canvas Confetti are available
+    function ensureScriptLoaded(globalVar, localSrc, cdnSrc, callback) {
+        if (typeof window[globalVar] !== 'undefined') {
+            if (callback) callback();
+            return;
+        }
+        const s = document.createElement('script');
+        s.src = localSrc;
+        s.onload = () => { if (callback) callback(); };
+        s.onerror = () => {
+            const fb = document.createElement('script');
+            fb.src = cdnSrc;
+            fb.onload = () => { if (callback) callback(); };
+            document.head.appendChild(fb);
+        };
+        document.head.appendChild(s);
+    }
+    ensureScriptLoaded('confetti', 'assets/vendor/confetti.browser.js', 'https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.4/dist/confetti.browser.min.js');
+    ensureScriptLoaded('gsap', 'assets/vendor/gsap.min.js', 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js');
+
+    // Web Audio Sound Synthesizer for realistic iPhone message chimes & cinematic whoosh
+    function playChatSound(type) {
+        try {
+            const AudioCtx = window.AudioContext || window.webkitAudioContext;
+            if (!AudioCtx) return;
+            const ctx = new AudioCtx();
+            const now = ctx.currentTime;
+
+            if (type === 'cinema_bass') {
+                // Deep cinematic movie studio opening swell (Dolby / Cinema feel)
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(48, now);
+                osc.frequency.exponentialRampToValueAtTime(72, now + 1.2);
+                osc.frequency.exponentialRampToValueAtTime(36, now + 3.0);
+                gain.gain.setValueAtTime(0.001, now);
+                gain.gain.linearRampToValueAtTime(0.12, now + 0.8);
+                gain.gain.exponentialRampToValueAtTime(0.0001, now + 3.2);
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.start(now);
+                osc.stop(now + 3.3);
+            } else if (type === 'whoosh') {
+                // Cosmic comet pass sound
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(220, now);
+                osc.frequency.exponentialRampToValueAtTime(780, now + 0.35);
+                osc.frequency.exponentialRampToValueAtTime(320, now + 1.1);
+                gain.gain.setValueAtTime(0.001, now);
+                gain.gain.linearRampToValueAtTime(0.09, now + 0.2);
+                gain.gain.exponentialRampToValueAtTime(0.0001, now + 1.15);
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.start(now);
+                osc.stop(now + 1.2);
+            } else if (type === 'in') {
+                // Soso message pop (Sweet double bell)
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(880, now);
+                osc.frequency.exponentialRampToValueAtTime(1320, now + 0.08);
+                gain.gain.setValueAtTime(0.001, now);
+                gain.gain.linearRampToValueAtTime(0.12, now + 0.02);
+                gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.28);
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.start(now);
+                osc.stop(now + 0.3);
+            } else if (type === 'out') {
+                // Alfy sent swoosh / soft tick
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(660, now);
+                gain.gain.setValueAtTime(0.001, now);
+                gain.gain.linearRampToValueAtTime(0.09, now + 0.015);
+                gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.18);
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.start(now);
+                osc.stop(now + 0.2);
+            } else if (type === 'lock' || type === 'sparkle') {
+                // Grand sparkle chord
+                const notes = [739.99, 932.33, 1108.73, 1479.98];
+                notes.forEach((freq, idx) => {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(freq, now + idx * 0.06);
+                    gain.gain.setValueAtTime(0.0001, now + idx * 0.06);
+                    gain.gain.exponentialRampToValueAtTime(0.12, now + idx * 0.06 + 0.025);
+                    gain.gain.exponentialRampToValueAtTime(0.0001, now + idx * 0.06 + 1.1);
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+                    osc.start(now + idx * 0.06);
+                    osc.stop(now + idx * 0.06 + 1.2);
+                });
+            }
+        } catch (e) {
+            // Audio context blocked or unsupported
+        }
+    }
+
+    // Celebration Confetti Cannon
+    function triggerCelebrationConfetti() {
+        if (typeof window.confetti !== 'function') return;
+        const count = 130;
+        const defaults = { origin: { y: 0.6 } };
+        function fire(ratio, opts) {
+            window.confetti(Object.assign({}, defaults, opts, {
+                particleCount: Math.floor(count * ratio)
+            }));
+        }
+        fire(0.25, { spread: 26, startVelocity: 55, colors: ['#ff2a6d', '#ff758c', '#ffffff'] });
+        fire(0.2, { spread: 60, colors: ['#fbcfe8', '#ffd166', '#a43073'] });
+        fire(0.35, { spread: 100, decay: 0.91, scalar: 1.2, colors: ['#ff4d88', '#ffafd3', '#ffffff'] });
+        fire(0.1, { spread: 120, startVelocity: 25, decay: 0.92, colors: ['#ffd700', '#ff2a6d'] });
+        fire(0.1, { spread: 120, startVelocity: 45, colors: ['#fc79bd', '#ffffff'] });
+    }
+
+    // 1. Inject Golden Comet Cinematic Prologue (3s) ➔ iPhone WhatsApp Chat (6s) ➔ Passcode Flow
     function initAuth() {
         const isUnlocked = sessionStorage.getItem('story_unlocked') === 'true';
         if (isUnlocked) {
@@ -614,49 +759,559 @@
             return;
         }
 
+        // Inject Styles for the Cinematic Prologue, Chat Scene & Passcode
+        if (!document.getElementById('ios-chat-intro-styles')) {
+            const style = document.createElement('style');
+            style.id = 'ios-chat-intro-styles';
+            style.textContent = `
+                @keyframes chatTwinkle {
+                    0%, 100% { opacity: 0.15; transform: scale(0.8); }
+                    50% { opacity: 0.85; transform: scale(1.2); filter: drop-shadow(0 0 4px rgba(255, 215, 0, 0.8)); }
+                }
+                @keyframes passShake {
+                    0%, 100% { transform: translateX(0); }
+                    20%, 60% { transform: translateX(-9px); }
+                    40%, 80% { transform: translateX(9px); }
+                }
+                .pass-shake {
+                    animation: passShake 0.45s ease-in-out !important;
+                }
+                .chat-bubble-in {
+                    animation: popBubbleIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+                }
+                @keyframes popBubbleIn {
+                    0% { opacity: 0; transform: translateY(12px) scale(0.88); }
+                    100% { opacity: 1; transform: translateY(0) scale(1); }
+                }
+                @keyframes cinemaTextIn {
+                    0% { opacity: 0; transform: scale(0.92) translateY(18px); filter: blur(14px); letter-spacing: 0.05em; }
+                    100% { opacity: 1; transform: scale(1) translateY(0); filter: blur(0px); letter-spacing: normal; }
+                }
+                @keyframes cinemaTextOut {
+                    0% { opacity: 1; transform: scale(1) translateY(0); filter: blur(0px); }
+                    100% { opacity: 0; transform: scale(1.06) translateY(-16px); filter: blur(10px); }
+                }
+                .cinema-text-in {
+                    animation: cinemaTextIn 0.85s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+                }
+                .cinema-text-out {
+                    animation: cinemaTextOut 0.5s cubic-bezier(0.7, 0, 0.84, 0) forwards;
+                }
+                @keyframes projectorFlicker {
+                    0%, 100% { opacity: 0.82; transform: scale(1); }
+                    25% { opacity: 0.94; transform: scale(1.02); }
+                    50% { opacity: 0.78; transform: scale(0.99); }
+                    75% { opacity: 1; transform: scale(1.03); }
+                }
+                .animate-projector {
+                    animation: projectorFlicker 3.2s ease-in-out infinite;
+                }
+            `;
+            document.head.appendChild(style);
+        }
+
         const lockOverlay = document.createElement('div');
         lockOverlay.id = 'global-lock-screen';
-        lockOverlay.className = 'fixed inset-0 z-[100] bg-[#fff0f5]/95 backdrop-blur-2xl flex items-center justify-center p-4';
+        lockOverlay.className = 'fixed inset-0 z-[100] flex items-center justify-center p-3 sm:p-4 overflow-hidden select-none';
+        lockOverlay.style.background = 'radial-gradient(ellipse at 50% 38%, #160a1a 0%, #08030b 60%, #020104 100%)';
+
+        // Floating ambient cinema stars
+        let stars = '';
+        for (let i = 0; i < 20; i++) {
+            const top = (Math.random() * 95).toFixed(1);
+            const left = (Math.random() * 95).toFixed(1);
+            const delay = (Math.random() * 3.5).toFixed(1);
+            const dur = (2.2 + Math.random() * 2.8).toFixed(1);
+            const size = (Math.random() * 1.1 + 0.6).toFixed(1);
+            stars += `<div class="absolute pointer-events-none text-[#ffd8e7]/20 font-serif" style="top:${top}%; left:${left}%; font-size:${size}rem; animation: chatTwinkle ${dur}s ease-in-out ${delay}s infinite;">✦</div>`;
+        }
+
         lockOverlay.innerHTML = `
-            <div class="bg-white/80 backdrop-blur-xl border border-[#fbcfe8] shadow-2xl rounded-3xl p-8 md:p-12 max-w-md w-full text-center relative">
-                <div class="w-20 h-20 rounded-full bg-primary-container/40 flex items-center justify-center mx-auto mb-6 shadow-inner border border-secondary/30">
-                    <span class="material-symbols-outlined text-4xl text-secondary animate-pulse">lock</span>
+            ${stars}
+
+            <!-- Cinema Projector Light Cone & Ambient Dust -->
+            <div class="absolute inset-0 pointer-events-none overflow-hidden z-10">
+                <div class="absolute -top-16 left-1/2 -translate-x-1/2 w-[700px] sm:w-[1200px] h-[550px] bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-[#fffbe8]/16 via-[#fc79bd]/8 to-transparent blur-3xl animate-projector"></div>
+                <div class="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,_rgba(255,255,255,0.035)_1px,_transparent_1px)] bg-[length:30px_30px] opacity-40"></div>
+            </div>
+
+            <!-- CINEMA WIDESCREEN LETTERBOX TOP BAR -->
+            <div id="cinema-bar-top" class="fixed top-0 left-0 right-0 h-11 sm:h-16 bg-[#030105] z-40 border-b border-white/10 flex items-center justify-between px-3 sm:px-8 transition-transform duration-700 shadow-2xl">
+                <div class="flex items-center gap-1.5 sm:gap-2.5 text-white/50 text-[10px] sm:text-xs font-mono tracking-wider uppercase">
+                    <span class="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-red-500 animate-ping"></span>
+                    <span class="text-red-400 font-bold">REC ●</span>
+                    <span class="text-[#ffafd3] font-bold">00:00:06</span>
+                    <span class="hidden md:inline text-white/30">• 24 FPS • 2.39:1</span>
                 </div>
-                <h2 class="font-headline-md text-2xl md:text-3xl text-primary font-bold mb-2">A ❤️ S</h2>
-                <p class="text-on-surface-variant font-body-md text-sm mb-6">بعض الحكايات معمولة مخصوص لينا إحنا وبس...</p>
-                <div class="space-y-4">
-                    <input id="story-pass-input" type="password" placeholder="Enter password..." class="w-full px-5 py-3.5 rounded-full border border-secondary/30 focus:border-secondary focus:ring-2 focus:ring-secondary/20 outline-none text-center font-body-md bg-[#fff5f8] transition-all" autocomplete="off"/>
-                    <button id="story-unlock-btn" class="w-full py-3.5 rounded-full bg-secondary text-white font-bold hover:bg-secondary/90 shadow-lg shadow-secondary/25 transition-all transform hover:-translate-y-0.5 active:scale-95">
-                        Open Our Story ❤️
+                <div class="text-[10px] sm:text-xs text-[#ffd8e7]/80 font-cairo tracking-wider font-semibold flex items-center gap-1">
+                    <span>ALFY & SOSO</span>
+                    <span class="text-xs">🎬</span>
+                </div>
+                <button id="skip-prologue-btn" class="px-2.5 sm:px-3.5 py-1 rounded-full bg-white/10 hover:bg-white/20 text-[#fbcfe8] text-[11px] sm:text-xs font-semibold tracking-wide flex items-center gap-0.5 sm:gap-1 transition-all active:scale-95 border border-white/20 font-cairo" title="تخطي المشهد إلى الشات">
+                    <span>تخطي</span><span class="text-[10px]">➔</span>
+                </button>
+            </div>
+
+            <!-- CINEMA WIDESCREEN LETTERBOX BOTTOM BAR -->
+            <div id="cinema-bar-bottom" class="fixed bottom-0 left-0 right-0 h-11 sm:h-16 bg-[#030105] z-40 border-t border-white/10 flex items-center justify-between px-3 sm:px-8 transition-transform duration-700 shadow-2xl">
+                <div class="text-[9px] sm:text-[11px] text-white/40 font-mono tracking-wider">
+                    SCENE 01 • PROLOGUE
+                </div>
+                <div class="w-24 sm:w-56 h-1 bg-white/10 rounded-full overflow-hidden">
+                    <div id="prologue-progress-fill" class="h-full bg-gradient-to-r from-[#ffd700] via-[#fc79bd] to-[#ffafd3] w-0 transition-all ease-linear"></div>
+                </div>
+                <div class="text-[9px] sm:text-[11px] text-white/40 font-mono tracking-wider">
+                    DOLBY 4K
+                </div>
+            </div>
+
+            <!-- PHASE 1: Cinema Story Prologue Center Stage -->
+            <div id="prologue-stage" class="relative z-30 max-w-2xl sm:max-w-4xl w-full px-3 sm:px-8 py-8 sm:py-10 text-center flex flex-col items-center justify-center transition-all duration-700 min-h-[320px] sm:min-h-[360px]">
+                
+                <!-- Studio Production Slate -->
+                <div class="inline-flex items-center gap-2 sm:gap-3 text-[10px] sm:text-xs uppercase tracking-[0.3em] sm:tracking-[0.35em] text-[#ffafd3]/70 font-semibold mb-4 sm:mb-6 font-cairo">
+                    <span class="h-[1px] w-6 sm:w-20 bg-gradient-to-r from-transparent to-[#ffafd3]/40"></span>
+                    <span>A LOVE STORY PRODUCTION</span>
+                    <span class="h-[1px] w-6 sm:w-20 bg-gradient-to-l from-transparent to-[#ffafd3]/40"></span>
+                </div>
+
+                <!-- Lines Absolute Stack Container (Eliminates layout shifts and ensures smooth crossfade) -->
+                <div class="relative w-full h-40 sm:h-52 flex items-center justify-center">
+                    <!-- Line 1 -->
+                    <div id="prologue-line-1" class="absolute inset-0 flex flex-col items-center justify-center w-full opacity-0 pointer-events-none px-2">
+                        <span class="inline-block text-[10px] sm:text-xs uppercase tracking-[0.25em] text-[#ffafd3]/80 font-bold mb-3 px-3 py-0.5 sm:px-4 sm:py-1 rounded-full bg-white/5 border border-white/10 font-mono">
+                            MEMORIES • 06 . 11 . 2022
+                        </span>
+                        <h1 class="text-xl sm:text-3xl md:text-5xl font-black text-white font-cairo leading-snug sm:leading-relaxed drop-shadow-[0_0_35px_rgba(255,175,211,0.65)]">
+                            « لو رجع بينا الزمن لـ ٦ نوفمبر ٢٠٢٢... »
+                        </h1>
+                    </div>
+
+                    <!-- Line 2 (Solid Luxury Gold - Fixes text-clip rendering bug) -->
+                    <div id="prologue-line-2" class="absolute inset-0 flex flex-col items-center justify-center w-full opacity-0 pointer-events-none px-2">
+                        <span class="inline-block text-[10px] sm:text-xs uppercase tracking-[0.25em] text-[#ffd700] font-bold mb-3 px-3 py-0.5 sm:px-4 sm:py-1 rounded-full bg-[#ffd700]/10 border border-[#ffd700]/25 font-mono">
+                            THE PROMISE • للأبد
+                        </span>
+                        <h1 class="text-xl sm:text-3xl md:text-5xl font-black text-[#ffd700] font-cairo leading-snug sm:leading-relaxed drop-shadow-[0_0_35px_rgba(255,215,0,0.65)]">
+                            « هنختار نفس البداية.. ونفس الطريق ❤️ »
+                        </h1>
+                    </div>
+
+                    <!-- Line 3 -->
+                    <div id="prologue-line-3" class="absolute inset-0 flex flex-col items-center justify-center w-full opacity-0 pointer-events-none px-2">
+                        <span class="inline-block text-[10px] sm:text-xs uppercase tracking-[0.25em] text-[#fc79bd] font-bold mb-3 px-3 py-0.5 sm:px-4 sm:py-1 rounded-full bg-[#fc79bd]/10 border border-[#fc79bd]/25 font-mono">
+                            SCENE 01 • THE FIRST CHAT
+                        </span>
+                        <h1 class="text-xl sm:text-3xl md:text-5xl font-black text-white font-cairo leading-snug sm:leading-relaxed drop-shadow-[0_0_40px_rgba(252,121,189,0.75)]">
+                            « ودي كانت أول خطوة في حكايتنا... »
+                        </h1>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- PHASE 2: iPhone WhatsApp Chat Device Mockup Container (Starts Hidden, reveals after Prologue) -->
+            <div id="chat-mockup-frame" style="display: none; opacity: 0; transform: scale(0.92) translateY(20px);" class="relative z-20 max-w-[94vw] sm:max-w-md w-full bg-[#180e1c]/88 backdrop-blur-2xl border border-[#fbcfe8]/25 rounded-[1.75rem] sm:rounded-[2.25rem] shadow-[0_25px_60px_-15px_rgba(0,0,0,0.8),0_0_40px_rgba(164,48,115,0.22)] overflow-hidden transition-all duration-700 font-sans">
+                
+                <!-- Story 6.5s Progress Bar -->
+                <div class="w-full h-1 bg-white/10 relative overflow-hidden">
+                    <div id="chat-progress-fill" class="h-full bg-gradient-to-r from-secondary via-[#fc79bd] to-[#ffd8e7] w-0 transition-all ease-linear"></div>
+                </div>
+
+                <!-- WhatsApp iOS Header -->
+                <div class="px-3.5 py-2.5 sm:px-4 sm:py-3 bg-[#24142a]/90 backdrop-blur-md border-b border-white/10 flex items-center justify-between text-white">
+                    <div class="flex items-center gap-2 sm:gap-2.5">
+                        <div class="relative">
+                            <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-gradient-to-br from-[#ffafd3] to-secondary flex items-center justify-center font-bold text-white text-sm sm:text-base shadow-sm border border-white/30">
+                                <span>S</span>
+                            </div>
+                            <span class="absolute bottom-0 right-0 w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-emerald-500 border-2 border-[#24142a]"></span>
+                        </div>
+                        <div class="leading-tight">
+                            <div class="font-bold text-xs sm:text-sm text-[#fce7f3] flex items-center gap-1.5 font-cairo">
+                                <span>سوسو</span><span>❤️</span>
+                            </div>
+                            <div class="text-[10px] sm:text-[11px] text-emerald-400 font-medium font-cairo">متصل الآن • online</div>
+                        </div>
+                    </div>
+
+                    <!-- Skip Button -->
+                    <button id="skip-intro-btn" class="px-2.5 sm:px-3 py-1 rounded-full bg-white/10 hover:bg-white/20 text-[#fbcfe8] text-[11px] sm:text-xs font-semibold tracking-wide flex items-center gap-1 transition-all active:scale-95 border border-white/15 font-cairo" title="تخطي المشهد">
+                        <span>تخطي</span><span class="text-[10px]">➔</span>
                     </button>
-                    <p id="story-pass-error" class="text-error text-xs h-4 font-semibold"></p>
+                </div>
+
+                <!-- Chat Messages Body -->
+                <div id="chat-messages-container" class="p-3 sm:p-4 h-[315px] sm:h-[370px] flex flex-col justify-end gap-2.5 sm:gap-3 overflow-hidden relative font-cairo">
+                    
+                    <!-- Bubble 1: Soso -->
+                    <div id="msg-bubble-1" class="self-start max-w-[88%] sm:max-w-[85%] bg-[#2b1b30] text-[#fce7f3] border border-white/10 rounded-2xl rounded-tl-sm px-3.5 py-2 sm:px-4 sm:py-2.5 shadow-sm opacity-0 transform translate-y-3">
+                        <p class="text-xs sm:text-base leading-snug">ألفي.. فاكر أول يوم اتقابلنا فيه؟ 🥺❤️</p>
+                        <span class="text-[9px] sm:text-[10px] text-white/40 block text-right mt-1 font-mono tracking-tighter">12:00 AM</span>
+                    </div>
+
+                    <!-- Bubble 2: Alfy -->
+                    <div id="msg-bubble-2" class="self-end max-w-[90%] sm:max-w-[88%] bg-gradient-to-r from-secondary to-[#85145a] text-white rounded-2xl rounded-tr-sm px-3.5 py-2 sm:px-4 sm:py-2.5 shadow-md opacity-0 transform translate-y-3">
+                        <p class="text-xs sm:text-base leading-snug">يوم 6 نوفمبر 2022.. هو في يوم يتنسي؟ ده بداية كل حاجة حلوة في عمري ❤️</p>
+                        <span class="text-[9px] sm:text-[10px] text-white/70 block text-right mt-1 font-mono tracking-tighter">12:00 AM ✓✓</span>
+                    </div>
+
+                    <!-- Bubble 3: Soso -->
+                    <div id="msg-bubble-3" class="self-start max-w-[88%] sm:max-w-[85%] bg-[#2b1b30] text-[#fce7f3] border border-white/10 rounded-2xl rounded-tl-sm px-3.5 py-2 sm:px-4 sm:py-2.5 shadow-sm opacity-0 transform translate-y-3">
+                        <p class="text-xs sm:text-base leading-snug">أربع سنين عدّوا جنبك كأنهم حلم جميل.. بحبك أوي ✨</p>
+                        <span class="text-[9px] sm:text-[10px] text-white/40 block text-right mt-1 font-mono tracking-tighter">12:01 AM</span>
+                    </div>
+
+                    <!-- Bubble 4: Alfy -->
+                    <div id="msg-bubble-4" class="self-end max-w-[90%] sm:max-w-[88%] bg-gradient-to-r from-secondary to-[#85145a] text-white rounded-2xl rounded-tr-sm px-3.5 py-2 sm:px-4 sm:py-2.5 shadow-md opacity-0 transform translate-y-3">
+                        <p class="text-xs sm:text-base leading-snug">عشان كدا عملتلك المكان ده مخصوص عشانك.. وجمعتلك فيه كل ذكرياتنا 🌸</p>
+                        <span class="text-[9px] sm:text-[10px] text-white/70 block text-right mt-1 font-mono tracking-tighter">12:01 AM ✓✓</span>
+                    </div>
+
+                    <!-- Bubble 5: Secret Lock Climax Message -->
+                    <div id="msg-bubble-5" class="self-center w-full bg-gradient-to-r from-[#fc79bd]/25 to-[#ff2a6d]/30 border border-[#ffafd3]/50 rounded-2xl p-3 sm:p-3.5 text-center shadow-[0_0_30px_rgba(255,42,109,0.35)] opacity-0 transform translate-y-3">
+                        <div class="flex items-center justify-center gap-1.5 text-secondary-container font-bold text-[11px] sm:text-xs mb-1">
+                            <span class="material-symbols-outlined text-xs sm:text-sm animate-pulse text-[#fc79bd]">lock</span>
+                            <span class="text-[#fc79bd]">رسالة مشفرة ومقفولة</span>
+                        </div>
+                        <p class="text-xs sm:text-base font-bold text-white leading-snug">بس المكان ده سري ومقفول لينا إحنا وبس.. أدخلي كلمتنا السرية 🔐❤️</p>
+                    </div>
+
+                    <!-- Typing Indicator -->
+                    <div id="chat-typing-dots" class="self-start px-3 py-1.5 sm:px-3.5 sm:py-2 bg-[#2b1b30] rounded-2xl rounded-tl-sm border border-white/10 opacity-0 transition-opacity">
+                        <div class="flex items-center gap-1">
+                            <span class="w-1.5 h-1.5 rounded-full bg-[#fc79bd] animate-bounce"></span>
+                            <span class="w-1.5 h-1.5 rounded-full bg-[#fc79bd] animate-bounce [animation-delay:0.2s]"></span>
+                            <span class="w-1.5 h-1.5 rounded-full bg-[#fc79bd] animate-bounce [animation-delay:0.4s]"></span>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Input Footer Placeholder -->
+                <div class="p-2.5 sm:p-3 bg-[#24142a]/80 border-t border-white/10 flex items-center gap-2 text-white/40 text-xs font-cairo">
+                    <div class="flex-grow bg-white/5 rounded-full px-3.5 py-1.5 sm:px-4 sm:py-2 border border-white/10 text-white/60 text-[11px] sm:text-xs">
+                        اكتب رسالة...
+                    </div>
+                    <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-secondary flex items-center justify-center text-white text-xs sm:text-sm shadow-sm">
+                        <span class="material-symbols-outlined text-sm sm:text-base">send</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PHASE 3: Secret Passcode Card (Reveals seamlessly after chat) -->
+            <div id="passcode-card-stage" class="absolute z-30 max-w-sm sm:max-w-md w-full px-3 sm:px-4 opacity-0 pointer-events-none scale-90 transition-all duration-700 ease-out font-sans">
+                <div id="story-pass-card" class="bg-white/88 backdrop-blur-2xl border border-[#fbcfe8] shadow-2xl rounded-3xl p-5 sm:p-9 text-center relative shadow-secondary/25">
+                    <div class="w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-gradient-to-br from-[#ffd8e7] to-[#fbcfe8] flex items-center justify-center mx-auto mb-3 sm:mb-4 shadow-inner border border-secondary/30">
+                        <span class="material-symbols-outlined text-2xl sm:text-3xl text-secondary animate-pulse">lock</span>
+                    </div>
+                    <h2 class="font-headline-md text-xl sm:text-3xl text-primary font-bold mb-1">A ❤️ S</h2>
+                    <p class="text-secondary font-bold text-[11px] sm:text-xs mb-1 font-cairo">المكان ده محمي لينا إحنا وبس</p>
+                    <p class="text-on-surface-variant font-body-md text-xs sm:text-sm mb-4 sm:mb-6 font-cairo">أدخلي كلمتنا السرية يا سوسو علشان تدخلي حكايتنا ❤️</p>
+                    <div class="space-y-3 sm:space-y-4 font-cairo">
+                        <input id="story-pass-input" type="text" placeholder="كلمتنا السرية..." class="w-full px-4 sm:px-5 py-3 sm:py-3.5 rounded-full border-2 border-secondary/30 focus:border-secondary focus:ring-4 focus:ring-secondary/15 outline-none text-center font-bold text-secondary text-sm sm:text-base bg-[#fff5f8] transition-all placeholder:font-normal placeholder:text-neutral-400 font-cairo" autocomplete="off" autocapitalize="none"/>
+                        <button id="story-unlock-btn" class="w-full py-3 sm:py-3.5 rounded-full bg-gradient-to-r from-secondary to-[#fc79bd] text-white font-bold hover:opacity-95 shadow-lg shadow-secondary/25 transition-all transform hover:-translate-y-0.5 active:scale-95 text-sm sm:text-base flex items-center justify-center gap-2 font-cairo">
+                            <span>افتحي عالمنا</span><span>❤️</span>
+                        </button>
+                        <p id="story-pass-error" class="text-error text-xs h-4 font-semibold font-cairo"></p>
+                    </div>
                 </div>
             </div>
         `;
         document.body.appendChild(lockOverlay);
         document.body.style.overflow = 'hidden';
 
+        // Element References
+        const barTop = document.getElementById('cinema-bar-top');
+        const barBottom = document.getElementById('cinema-bar-bottom');
+        const prologueStage = document.getElementById('prologue-stage');
+        const prologueProgress = document.getElementById('prologue-progress-fill');
+        const skipPrologueBtn = document.getElementById('skip-prologue-btn');
+        const pLine1 = document.getElementById('prologue-line-1');
+        const pLine2 = document.getElementById('prologue-line-2');
+        const pLine3 = document.getElementById('prologue-line-3');
+
+        const chatFrame = document.getElementById('chat-mockup-frame');
+        const passStage = document.getElementById('passcode-card-stage');
+        const skipBtn = document.getElementById('skip-intro-btn');
+        const progressFill = document.getElementById('chat-progress-fill');
+        const typingDots = document.getElementById('chat-typing-dots');
+
+        const b1 = document.getElementById('msg-bubble-1');
+        const b2 = document.getElementById('msg-bubble-2');
+        const b3 = document.getElementById('msg-bubble-3');
+        const b4 = document.getElementById('msg-bubble-4');
+        const b5 = document.getElementById('msg-bubble-5');
+
         const passInput = document.getElementById('story-pass-input');
         const unlockBtn = document.getElementById('story-unlock-btn');
         const errText = document.getElementById('story-pass-error');
+        const passCard = document.getElementById('story-pass-card');
 
+        let isPrologueEnded = false;
+        let isTransitioned = false;
+        const prologueTimeouts = [];
+        const chatTimeouts = [];
+
+        // Any screen touch arms and begins background audio and deep cinema bass rumble
+        const handleScreenGesture = () => {
+            playAudio();
+            playChatSound('cinema_bass');
+            lockOverlay.removeEventListener('click', handleScreenGesture);
+            lockOverlay.removeEventListener('touchstart', handleScreenGesture);
+        };
+        lockOverlay.addEventListener('click', handleScreenGesture, { once: true });
+        lockOverlay.addEventListener('touchstart', handleScreenGesture, { once: true });
+
+        // Attempt immediate cinema sound if allowed by browser policy
+        try { playChatSound('cinema_bass'); } catch (e) {}
+
+        // --- PHASE 1: 6-Second Cinema Prologue Execution ---
+        if (prologueProgress) {
+            prologueProgress.style.transition = 'width 6.0s linear';
+            requestAnimationFrame(() => {
+                prologueProgress.style.width = '100%';
+            });
+        }
+
+        let cinemaTl = null;
+
+        // Smooth GSAP Cinema Timeline (Hardware-accelerated, zero layout-shift)
+        if (window.gsap && pLine1 && pLine2 && pLine3) {
+            cinemaTl = gsap.timeline({
+                onComplete: () => {
+                    transitionToChat();
+                }
+            });
+
+            // Line 1: In (0.0s) -> Hold -> Out (1.7s)
+            cinemaTl.fromTo(pLine1,
+                { opacity: 0, y: 18, scale: 0.96 },
+                { opacity: 1, y: 0, scale: 1, duration: 0.65, ease: 'power2.out' }
+            )
+            .to(pLine1,
+                { opacity: 0, y: -14, scale: 1.02, duration: 0.45, ease: 'power2.in' },
+                '+=0.85'
+            )
+            // Line 2: In (2.0s) -> Hold -> Out (3.7s) (Guaranteed smooth display, bright gold)
+            .fromTo(pLine2,
+                { opacity: 0, y: 18, scale: 0.96 },
+                { opacity: 1, y: 0, scale: 1, duration: 0.65, ease: 'power2.out' }
+            )
+            .to(pLine2,
+                { opacity: 0, y: -14, scale: 1.02, duration: 0.45, ease: 'power2.in' },
+                '+=0.85'
+            )
+            // Line 3: In (4.0s) -> Hold -> Out (5.7s)
+            .fromTo(pLine3,
+                { opacity: 0, y: 18, scale: 0.96 },
+                { opacity: 1, y: 0, scale: 1, duration: 0.65, ease: 'power2.out' }
+            )
+            .to(pLine3,
+                { opacity: 0, y: -14, scale: 1.02, duration: 0.45, ease: 'power2.in' },
+                '+=0.95'
+            );
+        } else {
+            // CSS Fallback
+            const showLine = (el, show) => {
+                if (!el) return;
+                el.style.transition = 'opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)';
+                if (show) {
+                    el.style.opacity = '1';
+                    el.style.transform = 'translateY(0) scale(1)';
+                } else {
+                    el.style.opacity = '0';
+                    el.style.transform = 'translateY(-14px) scale(1.02)';
+                }
+            };
+            showLine(pLine1, true);
+            prologueTimeouts.push(setTimeout(() => showLine(pLine1, false), 1600));
+            prologueTimeouts.push(setTimeout(() => showLine(pLine2, true), 1950));
+            prologueTimeouts.push(setTimeout(() => showLine(pLine2, false), 3600));
+            prologueTimeouts.push(setTimeout(() => showLine(pLine3, true), 3950));
+            prologueTimeouts.push(setTimeout(() => showLine(pLine3, false), 5600));
+            prologueTimeouts.push(setTimeout(() => transitionToChat(), 5800));
+        }
+
+        // Seamless Transition: Cinema Prologue -> WhatsApp Chat
+        function transitionToChat() {
+            if (isPrologueEnded) return;
+            isPrologueEnded = true;
+
+            if (cinemaTl) {
+                cinemaTl.kill();
+                cinemaTl = null;
+            }
+            prologueTimeouts.forEach(t => clearTimeout(t));
+
+            playAudio();
+            playChatSound('in');
+
+            // Slide out Letterbox Bars smoothly
+            if (barTop) {
+                barTop.style.transform = 'translateY(-100%)';
+                barTop.style.opacity = '0';
+            }
+            if (barBottom) {
+                barBottom.style.transform = 'translateY(100%)';
+                barBottom.style.opacity = '0';
+            }
+
+            if (prologueStage) {
+                prologueStage.style.transition = 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
+                prologueStage.style.opacity = '0';
+                prologueStage.style.transform = 'scale(0.92) translateY(-25px)';
+                prologueStage.style.pointerEvents = 'none';
+            }
+
+            setTimeout(() => {
+                if (prologueStage) prologueStage.style.display = 'none';
+                if (chatFrame) {
+                    chatFrame.style.display = 'block';
+                    void chatFrame.offsetWidth; // Force reflow
+                    chatFrame.style.transition = 'all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)';
+                    chatFrame.style.opacity = '1';
+                    chatFrame.style.transform = 'scale(1) translateY(0)';
+                    chatFrame.style.pointerEvents = 'auto';
+                }
+                startChatSequence();
+            }, 400);
+        }
+
+        if (skipPrologueBtn) {
+            skipPrologueBtn.onclick = (e) => {
+                e.stopPropagation();
+                transitionToChat();
+            };
+        }
+
+        // --- PHASE 2: WhatsApp Chat Sequence (6.5s) ---
+        function showBubble(bubble, soundType) {
+            if (!bubble || isTransitioned) return;
+            bubble.classList.add('chat-bubble-in');
+            bubble.style.opacity = '1';
+            bubble.style.transform = 'translateY(0)';
+            if (soundType) playChatSound(soundType);
+        }
+
+        function setTyping(visible, isRight = false) {
+            if (!typingDots || isTransitioned) return;
+            if (visible) {
+                typingDots.style.opacity = '1';
+                if (isRight) {
+                    typingDots.classList.remove('self-start', 'rounded-tl-sm');
+                    typingDots.classList.add('self-end', 'rounded-tr-sm', 'bg-secondary/40');
+                } else {
+                    typingDots.classList.remove('self-end', 'rounded-tr-sm', 'bg-secondary/40');
+                    typingDots.classList.add('self-start', 'rounded-tl-sm', 'bg-[#2b1b30]');
+                }
+            } else {
+                typingDots.style.opacity = '0';
+            }
+        }
+
+        function startChatSequence() {
+            if (isTransitioned) return;
+
+            // Animate Story Progress Bar (0 to 100% over 6.5s)
+            if (progressFill) {
+                progressFill.style.transition = 'width 6.5s linear';
+                requestAnimationFrame(() => {
+                    progressFill.style.width = '100%';
+                });
+            }
+
+            // Scripted Conversation Timeline
+            chatTimeouts.push(setTimeout(() => { showBubble(b1, 'in'); }, 500));
+            chatTimeouts.push(setTimeout(() => { setTyping(true, true); }, 1300));
+            chatTimeouts.push(setTimeout(() => { setTyping(false); showBubble(b2, 'out'); }, 2000));
+            chatTimeouts.push(setTimeout(() => { setTyping(true, false); }, 2900));
+            chatTimeouts.push(setTimeout(() => { setTyping(false); showBubble(b3, 'in'); }, 3600));
+            chatTimeouts.push(setTimeout(() => { setTyping(true, true); }, 4400));
+            chatTimeouts.push(setTimeout(() => { setTyping(false); showBubble(b4, 'out'); }, 5000));
+            chatTimeouts.push(setTimeout(() => { showBubble(b5, 'lock'); }, 5700));
+            chatTimeouts.push(setTimeout(() => { morphToPasscode(); }, 6600));
+        }
+
+        // Function to smoothly morph from Chat to Passcode Card
+        function morphToPasscode() {
+            if (isTransitioned) return;
+            isTransitioned = true;
+
+            // Clear any pending chat timeouts
+            chatTimeouts.forEach(t => clearTimeout(t));
+
+            // Start audio in background
+            playAudio();
+            playChatSound('sparkle');
+
+            // Animate Chat frame out and Passcode Card in
+            if (chatFrame) {
+                chatFrame.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+                chatFrame.style.opacity = '0';
+                chatFrame.style.transform = 'scale(0.92) translateY(-20px)';
+                chatFrame.style.pointerEvents = 'none';
+            }
+
+            setTimeout(() => {
+                if (chatFrame) chatFrame.style.display = 'none';
+                if (passStage) {
+                    passStage.style.pointerEvents = 'auto';
+                    passStage.style.opacity = '1';
+                    passStage.style.transform = 'scale(1) translateY(0)';
+                }
+                setTimeout(() => {
+                    if (passInput) passInput.focus();
+                }, 300);
+            }, 450);
+        }
+
+        if (skipBtn) {
+            skipBtn.onclick = (e) => {
+                e.stopPropagation();
+                morphToPasscode();
+            };
+        }
+
+        // --- STAGE 2: Passcode Verification ---
         function checkPass() {
-            const val = passInput.value.trim().toLowerCase();
-            if (val === 'alby' || val === 'albyy' || val === 'albi' || val === 'قلبي' || val === 'البي') {
+            const raw = (passInput.value || '').trim().toLowerCase();
+            const val = raw.replace(/[\u064B-\u065F]/g, '').replace(/[أإآ]/g, 'ا').replace(/ى/g, 'ي');
+            const validPasscodes = ['alby', 'albyy', 'albyyy', 'albi', 'albii', 'قلبي', 'قلبيي', 'البي', 'البيي'];
+            if (validPasscodes.includes(val) || validPasscodes.includes(raw)) {
                 sessionStorage.setItem('story_unlocked', 'true');
-                lockOverlay.style.transition = 'opacity 0.5s ease-out';
-                lockOverlay.style.opacity = '0';
 
-                // Immediately trigger play inside this direct user gesture
+                triggerCelebrationConfetti();
+                playChatSound('sparkle');
                 playAudio();
 
+                if (passCard) {
+                    passCard.style.transition = 'all 0.5s ease';
+                    passCard.style.transform = 'scale(1.05)';
+                    passCard.style.boxShadow = '0 0 50px rgba(255, 42, 109, 0.6)';
+                }
+
                 setTimeout(() => {
-                    lockOverlay.remove();
-                    document.body.style.overflow = '';
-                }, 500);
+                    lockOverlay.style.transition = 'opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1), transform 0.7s cubic-bezier(0.4, 0, 0.2, 1)';
+                    lockOverlay.style.opacity = '0';
+                    lockOverlay.style.transform = 'scale(1.06)';
+
+                    setTimeout(() => {
+                        lockOverlay.remove();
+                        document.body.style.overflow = '';
+                    }, 700);
+                }, 350);
             } else {
-                errText.textContent = 'كلمة السر غير صحيحة ♡ حاول مرة أخرى';
+                errText.textContent = 'كلمة السر غير صحيحة يا قلبي ♡ حاولي تاني';
                 passInput.classList.add('border-error');
+                if (passCard) {
+                    passCard.classList.remove('pass-shake');
+                    void passCard.offsetWidth; // trigger reflow
+                    passCard.classList.add('pass-shake');
+                }
+                setTimeout(() => {
+                    passInput.classList.remove('border-error');
+                }, 1200);
             }
         }
 
@@ -696,7 +1351,8 @@
 
         const playerDiv = document.createElement('div');
         playerDiv.id = 'floating-music-player';
-        playerDiv.className = 'fixed bottom-3 left-3 right-3 md:bottom-6 md:left-auto md:right-6 md:w-96 z-50 bg-[#fff0f5]/92 backdrop-blur-2xl border border-[#fbcfe8] rounded-2xl p-2.5 md:p-3 shadow-2xl shadow-secondary/15 flex flex-col gap-1.5 md:gap-2 transition-all duration-300';
+        playerDiv.className = 'fixed left-3 right-3 md:left-auto md:right-6 md:w-96 z-50 bg-[#fff0f5]/92 backdrop-blur-2xl border border-[#fbcfe8] rounded-2xl p-2.5 md:p-3 shadow-2xl shadow-secondary/15 flex flex-col gap-1.5 md:gap-2 transition-all duration-300';
+        playerDiv.style.bottom = 'calc(0.65rem + env(safe-area-inset-bottom, 0px))';
         playerDiv.innerHTML = `
             <div class="flex items-center gap-2.5 md:gap-3">
                 <div class="relative flex-shrink-0 flex items-center justify-center">
@@ -1201,7 +1857,7 @@
 
         // 1. Scroll Reveal for Cards (Immediate visibility check + IntersectionObserver)
         const scrollElements = document.querySelectorAll('.scroll-reveal');
-        
+
         scrollElements.forEach(el => {
             const rect = el.getBoundingClientRect();
             if (rect.top < window.innerHeight * 1.5) {
@@ -1841,7 +2497,7 @@
         btn.id = 'floating-quiz-pill';
         btn.onclick = () => window.openLoveQuizModal();
         const isMobile = window.innerWidth < 768;
-        btn.style.cssText = isMobile 
+        btn.style.cssText = isMobile
             ? 'position:fixed; bottom:calc(5.2rem + env(safe-area-inset-bottom)); left:1rem; z-index:45; background:rgba(255, 240, 245, 0.95); backdrop-filter:blur(14px); border:1.5px solid #fbcfe8; color:#a43073; font-weight:700; font-size:0.8rem; padding:0.45rem 0.9rem; border-radius:9999px; cursor:pointer; box-shadow:0 6px 18px rgba(164, 48, 115, 0.18); display:flex; align-items:center; gap:0.35rem; font-family:"Cairo", sans-serif; transition:all 0.3s;'
             : 'position:fixed; bottom:1.5rem; left:1.5rem; z-index:45; background:rgba(255, 240, 245, 0.95); backdrop-filter:blur(14px); border:1.5px solid #fbcfe8; color:#a43073; font-weight:700; font-size:0.85rem; padding:0.55rem 1.1rem; border-radius:9999px; cursor:pointer; box-shadow:0 8px 22px rgba(164, 48, 115, 0.16); display:flex; align-items:center; gap:0.4rem; font-family:"Cairo", sans-serif; transition:all 0.3s;';
         btn.innerHTML = `<span class="material-symbols-outlined text-sm animate-pulse">quiz</span><span>سؤال حب ✨</span>`;

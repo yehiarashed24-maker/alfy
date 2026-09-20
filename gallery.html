@@ -10,6 +10,8 @@
     <meta name="apple-mobile-web-app-title" content="A ❤️ S" />
     <meta name="theme-color" content="#fff0f5" />
     <title>A ❤️ S - Gallery</title>
+    <script src="assets/vendor/confetti.browser.js"></script>
+    <script src="assets/vendor/gsap.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/threejs/r125/three.min.js"></script>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link
@@ -203,12 +205,14 @@
 
     <!-- TopNavBar -->
     <header
-        class="bg-[#fff0f5]/85 backdrop-blur-md fixed top-0 w-full z-50 border-b border-[#fbcfe8]/70 shadow-sm shadow-secondary/10 font-sans" dir="ltr">
+        class="bg-[#fff0f5]/85 backdrop-blur-md fixed top-0 w-full z-50 border-b border-[#fbcfe8]/70 shadow-sm shadow-secondary/10 font-sans"
+        dir="ltr">
         <div class="max-w-6xl mx-auto px-6 h-20 flex justify-between items-center">
             <!-- Brand Logo -->
             <a href="index.html"
                 class="font-headline-md text-2xl md:text-3xl text-primary font-bold tracking-wider hover:opacity-90 transition-opacity flex items-center gap-1.5 font-sans">
-                <span>A</span><span class="text-secondary text-2xl md:text-3xl animate-pulse inline-block">❤️</span><span>S</span>
+                <span>A</span><span
+                    class="text-secondary text-2xl md:text-3xl animate-pulse inline-block">❤️</span><span>S</span>
             </a>
             <!-- Desktop Navigation (English) -->
             <nav class="hidden md:flex items-center gap-2 lg:gap-3 font-semibold text-sm font-sans">
@@ -228,7 +232,8 @@
             </a>
             <!-- Mobile Menu Toggle -->
             <button class="md:hidden text-primary p-2 focus:outline-none"
-                onclick="document.getElementById('mobile-menu').classList.toggle('hidden')" aria-label="Toggle Navigation">
+                onclick="document.getElementById('mobile-menu').classList.toggle('hidden')"
+                aria-label="Toggle Navigation">
                 <span class="material-symbols-outlined text-2xl">menu</span>
             </button>
         </div>
@@ -251,14 +256,14 @@
     <!-- Main Content -->
     <main class="flex-grow pt-28 md:pt-32 pb-32 px-gutter max-w-container-max mx-auto w-full relative z-10">
         <!-- Header Section -->
-        <section class="text-center mb-xl fade-in-up is-visible">
+        <section class="text-center mb-10 sm:mb-xl fade-in-up is-visible px-4">
             <h1
-                class="font-display-lg text-display-lg md:font-display-lg md:text-display-lg font-headline-lg-mobile text-headline-lg-mobile text-primary mb-4 text-balance">
+                class="font-display-lg text-3xl sm:text-5xl md:text-display-lg text-primary mb-3 sm:mb-4 text-balance">
                 Years of Love</h1>
-            <p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto italic">"Every year, a new
+            <p class="font-body-lg text-sm sm:text-base md:text-body-lg text-on-surface-variant max-w-2xl mx-auto italic">"Every year, a new
                 chapter of us."</p>
             <!-- Decorative Divider -->
-            <div class="flex items-center justify-center gap-4 mt-8">
+            <div class="flex items-center justify-center gap-4 mt-6 sm:mt-8">
                 <div class="h-px w-16 bg-secondary/30"></div>
                 <span class="material-symbols-outlined text-secondary/60 text-sm animate-pulse"
                     style="font-variation-settings: 'FILL' 1;">favorite</span>
@@ -270,28 +275,28 @@
 
             <article class="md:col-span-8 group cursor-pointer fade-in-up delay-100 reveal-on-scroll"
                 onclick="openModal('2026')">
-                <div class="glass-card rounded-2xl overflow-hidden relative h-[400px] w-full">
+                <div class="glass-card rounded-2xl overflow-hidden relative h-[340px] sm:h-[400px] w-full">
                     <img class="absolute inset-0 w-full h-full object-cover object-[center_25%] transition-transform duration-700 group-hover:scale-105 z-0"
                         src="assets/2026/2026_memory_7.jpg" alt="Sara 2026" />
                     <div
                         class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent z-10 transition-opacity duration-500 group-hover:opacity-90">
                     </div>
-                    <div class="absolute bottom-0 left-0 p-lg z-20 w-full">
-                        <div class="flex justify-between items-end">
-                            <div>
+                    <div class="absolute bottom-0 left-0 p-4 sm:p-6 md:p-lg z-20 w-full">
+                        <div class="flex justify-between items-end gap-2">
+                            <div class="min-w-0 flex-1">
                                 <span
-                                    class="bg-primary-container text-on-primary-container font-label-md text-label-md px-3.5 py-1 rounded-full mb-3 inline-block shadow-sm font-cairo">✨
+                                    class="bg-primary-container text-on-primary-container font-label-md text-xs sm:text-label-md px-3.5 py-1 rounded-full mb-2 inline-block shadow-sm font-cairo">✨
                                 </span>
                                 <h2
-                                    class="font-headline-lg text-headline-lg text-white mb-2 transition-transform duration-500 origin-left group-hover:scale-105">
+                                    class="font-headline-lg text-2xl sm:text-4xl md:text-headline-lg text-white mb-1.5 transition-transform duration-500 origin-left group-hover:scale-105">
                                     2026</h2>
                                 <p
-                                    class="font-body-md text-body-md text-pink-100 opacity-90 group-hover:opacity-100 transition-opacity font-cairo">
+                                    class="font-body-md text-xs sm:text-sm md:text-body-md text-pink-100 opacity-90 group-hover:opacity-100 transition-opacity font-cairo line-clamp-2 sm:line-clamp-none">
                                     أحلى الذكريات والأوقات سوا • سارة القمر ❤️</p>
                             </div>
                             <div
-                                class="bg-white/20 backdrop-blur-md rounded-full p-4 text-white transition-all duration-500 group-hover:translate-x-2 group-hover:bg-secondary group-hover:shadow-lg">
-                                <span class="material-symbols-outlined">fullscreen</span>
+                                class="bg-white/20 backdrop-blur-md rounded-full p-2.5 sm:p-4 text-white transition-all duration-500 group-hover:translate-x-2 group-hover:bg-secondary group-hover:shadow-lg flex-shrink-0">
+                                <span class="material-symbols-outlined text-lg sm:text-2xl">fullscreen</span>
                             </div>
                         </div>
                     </div>
@@ -301,24 +306,24 @@
             <!-- 2025 Album (Tall Feature) -->
             <article class="md:col-span-4 group cursor-pointer fade-in-up delay-200 reveal-on-scroll"
                 onclick="openModal('2025')">
-                <div class="glass-card rounded-2xl overflow-hidden relative h-[400px] w-full">
+                <div class="glass-card rounded-2xl overflow-hidden relative h-[300px] sm:h-[400px] w-full">
                     <img class="absolute inset-0 w-full h-full object-cover object-[center_25%] transition-transform duration-700 group-hover:scale-105 z-0"
                         src="assets/2025/2025_hijab.jpg" alt="2025 Celebration" />
                     <div
                         class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent z-10 transition-opacity duration-500 group-hover:opacity-90">
                     </div>
-                    <div class="absolute bottom-0 left-0 p-md z-20 w-full flex justify-between items-end">
-                        <div>
+                    <div class="absolute bottom-0 left-0 p-4 sm:p-md z-20 w-full flex justify-between items-end gap-2">
+                        <div class="min-w-0 flex-1">
                             <h2
-                                class="font-headline-md text-headline-md text-white mb-2 transition-transform duration-500 origin-left group-hover:scale-105">
+                                class="font-headline-md text-2xl sm:text-headline-md text-white mb-1.5 transition-transform duration-500 origin-left group-hover:scale-105">
                                 2025</h2>
-                            <p class="font-body-md text-body-md text-pink-100 opacity-90 font-cairo">🤍 خطوة الحجاب
+                            <p class="font-body-md text-xs sm:text-sm md:text-body-md text-pink-100 opacity-90 font-cairo line-clamp-2 sm:line-clamp-none">🤍 خطوة الحجاب
                                 وسارة القمر
                                 ❤️</p>
                         </div>
                         <div
-                            class="bg-white/20 backdrop-blur-md rounded-full p-3 text-white opacity-0 transform translate-x-4 transition-all duration-500 group-hover:opacity-100 group-hover:translate-x-0">
-                            <span class="material-symbols-outlined text-sm">fullscreen</span>
+                            class="bg-white/20 backdrop-blur-md rounded-full p-2.5 sm:p-3 text-white opacity-0 transform translate-x-4 transition-all duration-500 group-hover:opacity-100 group-hover:translate-x-0 flex-shrink-0">
+                            <span class="material-symbols-outlined text-sm sm:text-base">fullscreen</span>
                         </div>
                     </div>
                 </div>
@@ -327,24 +332,24 @@
             <!-- 2024 Album -->
             <article class="md:col-span-4 group cursor-pointer fade-in-up delay-100 reveal-on-scroll"
                 onclick="openModal('2024')">
-                <div class="glass-card rounded-2xl overflow-hidden relative h-[300px] w-full">
+                <div class="glass-card rounded-2xl overflow-hidden relative h-[280px] sm:h-[300px] w-full">
                     <img class="absolute inset-0 w-full h-full object-cover object-[center_25%] transition-transform duration-700 group-hover:scale-105 z-0"
                         src="assets/2024/2024_memory_2.jpg" alt="2024 Moments" />
                     <div
                         class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent z-10 transition-opacity duration-500 group-hover:opacity-90">
                     </div>
-                    <div class="absolute bottom-0 left-0 p-md z-20 w-full flex justify-between items-end">
-                        <div>
+                    <div class="absolute bottom-0 left-0 p-4 sm:p-md z-20 w-full flex justify-between items-end gap-2">
+                        <div class="min-w-0 flex-1">
                             <h2
-                                class="font-headline-md text-headline-md text-white mb-2 transition-transform duration-500 origin-left group-hover:scale-105">
+                                class="font-headline-md text-2xl sm:text-headline-md text-white mb-1.5 transition-transform duration-500 origin-left group-hover:scale-105">
                                 2024</h2>
-                            <p class="font-body-md text-body-md text-pink-100 opacity-90 font-cairo">حب بيكبر ومحطات
+                            <p class="font-body-md text-xs sm:text-sm md:text-body-md text-pink-100 opacity-90 font-cairo line-clamp-2 sm:line-clamp-none">حب بيكبر ومحطات
                                 أجمل
                                 سوا ❤️</p>
                         </div>
                         <div
-                            class="bg-white/20 backdrop-blur-md rounded-full p-3 text-white opacity-0 transform translate-y-4 transition-all duration-500 group-hover:opacity-100 group-hover:translate-y-0">
-                            <span class="material-symbols-outlined text-sm">fullscreen</span>
+                            class="bg-white/20 backdrop-blur-md rounded-full p-2.5 sm:p-3 text-white opacity-0 transform translate-y-4 transition-all duration-500 group-hover:opacity-100 group-hover:translate-y-0 flex-shrink-0">
+                            <span class="material-symbols-outlined text-sm sm:text-base">fullscreen</span>
                         </div>
                     </div>
                 </div>
@@ -353,24 +358,24 @@
             <!-- 2023 Album -->
             <article class="md:col-span-4 group cursor-pointer fade-in-up delay-200 reveal-on-scroll"
                 onclick="openModal('2023')">
-                <div class="glass-card rounded-2xl overflow-hidden relative h-[300px] w-full">
+                <div class="glass-card rounded-2xl overflow-hidden relative h-[280px] sm:h-[300px] w-full">
                     <img class="absolute inset-0 w-full h-full object-cover object-[center_25%] transition-transform duration-700 group-hover:scale-105 z-0"
                         src="assets/2023/2023_memory_2.jpg" alt="2023 Adventures" />
                     <div
                         class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent z-10 transition-opacity duration-500 group-hover:opacity-90">
                     </div>
-                    <div class="absolute bottom-0 left-0 p-md z-20 w-full flex justify-between items-end">
-                        <div>
+                    <div class="absolute bottom-0 left-0 p-4 sm:p-md z-20 w-full flex justify-between items-end gap-2">
+                        <div class="min-w-0 flex-1">
                             <h2
-                                class="font-headline-md text-headline-md text-white mb-2 transition-transform duration-500 origin-left group-hover:scale-105">
+                                class="font-headline-md text-2xl sm:text-headline-md text-white mb-1.5 transition-transform duration-500 origin-left group-hover:scale-105">
                                 2023</h2>
-                            <p class="font-body-md text-body-md text-pink-100 opacity-90 font-cairo">سنة الذكريات
+                            <p class="font-body-md text-xs sm:text-sm md:text-body-md text-pink-100 opacity-90 font-cairo line-clamp-2 sm:line-clamp-none">سنة الذكريات
                                 واللحظات
                                 الحلوة ❤️</p>
                         </div>
                         <div
-                            class="bg-white/20 backdrop-blur-md rounded-full p-3 text-white opacity-0 transform translate-y-4 transition-all duration-500 group-hover:opacity-100 group-hover:translate-y-0">
-                            <span class="material-symbols-outlined text-sm">fullscreen</span>
+                            class="bg-white/20 backdrop-blur-md rounded-full p-2.5 sm:p-3 text-white opacity-0 transform translate-y-4 transition-all duration-500 group-hover:opacity-100 group-hover:translate-y-0 flex-shrink-0">
+                            <span class="material-symbols-outlined text-sm sm:text-base">fullscreen</span>
                         </div>
                     </div>
                 </div>
@@ -379,24 +384,24 @@
             <!-- 2022 Album (First Memory Only) -->
             <article class="md:col-span-4 group cursor-pointer fade-in-up delay-300 reveal-on-scroll"
                 onclick="openModal('2022')">
-                <div class="glass-card rounded-2xl overflow-hidden relative h-[300px] w-full">
+                <div class="glass-card rounded-2xl overflow-hidden relative h-[280px] sm:h-[300px] w-full">
                     <img class="absolute inset-0 w-full h-full object-cover object-[center_25%] transition-transform duration-700 group-hover:scale-105 z-0"
                         src="assets/2022/01_first_memory_bechamel.jpg" alt="2022 First Memory" />
                     <div
                         class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent z-10 transition-opacity duration-500 group-hover:opacity-90">
                     </div>
-                    <div class="absolute bottom-0 left-0 p-md z-20 w-full flex justify-between items-end">
-                        <div>
+                    <div class="absolute bottom-0 left-0 p-4 sm:p-md z-20 w-full flex justify-between items-end gap-2">
+                        <div class="min-w-0 flex-1">
                             <h2
-                                class="font-headline-md text-headline-md text-white mb-2 transition-transform duration-500 origin-left group-hover:scale-105">
+                                class="font-headline-md text-2xl sm:text-headline-md text-white mb-1.5 transition-transform duration-500 origin-left group-hover:scale-105">
                                 2022</h2>
-                            <p class="font-body-md text-body-md text-pink-100 opacity-90 font-cairo">🍝 أول ذكرى
+                            <p class="font-body-md text-xs sm:text-sm md:text-body-md text-pink-100 opacity-90 font-cairo line-clamp-2 sm:line-clamp-none">🍝 أول ذكرى
                                 (المكرونة
                                 بالبشاميل واشطا)</p>
                         </div>
                         <div
-                            class="bg-white/20 backdrop-blur-md rounded-full p-3 text-white opacity-0 transform translate-y-4 transition-all duration-500 group-hover:opacity-100 group-hover:translate-y-0">
-                            <span class="material-symbols-outlined text-sm">fullscreen</span>
+                            class="bg-white/20 backdrop-blur-md rounded-full p-2.5 sm:p-3 text-white opacity-0 transform translate-y-4 transition-all duration-500 group-hover:opacity-100 group-hover:translate-y-0 flex-shrink-0">
+                            <span class="material-symbols-outlined text-sm sm:text-base">fullscreen</span>
                         </div>
                     </div>
                 </div>

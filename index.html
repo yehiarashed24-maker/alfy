@@ -12,6 +12,8 @@
     <meta name="theme-color" content="#fff0f5" />
     <title>A ❤️ S - Our Story</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script src="assets/vendor/confetti.browser.js"></script>
+    <script src="assets/vendor/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/threejs/r125/three.min.js"></script>
     <link
@@ -188,32 +190,34 @@
     <!-- Love Particles -->
     <div id="particles-container"></div>
     <script>
-        (function () {
-            const container = document.getElementById('particles-container');
-            if (!container) return;
-            container.innerHTML = '';
-            const symbols = ['✧', '✦', '♡', '♥'];
+            (function () {
+                const container = document.getElementById('particles-container');
+                if (!container) return;
+                container.innerHTML = '';
+                const symbols = ['✧', '✦', '♡', '♥'];
 
-            for (let i = 0; i < 15; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'love-particle text-primary/40 font-headline-md';
-                particle.innerText = symbols[Math.floor(Math.random() * symbols.length)];
-                particle.style.left = Math.random() * 100 + 'vw';
-                particle.style.animationDelay = Math.random() * 10 + 's';
-                particle.style.animationDuration = 10 + Math.random() * 10 + 's';
-                particle.style.fontSize = (0.5 + Math.random() * 1.5) + 'rem';
-                container.appendChild(particle);
-            }
-        })();
+                for (let i = 0; i < 15; i++) {
+                    const particle = document.createElement('div');
+                    particle.className = 'love-particle text-primary/40 font-headline-md';
+                    particle.innerText = symbols[Math.floor(Math.random() * symbols.length)];
+                    particle.style.left = Math.random() * 100 + 'vw';
+                    particle.style.animationDelay = Math.random() * 10 + 's';
+                    particle.style.animationDuration = 10 + Math.random() * 10 + 's';
+                    particle.style.fontSize = (0.5 + Math.random() * 1.5) + 'rem';
+                    container.appendChild(particle);
+                }
+            })();
     </script>
     <!-- TopNavBar -->
     <header
-        class="bg-[#fff0f5]/85 backdrop-blur-md fixed top-0 w-full z-50 border-b border-[#fbcfe8]/70 shadow-sm shadow-secondary/10 font-sans" dir="ltr">
+        class="bg-[#fff0f5]/85 backdrop-blur-md fixed top-0 w-full z-50 border-b border-[#fbcfe8]/70 shadow-sm shadow-secondary/10 font-sans"
+        dir="ltr">
         <div class="max-w-6xl mx-auto px-6 h-20 flex justify-between items-center">
             <!-- Brand Logo -->
             <a href="index.html"
                 class="font-headline-md text-2xl md:text-3xl text-primary font-bold tracking-wider hover:opacity-90 transition-opacity flex items-center gap-1.5 font-sans">
-                <span>A</span><span class="text-secondary text-2xl md:text-3xl animate-pulse inline-block">❤️</span><span>S</span>
+                <span>A</span><span
+                    class="text-secondary text-2xl md:text-3xl animate-pulse inline-block">❤️</span><span>S</span>
             </a>
             <!-- Desktop Navigation (English) -->
             <nav class="hidden md:flex items-center gap-2 lg:gap-3 font-semibold text-sm font-sans">
@@ -233,7 +237,8 @@
             </a>
             <!-- Mobile Menu Toggle -->
             <button class="md:hidden text-primary p-2 focus:outline-none"
-                onclick="document.getElementById('mobile-menu').classList.toggle('hidden')" aria-label="Toggle Navigation">
+                onclick="document.getElementById('mobile-menu').classList.toggle('hidden')"
+                aria-label="Toggle Navigation">
                 <span class="material-symbols-outlined text-2xl">menu</span>
             </button>
         </div>
@@ -278,9 +283,17 @@
                     Most Beautiful Story</span>
             </h1>
             <p
-                class="font-body-lg text-sm sm:text-lg md:text-xl text-on-surface-variant max-w-2xl mb-6 sm:mb-8 opacity-95 leading-relaxed">
+                class="font-body-lg text-sm sm:text-lg md:text-xl text-on-surface-variant max-w-2xl mb-4 opacity-95 leading-relaxed">
                 Four years. Countless memories. One story that is ours. كل ثانية عدّت علينا بقت أجمل جزء من حكايتنا.
             </p>
+            <div
+                class="max-w-2xl w-full mb-6 sm:mb-8 p-4 sm:p-5 rounded-2xl bg-white/55 backdrop-blur-md border border-[#fbcfe8] shadow-sm text-center relative overflow-hidden">
+                <div class="absolute -top-6 -right-6 w-16 h-16 bg-[#fc79bd]/10 rounded-full blur-xl pointer-events-none"></div>
+                <div class="absolute -bottom-6 -left-6 w-16 h-16 bg-[#ffd8e7]/30 rounded-full blur-xl pointer-events-none"></div>
+                <p class="font-cairo text-sm sm:text-base md:text-lg text-primary leading-relaxed font-semibold">
+                    عملتلك المكان دا يروح قلبي عشان كل ما اوحشك او توحشيني نخش عليه ونشوف زكرياتنا الحلوه سوا إنتي السبب اللي بيخليني أفتح عيني الصبح وأبتسم ضحكتك سلاح بتدمريني وأنا مبسوط ولما بشوفك كل حاجة تانية بتبقى تافهة بعيد عنك الوقت بيمشي ببطء وقريب منك بيجري من غير ما أحس عندي ناس كتير في حياتي بس إنتي الوحيدة اللي لما لتبعدي بحس إن الواحد تايه ولو الدنيا كلها اتعكست وفضل حاجة واحدة أمسك بيها هتمسك بيكي 🫀❤️❤️
+                </p>
+            </div>
 
             <!-- Real-time Love Counter Widget (Mobile Responsive) -->
             <div
