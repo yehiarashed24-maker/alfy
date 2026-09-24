@@ -429,6 +429,7 @@
             { src: 'assets/2025/2025_memory_1.jpg', caption: 'أحلى سهرة واحتفال في 2025 ✨' }
         ],
         '2026': [
+            { src: 'assets/2026/2026_third_year_medicine.jpg', caption: '🩺 تالتة طب يا دكتورة قلبي وروحي • فخور بيكي دايماً ❤️✨', pos: 'center 20%' },
             { src: 'assets/2026/2026_memory_1.jpg', caption: '🌸 ضحكات ولحظات مميزة مع القمر سوسو ✨', pos: 'center 75%' },
             { src: 'assets/2026/2026_memory_2.jpg', caption: '💖 أحلى الذكريات والأوقات سوا في 2026 🌹', pos: 'center 60%' },
             { src: 'assets/2026/2026_memory_3.jpg', caption: '✨ جمالك ونورك اللي منوّر كل أيامي 🌙', pos: 'center 20%' },
@@ -1956,6 +1957,7 @@
         { src: 'assets/2025/2025_memory_1.jpg', title: 'سهرة النيل 2025' },
         { src: 'assets/2025/2025_memory_2.jpg', title: 'احتفال النيل 2025' },
         { src: 'assets/2025/2025_hijab.jpg', title: 'خطوة الحجاب ونور العيون 2025' },
+        { src: 'assets/2026/2026_third_year_medicine.jpg', title: 'تالتة طب دكتورة قلبي 2026' },
         { src: 'assets/2026/2026_memory_1.jpg', title: 'لحظات القمر سوسو 2026' },
         { src: 'assets/2026/2026_memory_2.jpg', title: 'أحلى الذكريات 2026' },
         { src: 'assets/2026/2026_memory_3.jpg', title: 'نور أيامي 2026' },
